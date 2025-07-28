@@ -3,7 +3,14 @@ import Link from "next/link"
 import { Menu, Trophy } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 export function Header() {
   const navLinks = [
@@ -42,6 +49,12 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
+              <SheetHeader className="sr-only">
+                <SheetTitle>Menú de Navegación</SheetTitle>
+                <SheetDescription>
+                  Una lista de enlaces para navegar por el sitio web.
+                </SheetDescription>
+              </SheetHeader>
               <Link href="/" className="mr-6 flex items-center space-x-2 mb-6">
                 <Trophy className="h-6 w-6 text-primary" />
                 <span className="font-bold font-headline">Club de Lago</span>
