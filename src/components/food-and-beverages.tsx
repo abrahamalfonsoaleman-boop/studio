@@ -17,23 +17,23 @@ import {
 
 const restaurants = [
   {
-    name: "Restaurante La Pérgola",
+    name: "Restaurante Las Palmas",
     image: "https://placehold.co/800x600.png",
     hint: "restaurant interior",
     menuImage: "https://placehold.co/600x800.png",
     menuHint: "restaurant menu"
   },
   {
-    name: "Snack Bar Hoyo 19",
+    name: "Restaurante Terraza Bar",
     image: "https://placehold.co/800x600.png",
-    hint: "bar snacks",
+    hint: "terrace bar",
     menuImage: "https://placehold.co/600x800.png",
     menuHint: "bar menu"
   },
   {
-    name: "Cafetería El Mirador",
+    name: "Snack Brasas",
     image: "https://placehold.co/800x600.png",
-    hint: "coffee shop",
+    hint: "grill snack bar",
     menuImage: "https://placehold.co/600x800.png",
     menuHint: "cafe menu"
   }
