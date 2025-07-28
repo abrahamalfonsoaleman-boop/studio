@@ -48,13 +48,49 @@ export default function DeportesPage() {
       <Header />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12 lg:py-16">
-          <div className="space-y-4 text-center mb-12">
+          <div className="space-y-4 text-center mb-8">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
               Actividades Deportivas
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
               Explora nuestros próximos eventos y clases. ¡Haz clic en un flyer para verlo en grande!
             </p>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Phone className="mr-2 h-5 w-5" />
+                  ¿Listo para unirte? Separa y Contacta
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Contacto Deportivo</DialogTitle>
+                  <DialogDescription>
+                    Contacta a nuestro asistente para inscripciones y reservaciones.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                   <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
+                     <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                       <Phone className="h-6 w-6" />
+                     </div>
+                    <div>
+                      <p className="font-semibold">Asistente Deportivo</p>
+                      <a href="tel:1234567890" className="text-muted-foreground hover:text-primary transition-colors">(123) 456-7890</a>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
+                    <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                      <Mail className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Email</p>
+                      <a href="mailto:deportes@clubdellago.com" className="text-muted-foreground hover:text-primary transition-colors">deportes@clubdellago.com</a>
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <Dialog onOpenChange={(isOpen) => !isOpen && setSelectedFlyer(null)}>
@@ -108,49 +144,6 @@ export default function DeportesPage() {
               </DialogContent>
             )}
           </Dialog>
-
-          <div className="text-center mt-16 p-8 border rounded-lg bg-card">
-            <h2 className="text-2xl font-bold mb-4 font-headline">¿Listo para unirte?</h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Para inscripciones, reservaciones o más información sobre nuestras actividades deportivas, contacta a nuestro asistente deportivo.
-            </p>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                  <Phone className="mr-2 h-5 w-5" />
-                  Separar y Contactar
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Contacto Deportivo</DialogTitle>
-                  <DialogDescription>
-                    Contacta a nuestro asistente para inscripciones y reservaciones.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                   <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
-                     <div className="bg-primary text-primary-foreground p-3 rounded-full">
-                       <Phone className="h-6 w-6" />
-                     </div>
-                    <div>
-                      <p className="font-semibold">Asistente Deportivo</p>
-                      <a href="tel:1234567890" className="text-muted-foreground hover:text-primary transition-colors">(123) 456-7890</a>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
-                    <div className="bg-primary text-primary-foreground p-3 rounded-full">
-                      <Mail className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">Email</p>
-                      <a href="mailto:deportes@clubdellago.com" className="text-muted-foreground hover:text-primary transition-colors">deportes@clubdellago.com</a>
-                    </div>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
         </div>
       </main>
       <Footer />
