@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar, Clock, MapPin } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
@@ -33,8 +34,8 @@ export function Events() {
   return (
     <section id="eventos" className="w-full">
       <div className="space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Próximos Eventos</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Próximos Eventos</h2>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
           No te pierdas la acción. ¡Acompáñanos en nuestro próximo gran evento!
         </p>
       </div>
@@ -44,18 +45,18 @@ export function Events() {
         {events.map((event, index) => (
           <Card key={index} className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg">
             <CardHeader>
-              <CardTitle className="font-headline text-xl">{event.title}</CardTitle>
+              <CardTitle className="font-headline text-lg">{event.title}</CardTitle>
             </CardHeader>
             <CardContent className="flex-grow space-y-3">
-              <div className="flex items-center space-x-2 text-muted-foreground">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Calendar className="h-5 w-5" />
                 <span>{new Date(event.date).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
               </div>
-              <div className="flex items-center space-x-2 text-muted-foreground">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Clock className="h-5 w-5" />
                 <span>{event.time}</span>
               </div>
-              <div className="flex items-center space-x-2 text-muted-foreground">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="h-5 w-5" />
                 <span>{event.location}</span>
               </div>
@@ -79,18 +80,18 @@ export function Events() {
                 <div className="p-1">
                   <Card className="flex flex-col h-full overflow-hidden">
                     <CardHeader>
-                      <CardTitle className="font-headline text-xl">{event.title}</CardTitle>
+                      <CardTitle className="font-headline text-lg">{event.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="flex-grow space-y-3">
-                       <div className="flex items-center space-x-2 text-muted-foreground">
+                       <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <Calendar className="h-5 w-5" />
                         <span>{new Date(event.date).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
                       </div>
-                      <div className="flex items-center space-x-2 text-muted-foreground">
+                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <Clock className="h-5 w-5" />
                         <span>{event.time}</span>
                       </div>
-                      <div className="flex items-center space-x-2 text-muted-foreground">
+                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <MapPin className="h-5 w-5" />
                         <span>{event.location}</span>
                       </div>

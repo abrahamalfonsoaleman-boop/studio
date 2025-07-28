@@ -1,3 +1,4 @@
+
 import Image from "next/image"
 
 export function Gallery() {
@@ -13,8 +14,8 @@ export function Gallery() {
   return (
     <section id="gallery" className="w-full">
       <div className="space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Galería</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Galería</h2>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
           Un vistazo a la vida y energía del Club Del Lago.
         </p>
       </div>
@@ -35,7 +36,7 @@ export function Gallery() {
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <p className="text-white text-center p-2 text-sm">{image.alt}</p>
+              <p className="text-white text-center p-2 text-xs">{image.alt}</p>
             </div>
           </div>
         ))}

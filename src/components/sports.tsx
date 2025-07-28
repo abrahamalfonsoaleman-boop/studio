@@ -19,8 +19,8 @@ export function Sports() {
   return (
     <section id="deportes" className="w-full">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Disciplinas Deportivas</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
+        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Disciplinas Deportivas</h2>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
           Encuentra tu pasión y mantente activo con nuestras diversas opciones.
         </p>
       </div>
@@ -32,7 +32,7 @@ export function Sports() {
             <div className="bg-card h-32 w-32 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-2 border-2 border-primary/50 group-hover:border-primary">
               {discipline.icon}
             </div>
-            <h3 className="text-lg font-semibold mt-2 font-headline">{discipline.name}</h3>
+            <h3 className="text-base font-semibold mt-2 font-headline">{discipline.name}</h3>
           </div>
         ))}
       </div>
@@ -53,7 +53,7 @@ export function Sports() {
                     <div className="bg-card h-24 w-24 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 border-2">
                       {discipline.icon}
                     </div>
-                    <h3 className="text-base font-semibold text-center font-headline">{discipline.name}</h3>
+                    <h3 className="text-sm font-semibold text-center font-headline">{discipline.name}</h3>
                   </div>
               </CarouselItem>
             ))}

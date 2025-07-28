@@ -1,3 +1,4 @@
+
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, Flag, Gem } from "lucide-react"
@@ -25,8 +26,8 @@ export function Mission() {
   return (
     <section id="mission" className="w-full">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Nuestra Esencia</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
+        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Nuestra Esencia</h2>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
           Comprometidos con el bienestar y la comunidad.
         </p>
       </div>
@@ -41,8 +42,8 @@ export function Mission() {
               </div>
             </CardHeader>
             <CardContent>
-              <CardTitle className="text-2xl font-bold mb-2 font-headline">{item.title}</CardTitle>
-              <p className="text-muted-foreground">{item.description}</p>
+              <CardTitle className="text-xl font-bold mb-2 font-headline">{item.title}</CardTitle>
+              <p className="text-sm text-muted-foreground">{item.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -68,8 +69,8 @@ export function Mission() {
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-2">
-                        <CardTitle className="text-2xl font-bold font-headline">{item.title}</CardTitle>
-                        <p className="text-muted-foreground px-4">{item.description}</p>
+                        <CardTitle className="text-xl font-bold font-headline">{item.title}</CardTitle>
+                        <p className="text-sm text-muted-foreground px-4">{item.description}</p>
                       </CardContent>
                     </Card>
                  </div>

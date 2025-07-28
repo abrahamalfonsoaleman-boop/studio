@@ -41,8 +41,8 @@ export function Comunicados() {
   return (
     <section id="comunicados" className="w-full">
       <div className="space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Comunicados</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Comunicados</h2>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
           Mantente al día con los últimos avisos y comunicados del Club Del Lago.
         </p>
       </div>

@@ -1,3 +1,4 @@
+
 "use client"
 
 import Image from "next/image"
@@ -42,8 +43,8 @@ export function FoodAndBeverages() {
   return (
     <section id="alimentos" className="w-full">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Alimentos y Bebidas</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
+        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Alimentos y Bebidas</h2>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
           Una experiencia culinaria para cada momento.
         </p>
       </div>
@@ -62,7 +63,7 @@ export function FoodAndBeverages() {
                     className="object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-6 text-white text-center rounded-lg">
-                    <h3 className="text-3xl font-bold mb-4 font-headline">{restaurant.name}</h3>
+                    <h3 className="text-2xl font-bold mb-4 font-headline">{restaurant.name}</h3>
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button variant="secondary">Ver Menú</Button>

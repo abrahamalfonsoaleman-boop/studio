@@ -49,10 +49,10 @@ export default function DeportesPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12 lg:py-16">
           <div className="space-y-4 text-center mb-8">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
               Actividades Deportivas
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
               Explora nuestros próximos eventos y clases. ¡Haz clic en un flyer para verlo en grande!
             </p>
             <Dialog>
@@ -75,8 +75,8 @@ export default function DeportesPage() {
                        <Phone className="h-6 w-6" />
                      </div>
                     <div>
-                      <p className="font-semibold">Asistente Deportivo</p>
-                      <a href="tel:1234567890" className="text-muted-foreground hover:text-primary transition-colors">(123) 456-7890</a>
+                      <p className="font-semibold text-sm">Asistente Deportivo</p>
+                      <a href="tel:1234567890" className="text-sm text-muted-foreground hover:text-primary transition-colors">(123) 456-7890</a>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
@@ -84,8 +84,8 @@ export default function DeportesPage() {
                       <Mail className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="font-semibold">Email</p>
-                      <a href="mailto:deportes@clubdellago.com" className="text-muted-foreground hover:text-primary transition-colors">deportes@clubdellago.com</a>
+                      <p className="font-semibold text-sm">Email</p>
+                      <a href="mailto:deportes@clubdellago.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">deportes@clubdellago.com</a>
                     </div>
                   </div>
                 </div>

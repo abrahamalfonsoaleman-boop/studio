@@ -103,10 +103,10 @@ export default function DirectorioPage() {
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12 lg:py-16">
           <div className="space-y-4 text-center mb-12">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
               Directorio Administrativo
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
               Nuestro equipo está para servirte.
             </p>
           </div>
@@ -119,19 +119,19 @@ export default function DirectorioPage() {
                     <AvatarFallback>{person.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <CardTitle className="text-xl font-headline">{person.name}</CardTitle>
+                    <CardTitle className="text-lg font-headline">{person.name}</CardTitle>
                     <p className="text-sm text-primary">{person.title}</p>
                   </div>
                 </CardHeader>
                 <CardContent className="p-4 space-y-2 border-t">
-                  <div className="flex items-center text-sm text-muted-foreground">
+                  <div className="flex items-center text-xs text-muted-foreground">
                     <Mail className="h-4 w-4 mr-2" />
                     <a href={`mailto:${person.email}`} className="hover:text-primary transition-colors">
                       {person.email}
                     </a>
                   </div>
                   {person.extension && (
-                    <div className="flex items-center text-sm text-muted-foreground">
+                    <div className="flex items-center text-xs text-muted-foreground">
                       <Phone className="h-4 w-4 mr-2" />
                       <span>{person.extension}</span>
                     </div>
