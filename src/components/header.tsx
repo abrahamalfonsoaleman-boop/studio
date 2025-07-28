@@ -48,7 +48,7 @@ export function Header() {
                 <span className="sr-only">Abrir menú de navegación</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="right">
                <SheetHeader>
                 <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
                 <SheetDescription className="sr-only">
