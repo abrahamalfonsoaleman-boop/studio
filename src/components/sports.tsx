@@ -29,7 +29,7 @@ export function Sports() {
       <div className="hidden md:flex justify-center items-center gap-8 md:gap-12 flex-wrap">
         {disciplines.map((discipline, index) => (
           <div key={index} className="flex flex-col items-center justify-center gap-2 group">
-            <div className="bg-card h-32 w-32 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-2 border-2 border-primary/50 group-hover:border-primary">
+            <div className="bg-card h-32 w-32 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-2 border-2 border-primary/50 group-hover:border-accent">
               {discipline.icon}
             </div>
             <h3 className="text-base font-semibold mt-2 font-headline">{discipline.name}</h3>
@@ -50,7 +50,7 @@ export function Sports() {
             {disciplines.map((discipline, index) => (
               <CarouselItem key={index} className="basis-1/3">
                  <div className="flex flex-col items-center justify-center gap-2 group p-1">
-                    <div className="bg-card h-24 w-24 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 border-2">
+                    <div className="bg-card h-24 w-24 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 border-2 border-primary/50 group-hover:border-accent">
                       {discipline.icon}
                     </div>
                     <h3 className="text-sm font-semibold text-center font-headline">{discipline.name}</h3>

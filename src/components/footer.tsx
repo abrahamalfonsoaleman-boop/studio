@@ -33,13 +33,13 @@ export function Footer() {
           © {new Date().getFullYear()} Club Del Lago. Todos los derechos reservados.
         </p>
         <div className="flex items-center space-x-4 mt-4 md:mt-0">
-          <Link href="#" className="hover:text-primary transition-colors">
+          <Link href="#" className="hover:text-accent transition-colors">
             <TwitterIcon className="h-5 w-5" />
           </Link>
-          <Link href="#" className="hover:text-primary transition-colors">
+          <Link href="#" className="hover:text-accent transition-colors">
             <FacebookIcon className="h-5 w-5" />
           </Link>
-          <Link href="#" className="hover:text-primary transition-colors">
+          <Link href="#" className="hover:text-accent transition-colors">
             <InstagramIcon className="h-5 w-5" />
           </Link>
         </div>

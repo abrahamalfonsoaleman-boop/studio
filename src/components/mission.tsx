@@ -37,7 +37,7 @@ export function Mission() {
         {missionData.map((item, index) => (
           <Card key={index} className="text-center border-2 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card">
             <CardHeader className="flex items-center justify-center">
-              <div className="p-4 bg-primary/20 rounded-full">
+              <div className="p-4 bg-accent/20 rounded-full">
                 {item.icon}
               </div>
             </CardHeader>
@@ -64,7 +64,7 @@ export function Mission() {
                  <div className="p-1">
                   <Card className="text-center border-2 shadow-lg h-full">
                       <CardHeader className="flex items-center justify-center mb-2">
-                        <div className="p-4 bg-primary/20 rounded-full">
+                        <div className="p-4 bg-accent/20 rounded-full">
                           {item.icon}
                         </div>
                       </CardHeader>
