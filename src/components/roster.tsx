@@ -1,5 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 
 export function Roster() {
   const teams = [
@@ -28,7 +31,7 @@ export function Roster() {
       <div className="space-y-4 text-center">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Conoce a Nuestros Equipos</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-          Los jugadores que visten nuestros colores con orgullo.
+          Los jugadores que visten nuestros colores con orgullo y el equipo que hace que todo suceda.
         </p>
       </div>
       <div className="mx-auto mt-12 grid gap-12 sm:grid-cols-1 lg:grid-cols-2">
@@ -55,6 +58,14 @@ export function Roster() {
             </CardContent>
           </Card>
         ))}
+      </div>
+      <div className="text-center mt-12">
+        <Button size="lg" asChild>
+          <Link href="/directorio">
+            Ver Directorio Administrativo
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Link>
+        </Button>
       </div>
     </section>
   )

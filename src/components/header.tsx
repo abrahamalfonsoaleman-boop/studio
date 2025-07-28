@@ -18,7 +18,7 @@ export function Header() {
     { href: "/deportes", label: "Deportes" },
     { href: "#eventos", label: "Eventos" },
     { href: "#alimentos", label: "Alimentos y Bebidas" },
-    { href: "#directorio", label: "Directorio" },
+    { href: "/directorio", label: "Directorio" },
     { href: "#contacto", label: "Contacto" },
   ]
 
@@ -49,9 +49,9 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetHeader className="sr-only">
-                <SheetTitle>Menú de Navegación</SheetTitle>
-                <SheetDescription>
+               <SheetHeader>
+                <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
+                <SheetDescription className="sr-only">
                   Una lista de enlaces para navegar por el sitio web.
                 </SheetDescription>
               </SheetHeader>
