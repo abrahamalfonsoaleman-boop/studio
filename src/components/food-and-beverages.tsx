@@ -19,31 +19,22 @@ const restaurants = [
     name: "Restaurante La Pérgola",
     image: "https://placehold.co/800x600.png",
     hint: "restaurant interior",
-    menu: [
-      { item: "Sopa de Tortilla", price: "$120" },
-      { item: "Arrachera Norteña", price: "$280" },
-      { item: "Enchiladas Suizas", price: "$180" },
-    ]
+    menuImage: "https://placehold.co/600x800.png",
+    menuHint: "restaurant menu"
   },
   {
     name: "Snack Bar Hoyo 19",
     image: "https://placehold.co/800x600.png",
     hint: "bar snacks",
-    menu: [
-      { item: "Club Sándwich", price: "$150" },
-      { item: "Alitas BBQ", price: "$170" },
-      { item: "Hamburguesa Clásica", price: "$190" },
-    ]
+    menuImage: "https://placehold.co/600x800.png",
+    menuHint: "bar menu"
   },
   {
     name: "Cafetería El Mirador",
     image: "https://placehold.co/800x600.png",
     hint: "coffee shop",
-    menu: [
-      { item: "Pan dulce de la casa", price: "$40" },
-      { item: "Capuccino", price: "$70" },
-      { item: "Jugo de naranja fresco", price: "$60" },
-    ]
+    menuImage: "https://placehold.co/600x800.png",
+    menuHint: "cafe menu"
   }
 ];
 
@@ -76,21 +67,22 @@ export function FoodAndBeverages() {
                       <DialogTrigger asChild>
                         <Button>Ver Menú</Button>
                       </DialogTrigger>
-                      <DialogContent>
+                      <DialogContent className="max-w-3xl">
                         <DialogHeader>
-                          <DialogTitle>{restaurant.name}</DialogTitle>
+                          <DialogTitle>Menú de {restaurant.name}</DialogTitle>
                           <DialogDescription>
-                            Disfruta de nuestros platillos estrella.
+                            Explora nuestra deliciosa selección de platillos.
                           </DialogDescription>
                         </DialogHeader>
-                        <ul className="space-y-2">
-                          {restaurant.menu.map((item, i) => (
-                            <li key={i} className="flex justify-between">
-                              <span>{item.item}</span>
-                              <span className="font-semibold">{item.price}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="relative aspect-[3/4] mt-4">
+                          <Image
+                            src={restaurant.menuImage}
+                            alt={`Menú de ${restaurant.name}`}
+                            data-ai-hint={restaurant.menuHint}
+                            fill
+                            className="object-contain rounded-md"
+                          />
+                        </div>
                       </DialogContent>
                     </Dialog>
                   </div>
@@ -99,8 +91,8 @@ export function FoodAndBeverages() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2" />
-        <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2" />
+        <CarouselPrevious className="absolute left-[-2.5rem] top-1/2 -translate-y-1/2" />
+        <CarouselNext className="absolute right-[-2.5rem] top-1/2 -translate-y-1/2" />
       </Carousel>
       
       <div className="text-center mt-8">
