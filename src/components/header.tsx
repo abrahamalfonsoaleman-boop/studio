@@ -11,6 +11,7 @@ import {
   SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { ThemeToggle } from "./theme-toggle"
 
 export function Header() {
   const navLinks = [
@@ -40,10 +41,13 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-1 items-center justify-end md:hidden">
+        <div className="flex flex-1 items-center justify-end gap-4">
+           <div className="hidden md:flex">
+             <ThemeToggle />
+           </div>
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Abrir menú de navegación</span>
               </Button>
@@ -69,6 +73,9 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
+              </div>
+               <div className="absolute bottom-4 right-4">
+                <ThemeToggle />
               </div>
             </SheetContent>
           </Sheet>
