@@ -9,10 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from '@/components/ui/dialog'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { Phone } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -113,13 +114,42 @@ export default function DeportesPage() {
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Para inscripciones, reservaciones o más información sobre nuestras actividades deportivas, contacta a nuestro asistente deportivo.
             </p>
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Phone className="mr-2 h-5 w-5" />
-              Separar y Contactar
-            </Button>
-            <p className="text-sm text-muted-foreground mt-4">
-              Asistente Deportivo: (123) 456-7890 | deportes@clubdellago.com
-            </p>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Phone className="mr-2 h-5 w-5" />
+                  Separar y Contactar
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Contacto Deportivo</DialogTitle>
+                  <DialogDescription>
+                    Contacta a nuestro asistente para inscripciones y reservaciones.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                   <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
+                     <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                       <Phone className="h-6 w-6" />
+                     </div>
+                    <div>
+                      <p className="font-semibold">Asistente Deportivo</p>
+                      <a href="tel:1234567890" className="text-muted-foreground hover:text-primary transition-colors">(123) 456-7890</a>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
+                    <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                      <Mail className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Email</p>
+                      <a href="mailto:deportes@clubdellago.com" className="text-muted-foreground hover:text-primary transition-colors">deportes@clubdellago.com</a>
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </main>
