@@ -29,7 +29,7 @@ export function Header() {
       <div className="container flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Trophy className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline text-lg">Club de Lago</span>
+          <span className="font-bold font-headline text-lg text-primary-foreground bg-primary px-2 py-1 rounded-md">Club de Lago</span>
         </Link>
         <nav className="hidden md:flex md:items-center md:gap-6 text-sm font-medium">
           {navLinks.map((link) => (
@@ -43,12 +43,7 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
-          <div className="hidden md:flex">
-            <ThemeToggle />
-          </div>
-          <div className="md:hidden">
-            <ThemeToggle />
-          </div>
+           <ThemeToggle />
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -65,7 +60,7 @@ export function Header() {
               </SheetHeader>
               <Link href="/" className="mr-6 flex items-center space-x-2 mb-6">
                 <Trophy className="h-6 w-6 text-primary" />
-                <span className="font-bold font-headline">Club de Lago</span>
+                <span className="font-bold font-headline text-primary-foreground bg-primary px-2 py-1 rounded-md">Club de Lago</span>
               </Link>
               <div className="flex flex-col gap-4">
                 {navLinks.map((link) => (

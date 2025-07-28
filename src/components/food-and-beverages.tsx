@@ -52,7 +52,7 @@ export function FoodAndBeverages() {
         <CarouselContent>
           {restaurants.map((restaurant, index) => (
             <CarouselItem key={index}>
-              <Card>
+              <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <CardContent className="relative aspect-video p-0">
                   <Image
                     src={restaurant.image}
@@ -61,11 +61,11 @@ export function FoodAndBeverages() {
                     fill
                     className="object-cover rounded-lg"
                   />
-                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center p-6 text-white text-center rounded-lg">
-                    <h3 className="text-3xl font-bold mb-4">{restaurant.name}</h3>
+                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-6 text-white text-center rounded-lg">
+                    <h3 className="text-3xl font-bold mb-4 font-headline">{restaurant.name}</h3>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Ver Menú</Button>
+                        <Button variant="secondary">Ver Menú</Button>
                       </DialogTrigger>
                       <DialogContent className="max-w-3xl">
                         <DialogHeader>

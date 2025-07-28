@@ -34,14 +34,14 @@ export function Mission() {
       {/* Desktop View */}
       <div className="hidden md:grid md:grid-cols-3 gap-8">
         {missionData.map((item, index) => (
-          <Card key={index} className="text-center border-0 shadow-none bg-transparent">
+          <Card key={index} className="text-center border-2 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card">
             <CardHeader className="flex items-center justify-center">
-              <div className="p-4 bg-primary/10 rounded-full">
+              <div className="p-4 bg-primary/20 rounded-full">
                 {item.icon}
               </div>
             </CardHeader>
             <CardContent>
-              <CardTitle className="text-2xl font-bold mb-2">{item.title}</CardTitle>
+              <CardTitle className="text-2xl font-bold mb-2 font-headline">{item.title}</CardTitle>
               <p className="text-muted-foreground">{item.description}</p>
             </CardContent>
           </Card>
@@ -61,14 +61,14 @@ export function Mission() {
             {missionData.map((item, index) => (
               <CarouselItem key={index} className="basis-full">
                  <div className="p-1">
-                  <Card className="text-center border-0 shadow-none bg-transparent">
+                  <Card className="text-center border-2 shadow-lg h-full">
                       <CardHeader className="flex items-center justify-center mb-2">
-                        <div className="p-4 bg-primary/10 rounded-full">
+                        <div className="p-4 bg-primary/20 rounded-full">
                           {item.icon}
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-2">
-                        <CardTitle className="text-2xl font-bold">{item.title}</CardTitle>
+                        <CardTitle className="text-2xl font-bold font-headline">{item.title}</CardTitle>
                         <p className="text-muted-foreground px-4">{item.description}</p>
                       </CardContent>
                     </Card>

@@ -23,11 +23,11 @@ const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export function Footer() {
   return (
-    <footer className="bg-muted text-muted-foreground">
+    <footer className="bg-muted text-muted-foreground mt-12 border-t">
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center space-x-2 mb-4 md:mb-0">
           <Trophy className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline text-lg">Club Del Lago</span>
+          <span className="font-bold font-headline text-lg text-primary-foreground bg-primary px-2 py-1 rounded-md">Club Del Lago</span>
         </div>
         <p className="text-sm text-center md:text-left">
           © {new Date().getFullYear()} Club Del Lago. Todos los derechos reservados.
