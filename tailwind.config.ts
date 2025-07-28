@@ -18,7 +18,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Merriweather', 'serif'],
-        headline: ['Montserrat', 'sans-serif'],
+        headline: ['Poppins', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
