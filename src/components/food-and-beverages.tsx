@@ -99,8 +99,8 @@ export function FoodAndBeverages() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute left-[-50px] top-1/2 -translate-y-1/2" />
-        <CarouselNext className="absolute right-[-50px] top-1/2 -translate-y-1/2" />
+        <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2" />
+        <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2" />
       </Carousel>
       
       <div className="text-center mt-8">
