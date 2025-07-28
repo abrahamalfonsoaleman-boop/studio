@@ -5,7 +5,6 @@ import { Mission } from "@/components/mission";
 import { Sports } from "@/components/sports";
 import { Events } from "@/components/events";
 import { Comunicados } from "@/components/comunicados";
-import { Roster } from "@/components/roster";
 import { Gallery } from "@/components/gallery";
 import { Footer } from "@/components/footer";
 import { FoodAndBeverages } from "@/components/food-and-beverages";
@@ -23,7 +22,6 @@ export default function Home() {
             <FoodAndBeverages />
             <Events />
             <Comunicados />
-            <Roster />
             <Gallery />
           </div>
         </div>
