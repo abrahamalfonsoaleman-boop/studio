@@ -3,15 +3,16 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Dumbbell, PersonStanding, Waves, Medal } from "lucide-react"
+import { ArrowRight, Dumbbell, PersonStanding, Waves, Medal, Bike, Footprints } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 const disciplines = [
   { name: "Tenis", icon: <Medal className="h-10 w-10 text-primary" /> },
-  { name: "Fútbol", icon: <Medal className="h-10 w-10 text-primary" /> },
+  { name: "Fútbol", icon: <Footprints className="h-10 w-10 text-primary" /> },
   { name: "Natación", icon: <Waves className="h-10 w-10 text-primary" /> },
   { name: "Gimnasio", icon: <Dumbbell className="h-10 w-10 text-primary" /> },
   { name: "Yoga", icon: <PersonStanding className="h-10 w-10 text-primary" /> },
+  { name: "Ciclismo", icon: <Bike className="h-10 w-10 text-primary" /> },
 ];
 
 export function Sports() {
