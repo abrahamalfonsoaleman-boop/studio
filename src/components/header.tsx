@@ -7,8 +7,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 export function Header() {
   const navLinks = [
-    { href: "#", label: "Inicio" },
-    { href: "#deportes", label: "Deportes" },
+    { href: "/", label: "Inicio" },
+    { href: "/deportes", label: "Deportes" },
     { href: "#eventos", label: "Eventos" },
     { href: "#alimentos", label: "Alimentos y Bebidas" },
     { href: "#directorio", label: "Directorio" },
@@ -18,7 +18,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <Link href="#" className="mr-6 flex items-center space-x-2">
+        <Link href="/" className="mr-6 flex items-center space-x-2">
           <Trophy className="h-6 w-6 text-primary" />
           <span className="font-bold font-headline text-lg">Club de Lago</span>
         </Link>
@@ -42,7 +42,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <Link href="#" className="mr-6 flex items-center space-x-2 mb-6">
+              <Link href="/" className="mr-6 flex items-center space-x-2 mb-6">
                 <Trophy className="h-6 w-6 text-primary" />
                 <span className="font-bold font-headline">Club de Lago</span>
               </Link>
