@@ -14,12 +14,12 @@ import {z} from 'genkit';
 const SummarizeArticleInputSchema = z.object({
   articleContent: z
     .string()
-    .describe('The content of the news article to be summarized.'),
+    .describe('El contenido del artículo de noticias que se va a resumir.'),
 });
 export type SummarizeArticleInput = z.infer<typeof SummarizeArticleInputSchema>;
 
 const SummarizeArticleOutputSchema = z.object({
-  summary: z.string().describe('A concise summary of the news article.'),
+  summary: z.string().describe('Un resumen conciso del artículo de noticias.'),
 });
 export type SummarizeArticleOutput = z.infer<typeof SummarizeArticleOutputSchema>;
 
@@ -31,7 +31,7 @@ const prompt = ai.definePrompt({
   name: 'summarizeArticlePrompt',
   input: {schema: SummarizeArticleInputSchema},
   output: {schema: SummarizeArticleOutputSchema},
-  prompt: `You are a news summarization expert.  Please summarize the following news article, focusing on the key points and main ideas.\n\nArticle:\n{{{articleContent}}}`, 
+  prompt: `Eres un experto en resumen de noticias. Por favor, resume el siguiente artículo de noticias, centrándote en los puntos clave y las ideas principales.\n\nArtículo:\n{{{articleContent}}}`, 
 });
 
 const summarizeArticleFlow = ai.defineFlow(

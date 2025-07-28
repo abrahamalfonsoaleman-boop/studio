@@ -27,10 +27,10 @@ export function Footer() {
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center space-x-2 mb-4 md:mb-0">
           <Trophy className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline text-lg">Club de Lago</span>
+          <span className="font-bold font-headline text-lg">Club Del Lago</span>
         </div>
         <p className="text-sm text-center md:text-left">
-          © {new Date().getFullYear()} Club de Lago. All rights reserved.
+          © {new Date().getFullYear()} Club Del Lago. Todos los derechos reservados.
         </p>
         <div className="flex items-center space-x-4 mt-4 md:mt-0">
           <Link href="#" className="hover:text-primary transition-colors">

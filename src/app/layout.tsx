@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Club de Lago',
-  description: 'The official website for Club de Lago sports club.',
+  title: 'Club Del Lago',
+  description: 'Desde 1981 el Club Delago es una asociación civil dedicada a promover la sana convivencia familiar.',
   icons: {
     icon: "/favicon.ico",
   },
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

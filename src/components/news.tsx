@@ -20,18 +20,18 @@ type Article = {
 
 const newsData: Article[] = [
   {
-    title: "Club Secures Victory in Thrilling Derby",
+    title: "El club asegura la victoria en un derbi emocionante",
     image: "https://placehold.co/600x400.png",
     image_hint: "team celebration",
-    description: "A last-minute goal sealed the win against our rivals...",
-    content: "In a nail-biting encounter that had fans on the edge of their seats, Club de Lago clinched a dramatic 2-1 victory over their fiercest rivals, the City Rovers. The match, played under the floodlights of the Grand Stadium, was a testament to the team's resilience and tactical prowess. The first half saw both teams locked in a tight battle, with few clear-cut chances. The deadlock was broken in the 55th minute when our star striker, Leo Martinez, capitalized on a defensive error to put us ahead. However, the Rovers responded quickly, equalizing from a set-piece just ten minutes later. The game seemed destined for a draw until the 92nd minute, when substitute midfielder, Clara Jensen, unleashed a stunning long-range shot that found the top corner of the net, sending the home crowd into a frenzy. Coach David Chen praised the team's 'unwavering spirit' and dedicated the win to the loyal supporters who filled the stadium.",
+    description: "Un gol de último minuto selló la victoria contra nuestros rivales...",
+    content: "En un encuentro de infarto que tuvo a los aficionados al borde de sus asientos, el Club Del Lago consiguió una dramática victoria por 2-1 sobre sus más feroces rivales, los City Rovers. El partido, disputado bajo los focos del Gran Estadio, fue un testimonio de la resistencia y la destreza táctica del equipo. La primera parte vio a ambos equipos enfrascados en una reñida batalla, con pocas ocasiones claras. El marcador se abrió en el minuto 55, cuando nuestro delantero estrella, Leo Martínez, aprovechó un error defensivo para ponernos por delante. Sin embargo, los Rovers respondieron rápidamente, empatando de falta directa solo diez minutos después. El partido parecía destinado al empate hasta el minuto 92, cuando la centrocampista suplente, Clara Jensen, desató un impresionante disparo desde lejos que se coló por la escuadra, haciendo estallar de júbilo al público local. El entrenador David Chen elogió el 'espíritu inquebrantable' del equipo y dedicó la victoria a los fieles seguidores que llenaron el estadio.",
   },
   {
-    title: "New Training Facility Opens",
+    title: "Se inaugura una nueva instalación de entrenamiento",
     image: "https://placehold.co/600x400.png",
     image_hint: "training facility",
-    description: "The club unveils its state-of-the-art training center...",
-    content: "Club de Lago has officially opened its new, multi-million dollar training facility, a project that signals the club's ambition for future success. The 'Lago Performance Center' boasts two full-size pitches, a world-class gym, a hydrotherapy pool, and advanced sports science laboratories. The opening ceremony was attended by club officials, players, and local dignitaries. Club President, Maria Sanchez, described the facility as 'a game-changer' that will provide our players with the best possible environment to develop and excel. The center will not only serve the first team but also the club's youth academy, nurturing the next generation of talent. This investment underscores the club's commitment to long-term growth and establishing itself as a powerhouse in the sport.",
+    description: "El club presenta su centro de entrenamiento de última generación...",
+    content: "El Club Del Lago ha inaugurado oficialmente su nueva y multimillonaria instalación de entrenamiento, un proyecto que señala la ambición del club por el éxito futuro. El 'Lago Performance Center' cuenta con dos campos de tamaño completo, un gimnasio de primera clase, una piscina de hidroterapia y avanzados laboratorios de ciencias del deporte. A la ceremonia de inauguración asistieron directivos del club, jugadores y personalidades locales. La presidenta del club, María Sánchez, describió la instalación como 'un cambio de juego' que proporcionará a nuestros jugadores el mejor entorno posible para desarrollarse y destacar. El centro no solo servirá al primer equipo, sino también a la academia juvenil del club, formando a la próxima generación de talentos. Esta inversión subraya el compromiso del club con el crecimiento a largo plazo y su consolidación como una potencia en el deporte.",
   },
 ];
 
@@ -50,13 +50,13 @@ export function News() {
       if(result.summary) {
         setSummary(result.summary);
       } else {
-        throw new Error("Failed to generate summary.");
+        throw new Error("No se pudo generar el resumen.");
       }
     } catch (error) {
       console.error(error);
       toast({
         title: "Error",
-        description: "Could not generate summary. Please try again later.",
+        description: "No se pudo generar el resumen. Por favor, inténtelo de nuevo más tarde.",
         variant: "destructive",
       });
     } finally {
@@ -73,9 +73,9 @@ export function News() {
   return (
     <section id="news" className="w-full">
       <div className="space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Latest News</h2>
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Últimas Noticias</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-          Stay up-to-date with the latest stories from Club de Lago.
+          Mantente al día con las últimas historias del Club Del Lago.
         </p>
       </div>
       <div className="mx-auto mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2">
@@ -98,7 +98,7 @@ export function News() {
             <CardFooter>
               <Button onClick={() => openDialog(article)} className="w-full">
                 <Newspaper className="mr-2 h-4 w-4" />
-                Read More & Summarize
+                Leer Más y Resumir
               </Button>
             </CardFooter>
           </Card>
@@ -110,17 +110,17 @@ export function News() {
             <>
               <DialogHeader>
                 <DialogTitle className="text-2xl font-headline">{selectedArticle.title}</DialogTitle>
-                <DialogDescription>Full article below. Use our AI tool to get a quick summary.</DialogDescription>
+                <DialogDescription>Artículo completo a continuación. Utilice nuestra herramienta de IA para obtener un resumen rápido.</DialogDescription>
               </DialogHeader>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-bold mb-2">Full Story</h3>
+                  <h3 className="font-bold mb-2">Historia Completa</h3>
                   <ScrollArea className="h-72 pr-4">
                     <p className="text-sm text-muted-foreground">{selectedArticle.content}</p>
                   </ScrollArea>
                 </div>
                 <div className="flex flex-col">
-                  <h3 className="font-bold mb-2">AI Summary</h3>
+                  <h3 className="font-bold mb-2">Resumen con IA</h3>
                   <div className="flex-grow rounded-md border border-dashed p-4 flex flex-col justify-center items-center bg-muted/50">
                     {isLoading ? (
                       <div className="space-y-2 w-full">
@@ -131,12 +131,12 @@ export function News() {
                     ) : summary ? (
                       <p className="text-sm">{summary}</p>
                     ) : (
-                      <p className="text-sm text-muted-foreground text-center">Click the button to generate a summary.</p>
+                      <p className="text-sm text-muted-foreground text-center">Haz clic en el botón para generar un resumen.</p>
                     )}
                   </div>
                   <Button onClick={handleSummarize} disabled={isLoading} className="mt-4 w-full bg-accent text-accent-foreground hover:bg-accent/90">
                     <Sparkles className="mr-2 h-4 w-4" />
-                    {isLoading ? "Generating..." : "Summarize with AI"}
+                    {isLoading ? "Generando..." : "Resumir con IA"}
                   </Button>
                 </div>
               </div>

@@ -4,21 +4,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 export function Roster() {
   const teams = [
     {
-      name: "First Team",
+      name: "Primer Equipo",
       players: [
-        { name: "Leo Martinez", position: "Forward", avatar: "https://placehold.co/100x100.png", hint: "male portrait" },
-        { name: "Clara Jensen", position: "Midfielder", avatar: "https://placehold.co/100x100.png", hint: "female portrait" },
-        { name: "Sam Jones", position: "Defender", avatar: "https://placehold.co/100x100.png", hint: "male portrait" },
-        { name: "Aisha Khan", position: "Goalkeeper", avatar: "https://placehold.co/100x100.png", hint: "female portrait" },
+        { name: "Leo Martinez", position: "Delantero", avatar: "https://placehold.co/100x100.png", hint: "male portrait" },
+        { name: "Clara Jensen", position: "Centrocampista", avatar: "https://placehold.co/100x100.png", hint: "female portrait" },
+        { name: "Sam Jones", position: "Defensor", avatar: "https://placehold.co/100x100.png", hint: "male portrait" },
+        { name: "Aisha Khan", position: "Portera", avatar: "https://placehold.co/100x100.png", hint: "female portrait" },
       ],
     },
     {
-      name: "Youth Academy",
+      name: "Academia Juvenil",
       players: [
-        { name: "Tom Riley", position: "Forward", avatar: "https://placehold.co/100x100.png", hint: "young male" },
-        { name: "Maria Garcia", position: "Midfielder", avatar: "https://placehold.co/100x100.png", hint: "young female" },
-        { name: "Ben Carter", position: "Defender", avatar: "https://placehold.co/100x100.png", hint: "young male" },
-        { name: "Sofia Chen", position: "Goalkeeper", avatar: "https://placehold.co/100x100.png", hint: "young female" },
+        { name: "Tom Riley", position: "Delantero", avatar: "https://placehold.co/100x100.png", hint: "young male" },
+        { name: "Maria Garcia", position: "Centrocampista", avatar: "https://placehold.co/100x100.png", hint: "young female" },
+        { name: "Ben Carter", position: "Defensor", avatar: "https://placehold.co/100x100.png", hint: "young male" },
+        { name: "Sofia Chen", position: "Portera", avatar: "https://placehold.co/100x100.png", hint: "young female" },
       ],
     },
   ]
@@ -26,9 +26,9 @@ export function Roster() {
   return (
     <section id="roster" className="w-full">
       <div className="space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Meet Our Teams</h2>
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Conoce a Nuestros Equipos</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-          The players who wear our colors with pride.
+          Los jugadores que visten nuestros colores con orgullo.
         </p>
       </div>
       <div className="mx-auto mt-12 grid gap-12 sm:grid-cols-1 lg:grid-cols-2">

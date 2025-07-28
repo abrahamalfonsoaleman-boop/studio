@@ -8,6 +8,6 @@ export async function getSummary(articleContent: string) {
     return { summary: output.summary };
   } catch (error) {
     console.error("Error summarizing article:", error);
-    return { error: "Failed to summarize article." };
+    return { error: "No se pudo resumir el artículo." };
   }
 }
