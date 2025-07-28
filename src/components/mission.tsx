@@ -60,22 +60,24 @@ export function Mission() {
           <CarouselContent>
             {missionData.map((item, index) => (
               <CarouselItem key={index} className="basis-full">
-                 <Card className="text-center border-0 shadow-none bg-transparent">
-                    <CardHeader className="flex items-center justify-center">
-                      <div className="p-4 bg-primary/10 rounded-full">
-                        {item.icon}
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <CardTitle className="text-2xl font-bold mb-2">{item.title}</CardTitle>
-                      <p className="text-muted-foreground px-4">{item.description}</p>
-                    </CardContent>
-                  </Card>
+                 <div className="p-1">
+                  <Card className="text-center border-0 shadow-none bg-transparent">
+                      <CardHeader className="flex items-center justify-center mb-2">
+                        <div className="p-4 bg-primary/10 rounded-full">
+                          {item.icon}
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <CardTitle className="text-2xl font-bold">{item.title}</CardTitle>
+                        <p className="text-muted-foreground px-4">{item.description}</p>
+                      </CardContent>
+                    </Card>
+                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
         </Carousel>
       </div>
     </section>
