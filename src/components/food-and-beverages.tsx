@@ -65,7 +65,7 @@ export function FoodAndBeverages() {
                     <h3 className="text-3xl font-bold mb-4">{restaurant.name}</h3>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button>Ver Menú</Button>
+                        <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Ver Menú</Button>
                       </DialogTrigger>
                       <DialogContent className="max-w-3xl">
                         <DialogHeader>
@@ -94,10 +94,6 @@ export function FoodAndBeverages() {
         <CarouselPrevious className="absolute left-[-2.5rem] top-1/2 -translate-y-1/2" />
         <CarouselNext className="absolute right-[-2.5rem] top-1/2 -translate-y-1/2" />
       </Carousel>
-      
-      <div className="text-center mt-8">
-        <Button size="lg">Ver Todas las Opciones</Button>
-      </div>
     </section>
   )
 }
