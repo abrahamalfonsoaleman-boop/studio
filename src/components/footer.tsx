@@ -1,3 +1,4 @@
+
 import Link from "next/link"
 import { Trophy } from "lucide-react"
 
@@ -27,7 +28,7 @@ export function Footer() {
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center space-x-2 mb-4 md:mb-0">
           <Trophy className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline text-lg text-primary">Club Del Lago</span>
+          <span className="font-bold font-headline text-lg text-accent">Club Del Lago</span>
         </div>
         <p className="text-sm text-center md:text-left">
           © {new Date().getFullYear()} Club Del Lago. Todos los derechos reservados.

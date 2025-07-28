@@ -63,14 +63,6 @@ const staff = [
     hint: "male portrait",
   },
   {
-    name: "Cristina Manzanares",
-    title: "Asistente de Deportes",
-    email: "cmanzanares@clubdelago.com.mx",
-    extension: "Ext. 140",
-    avatar: "https://placehold.co/100x100.png",
-    hint: "female portrait",
-  },
-  {
     name: "Valeria Torres",
     title: "Coordinadora de Eventos",
     email: "eventos@clubdelago.com.mx",

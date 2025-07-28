@@ -59,14 +59,14 @@ export default function DeportesPage() {
               <DialogTrigger asChild>
                 <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
                   <Phone className="mr-2 h-5 w-5" />
-                  ¿Listo para unirte? Separa y Contacta
+                  Contacto Deportivo
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>Contacto Deportivo</DialogTitle>
                   <DialogDescription>
-                    Contacta a nuestro asistente para inscripciones y reservaciones.
+                    Contacta a nuestra asistente para inscripciones y reservaciones.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
@@ -75,17 +75,9 @@ export default function DeportesPage() {
                        <Phone className="h-6 w-6" />
                      </div>
                     <div>
-                      <p className="font-semibold text-sm">Asistente Deportivo</p>
-                      <a href="tel:1234567890" className="text-sm text-muted-foreground hover:text-primary transition-colors">(123) 456-7890</a>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
-                    <div className="bg-primary text-primary-foreground p-3 rounded-full">
-                      <Mail className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm">Email</p>
-                      <a href="mailto:deportes@clubdellago.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">deportes@clubdellago.com</a>
+                      <p className="font-semibold text-sm">Cristina Manzanares - Asistente de Deportes</p>
+                      <a href="mailto:cmanzanares@clubdelago.com.mx" className="text-sm text-muted-foreground hover:text-primary transition-colors">cmanzanares@clubdelago.com.mx</a>
+                      <p className="text-sm text-muted-foreground">Ext. 140</p>
                     </div>
                   </div>
                 </div>
