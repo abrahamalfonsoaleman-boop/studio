@@ -17,7 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Lato', 'sans-serif'],
+        body: ['Merriweather', 'serif'],
         headline: ['Bebas Neue', 'sans-serif'],
         code: ['monospace'],
       },
