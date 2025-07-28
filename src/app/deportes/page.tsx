@@ -87,8 +87,8 @@ export default function DeportesPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-[-2rem] top-1/2 -translate-y-1/2" />
-              <CarouselNext className="absolute right-[-2rem] top-1/2 -translate-y-1/2" />
+              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground" />
+              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground" />
             </Carousel>
              {selectedFlyer && (
               <DialogContent className="max-w-3xl">
@@ -113,7 +113,7 @@ export default function DeportesPage() {
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Para inscripciones, reservaciones o más información sobre nuestras actividades deportivas, contacta a nuestro asistente deportivo.
             </p>
-            <Button size="lg">
+            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
               <Phone className="mr-2 h-5 w-5" />
               Separar y Contactar
             </Button>
