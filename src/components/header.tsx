@@ -1,3 +1,4 @@
+
 "use client"
 import Link from "next/link"
 import { Menu, Trophy } from "lucide-react"
@@ -41,7 +42,7 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-1 items-center justify-end gap-4">
+        <div className="flex flex-1 items-center justify-end gap-2">
            <div className="hidden md:flex">
              <ThemeToggle />
            </div>
@@ -74,11 +75,11 @@ export function Header() {
                   </Link>
                 ))}
               </div>
-               <div className="absolute bottom-4 right-4">
-                <ThemeToggle />
-              </div>
             </SheetContent>
           </Sheet>
+          <div className="md:hidden">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>
