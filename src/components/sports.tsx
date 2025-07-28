@@ -4,6 +4,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Dumbbell, PersonStanding, Waves, Medal } from "lucide-react"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 const disciplines = [
   { name: "Tenis", icon: <Medal className="h-10 w-10 text-primary" /> },
@@ -23,7 +24,8 @@ export function Sports() {
         </p>
       </div>
 
-      <div className="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
+      {/* Desktop View */}
+      <div className="hidden md:flex justify-center items-center gap-8 md:gap-12 flex-wrap">
         {disciplines.map((discipline, index) => (
           <div key={index} className="flex flex-col items-center justify-center gap-2 group">
             <div className="bg-card h-28 w-28 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 border">
@@ -33,6 +35,33 @@ export function Sports() {
           </div>
         ))}
       </div>
+      
+      {/* Mobile Carousel View */}
+      <div className="md:hidden">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full max-w-xs mx-auto"
+        >
+          <CarouselContent>
+            {disciplines.map((discipline, index) => (
+              <CarouselItem key={index} className="basis-1/3">
+                 <div className="flex flex-col items-center justify-center gap-2 group p-1">
+                    <div className="bg-card h-24 w-24 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 border">
+                      {discipline.icon}
+                    </div>
+                    <h3 className="text-base font-semibold text-center">{discipline.name}</h3>
+                  </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+        </Carousel>
+      </div>
+
 
       <div className="text-center mt-12">
         <Button size="lg" asChild>
