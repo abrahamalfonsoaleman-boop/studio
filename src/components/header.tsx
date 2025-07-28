@@ -43,9 +43,12 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
-           <div className="hidden md:flex">
-             <ThemeToggle />
-           </div>
+          <div className="hidden md:flex">
+            <ThemeToggle />
+          </div>
+          <div className="md:hidden">
+            <ThemeToggle />
+          </div>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -77,9 +80,6 @@ export function Header() {
               </div>
             </SheetContent>
           </Sheet>
-          <div className="md:hidden">
-            <ThemeToggle />
-          </div>
         </div>
       </div>
     </header>
