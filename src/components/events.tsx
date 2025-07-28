@@ -30,7 +30,7 @@ export function Events() {
   ]
 
   return (
-    <section id="events" className="w-full">
+    <section id="eventos" className="w-full">
       <div className="space-y-4 text-center">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Próximos Eventos</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
