@@ -7,11 +7,12 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 export function Header() {
   const navLinks = [
-    { href: "#about", label: "Nosotros" },
-    { href: "#events", label: "Eventos" },
-    { href: "#news", label: "Noticias" },
-    { href: "#roster", label: "Equipos" },
-    { href: "#gallery", label: "Galería" },
+    { href: "#", label: "Inicio" },
+    { href: "#deportes", label: "Deportes" },
+    { href: "#eventos", label: "Eventos" },
+    { href: "#alimentos", label: "Alimentos y Bebidas" },
+    { href: "#directorio", label: "Directorio" },
+    { href: "#contacto", label: "Contacto" },
   ]
 
   return (
@@ -19,7 +20,7 @@ export function Header() {
       <div className="container flex h-16 items-center">
         <Link href="#" className="mr-6 flex items-center space-x-2">
           <Trophy className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline text-lg">Club Del Lago</span>
+          <span className="font-bold font-headline text-lg">Club de Lago</span>
         </Link>
         <nav className="hidden md:flex md:items-center md:gap-6 text-sm font-medium">
           {navLinks.map((link) => (
@@ -32,10 +33,10 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex flex-1 items-center justify-end md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Abrir menú de navegación</span>
               </Button>
@@ -43,7 +44,7 @@ export function Header() {
             <SheetContent side="left">
               <Link href="#" className="mr-6 flex items-center space-x-2 mb-6">
                 <Trophy className="h-6 w-6 text-primary" />
-                <span className="font-bold font-headline">Club Del Lago</span>
+                <span className="font-bold font-headline">Club de Lago</span>
               </Link>
               <div className="flex flex-col gap-4">
                 {navLinks.map((link) => (
