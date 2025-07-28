@@ -3,7 +3,7 @@ import { Hero } from "@/components/hero";
 import { Mission } from "@/components/mission";
 import { Sports } from "@/components/sports";
 import { Events } from "@/components/events";
-import { News } from "@/components/news";
+import { Comunicados } from "@/components/comunicados";
 import { Roster } from "@/components/roster";
 import { Gallery } from "@/components/gallery";
 import { Footer } from "@/components/footer";
@@ -21,7 +21,7 @@ export default function Home() {
             <Sports />
             <FoodAndBeverages />
             <Events />
-            <News />
+            <Comunicados />
             <Roster />
             <Gallery />
           </div>
