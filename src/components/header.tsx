@@ -23,7 +23,7 @@ export function Header() {
     { href: "#alimentos", label: "Alimentos y Bebidas" },
     { href: "/directorio", label: "Directorio" },
     { href: "/delagoapp", label: "DelagoApp" },
-    { href: "#contacto", label: "Contacto" },
+    { href: "/contacto", label: "Contacto" },
   ]
 
   return (
