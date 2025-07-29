@@ -26,7 +26,7 @@ export function Sports() {
     <section id="deportes" className="w-full">
       <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Disciplinas Deportivas</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4 px-4">
           Encuentra tu pasión y mantente activo con nuestras diversas opciones.
         </p>
       </div>
@@ -67,8 +67,8 @@ export function Sports() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2" />
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
 

@@ -27,7 +27,7 @@ export function Mission() {
     <section id="mission" className="w-full">
       <div className="text-center mb-12">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Nuestra Esencia</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4 px-4">
           Comprometidos con el bienestar y la comunidad.
         </p>
       </div>
@@ -77,8 +77,8 @@ export function Mission() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
     </section>

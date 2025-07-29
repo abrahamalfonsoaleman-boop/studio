@@ -42,13 +42,13 @@ export function Comunicados() {
     <section id="comunicados" className="w-full">
       <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Comunicados</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg px-4">
           Mantente al día con los últimos avisos y comunicados del Club Del Lago.
         </p>
       </div>
       
       {/* Desktop Grid View */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 px-4">
+      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
         {comunicados.map((comunicado, index) => (
           <div
             key={index}
@@ -96,8 +96,8 @@ export function Comunicados() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-0.5rem] top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute right-[-0.5rem] top-1/2 -translate-y-1/2" />
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
 
