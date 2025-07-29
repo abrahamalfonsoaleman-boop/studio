@@ -20,6 +20,8 @@ export function Hero() {
       <div 
         className="absolute inset-0 bg-cover bg-fixed bg-center z-[-1]"
         style={{ 
+          // Para usar tu propia imagen, colócala en la carpeta `public`
+          // y cambia la URL aquí. Por ejemplo: "url('/hero-background.jpg')"
           backgroundImage: "url('https://placehold.co/1920x1080.png')",
           transform: `translateY(${offsetY * 0.5}px)`
         }}
