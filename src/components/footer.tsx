@@ -1,6 +1,6 @@
 
 import Link from "next/link"
-import { Trophy } from "lucide-react"
+import Image from "next/image"
 
 const TwitterIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -27,7 +27,7 @@ export function Footer() {
     <footer className="bg-muted text-muted-foreground mt-12 border-t">
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center space-x-2 mb-4 md:mb-0 group">
-          <Trophy className="h-6 w-6 text-primary transition-transform duration-300 group-hover:rotate-12" />
+           <Image src="/logo-vector.png" alt="Club de Lago Logo" width={40} height={40} className="transition-transform duration-300 group-hover:rotate-12" />
           <span className="font-bold font-headline text-lg text-accent">Club Del Lago</span>
         </div>
         <p className="text-sm text-center md:text-left">

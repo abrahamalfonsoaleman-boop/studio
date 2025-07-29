@@ -1,7 +1,8 @@
 
 "use client"
 import Link from "next/link"
-import { Menu, Trophy } from "lucide-react"
+import { Menu } from "lucide-react"
+import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -28,7 +29,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Trophy className="h-6 w-6 text-primary transition-transform duration-300 group-hover:rotate-12" />
+          <Image src="/logo-vector.png" alt="Club de Lago Logo" width={40} height={40} className="transition-transform duration-300 group-hover:rotate-12" />
           <span className="font-bold font-headline text-base text-accent transition-colors duration-300 hover:text-primary">Club de Lago</span>
         </Link>
         <nav className="hidden md:flex md:items-center md:gap-6 text-xs font-medium">
@@ -59,7 +60,7 @@ export function Header() {
                 </SheetDescription>
               </SheetHeader>
               <Link href="/" className="mr-6 flex items-center space-x-2 mb-6 group">
-                <Trophy className="h-6 w-6 text-primary transition-transform duration-300 group-hover:rotate-12" />
+                 <Image src="/logo-vector.png" alt="Club de Lago Logo" width={40} height={40} className="transition-transform duration-300 group-hover:rotate-12" />
                 <span className="font-bold font-headline text-base text-accent">Club de Lago</span>
               </Link>
               <div className="flex flex-col gap-4">
