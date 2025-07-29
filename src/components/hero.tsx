@@ -22,10 +22,10 @@ export function Hero() {
         style={{ 
           // Para usar tu propia imagen, colócala en la carpeta `public`
           // y cambia la URL aquí. Por ejemplo: "url('/hero-background.jpg')"
-          backgroundImage: "url('https://placehold.co/1920x1080.png')",
+          backgroundImage: "url('/hero.png')",
           transform: `translateY(${offsetY * 0.5}px)`
         }}
-        data-ai-hint="tennis court"
+        data-ai-hint="sports club"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
       <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
