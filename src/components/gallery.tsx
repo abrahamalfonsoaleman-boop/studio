@@ -19,7 +19,7 @@ export function Gallery() {
           Un vistazo a la vida y energía del Club Del Lago.
         </p>
       </div>
-      <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
         {images.map((image, index) => (
           <div
             key={index}

@@ -16,24 +16,12 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <div className="grid gap-12 md:gap-16 lg:gap-24 py-8 md:py-12 lg:py-16">
-          <div>
-            <Mission />
-          </div>
-          <div>
-            <Sports />
-          </div>
-          <div>
-            <FoodAndBeverages />
-          </div>
-           <div>
-            <Events />
-          </div>
-          <div>
-            <Comunicados />
-          </div>
-          <div>
-            <Gallery />
-          </div>
+          <Mission />
+          <Sports />
+          <FoodAndBeverages />
+          <Events />
+          <Comunicados />
+          <Gallery />
         </div>
       </main>
       <Footer />

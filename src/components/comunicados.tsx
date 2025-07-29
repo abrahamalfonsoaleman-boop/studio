@@ -48,7 +48,7 @@ export function Comunicados() {
       </div>
       
       {/* Desktop Grid View */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 px-4">
         {comunicados.map((comunicado, index) => (
           <div
             key={index}
