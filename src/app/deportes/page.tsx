@@ -47,7 +47,7 @@ export default function DeportesPage() {
     <div className="flex min-h-screen w-full flex-col">
       <Header />
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8 md:px-6 md:py-12 lg:py-16">
+        <div className="px-4 py-8 md:px-6 md:py-12 lg:py-16">
           <div className="space-y-4 text-center mb-8">
             <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
               Actividades Deportivas
