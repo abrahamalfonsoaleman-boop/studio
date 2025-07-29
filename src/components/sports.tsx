@@ -2,9 +2,11 @@
 "use client"
 
 import Link from "next/link"
+import React from 'react'
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Dumbbell, PersonStanding, Waves, Medal, Bike, Footprints } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 
 const disciplines = [
   { name: "Tenis", icon: <Medal className="h-10 w-10 text-primary" /> },
@@ -16,9 +18,13 @@ const disciplines = [
 ];
 
 export function Sports() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  )
+
   return (
     <section id="deportes" className="w-full">
-      <div className="text-center mb-12">
+      <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Disciplinas Deportivas</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
           Encuentra tu pasión y mantente activo con nuestras diversas opciones.
@@ -38,13 +44,16 @@ export function Sports() {
       </div>
       
       {/* Mobile Carousel View */}
-      <div className="md:hidden">
+      <div className="md:hidden mt-8">
         <Carousel
+          plugins={[plugin.current]}
           opts={{
             align: "start",
             loop: true,
           }}
           className="w-full max-w-xs mx-auto"
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
         >
           <CarouselContent>
             {disciplines.map((discipline, index) => (
@@ -58,8 +67,8 @@ export function Sports() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+          <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2" />
         </Carousel>
       </div>
 
