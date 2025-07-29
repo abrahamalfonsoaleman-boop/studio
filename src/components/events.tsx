@@ -43,7 +43,7 @@ export function Events() {
       {/* Desktop Grid View */}
       <div className="mx-auto mt-12 hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-2">
         {events.map((event, index) => (
-          <Card key={index} className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg">
+          <Card key={index} className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg border-2 border-primary/50">
             <CardHeader>
               <CardTitle className="font-headline text-lg">{event.title}</CardTitle>
             </CardHeader>
@@ -78,7 +78,7 @@ export function Events() {
             {events.map((event, index) => (
               <CarouselItem key={index}>
                 <div className="p-1">
-                  <Card className="flex flex-col h-full overflow-hidden">
+                  <Card className="flex flex-col h-full overflow-hidden border-2 border-primary/50">
                     <CardHeader>
                       <CardTitle className="font-headline text-lg">{event.title}</CardTitle>
                     </CardHeader>
