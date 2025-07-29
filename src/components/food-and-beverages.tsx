@@ -18,21 +18,21 @@ import {
 const restaurants = [
   {
     name: "Restaurante Las Palmas",
-    image: "https://placehold.co/800x600.png",
+    image: "/images/Palmas.jpg",
     hint: "restaurant interior",
     menuImage: "https://placehold.co/600x800.png",
     menuHint: "restaurant menu"
   },
   {
     name: "Restaurante Terraza Bar",
-    image: "https://placehold.co/800x600.png",
+    image: "/images/bar.jpg",
     hint: "terrace bar",
     menuImage: "https://placehold.co/600x800.png",
     menuHint: "bar menu"
   },
   {
     name: "Snack Brasas",
-    image: "https://placehold.co/800x600.png",
+    image: "/images/brasas.jpg",
     hint: "grill snack bar",
     menuImage: "https://placehold.co/600x800.png",
     menuHint: "cafe menu"

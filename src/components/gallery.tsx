@@ -3,12 +3,12 @@ import Image from "next/image"
 
 export function Gallery() {
   const images = [
-    { src: "https://placehold.co/600x400.png", alt: "Jugadores celebrando un gol", hint: "team celebrating" },
-    { src: "https://placehold.co/400x600.png", alt: "Un jugador disparando a puerta", hint: "player shooting" },
-    { src: "https://placehold.co/600x400.png", alt: "Aficionados en el estadio", hint: "stadium crowd" },
-    { src: "https://placehold.co/600x400.png", alt: "El equipo reunido", hint: "team huddle" },
-    { src: "https://placehold.co/400x600.png", alt: "Portero haciendo una parada", hint: "goalkeeper save" },
-    { src: "https://placehold.co/600x400.png", alt: "Exhibición de trofeos del club", hint: "trophy case" },
+    { src: "/images/club1.jpg", alt: "Jugadores celebrando un gol", hint: "team celebrating" },
+    { src: "/images/club2.jpg", alt: "Un jugador disparando a puerta", hint: "player shooting" },
+    { src: "/images/club3.jpg", alt: "Aficionados en el estadio", hint: "stadium crowd" },
+    { src: "/images/club4.jpg", alt: "El equipo reunido", hint: "team huddle" },
+    { src: "/images/club5.jpg", alt: "Portero haciendo una parada", hint: "goalkeeper save" },
+    { src: "/images/club6.jpg", alt: "Exhibición de trofeos del club", hint: "trophy case" },
   ]
 
   return (

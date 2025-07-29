@@ -19,7 +19,7 @@ export function Hero() {
       <div 
         className="absolute inset-0 bg-cover bg-fixed bg-center z-[-1]"
         style={{ 
-          backgroundImage: "url('/hero.jpeg')",
+          backgroundImage: "url('/images/hero.jpeg')",
           transform: `translateY(${offsetY * 0.5}px)`
         }}
         data-ai-hint="sports club"
