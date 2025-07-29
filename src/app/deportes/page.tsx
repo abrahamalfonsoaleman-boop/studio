@@ -47,8 +47,8 @@ export default function DeportesPage() {
     <div className="flex min-h-screen w-full flex-col">
       <Header />
       <main className="flex-1">
-        <div className="px-4 py-8 md:px-6 md:py-12 lg:py-16">
-          <div className="space-y-4 text-center mb-8">
+        <div className="py-8 md:py-12 lg:py-16">
+          <div className="space-y-4 text-center mb-8 px-4">
             <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
               Actividades Deportivas
             </h1>
@@ -91,33 +91,31 @@ export default function DeportesPage() {
                 align: "start",
                 loop: true,
               }}
-              className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto"
+              className="w-full"
             >
               <CarouselContent>
                 {flyers.map((flyer, index) => (
-                  <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                  <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
                     <DialogTrigger asChild>
-                      <Card 
-                        className="overflow-hidden cursor-pointer group transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                      <div 
+                        className="overflow-hidden cursor-pointer group transform transition-all duration-300 hover:scale-105 hover:shadow-xl p-2"
                         onClick={() => setSelectedFlyer(flyer)}
                       >
-                        <CardContent className="p-0">
                            <Image
                             src={flyer.src}
                             alt={flyer.alt}
                             data-ai-hint={flyer.hint}
                             width={600}
                             height={800}
-                            className="h-full w-full object-cover aspect-[3/4]"
+                            className="h-full w-full object-cover aspect-[3/4] rounded-lg"
                           />
-                        </CardContent>
-                      </Card>
+                      </div>
                     </DialogTrigger>
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+              <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+              <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
             </Carousel>
              {selectedFlyer && (
               <DialogContent className="max-w-3xl">
