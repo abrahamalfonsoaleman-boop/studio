@@ -24,7 +24,7 @@ const missionData = [
 
 export function Mission() {
   return (
-    <section id="mission" className="w-full">
+    <section id="mission" className="w-full py-8 md:py-12 lg:py-16">
       <div className="text-center mb-12">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Nuestra Esencia</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4 px-4">
@@ -33,7 +33,7 @@ export function Mission() {
       </div>
 
       {/* Desktop View */}
-      <div className="hidden md:grid md:grid-cols-3 gap-8">
+      <div className="hidden md:grid md:grid-cols-3 gap-8 px-4">
         {missionData.map((item, index) => (
           <Card key={index} className="text-center border-2 border-primary/50 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card">
             <CardHeader className="flex items-center justify-center">
@@ -77,8 +77,8 @@ export function Mission() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
     </section>

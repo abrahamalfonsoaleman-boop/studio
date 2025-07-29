@@ -23,7 +23,7 @@ export function Sports() {
   )
 
   return (
-    <section id="deportes" className="w-full">
+    <section id="deportes" className="w-full py-8 md:py-12 lg:py-16">
       <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Disciplinas Deportivas</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4 px-4">
@@ -32,7 +32,7 @@ export function Sports() {
       </div>
 
       {/* Desktop View */}
-      <div className="hidden md:flex justify-center items-center gap-8 md:gap-12 flex-wrap">
+      <div className="hidden md:flex justify-center items-center gap-8 md:gap-12 flex-wrap mt-12">
         {disciplines.map((discipline, index) => (
           <div key={index} className="flex flex-col items-center justify-center gap-2 group">
             <div className="bg-card h-32 w-32 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-2 border-2 border-primary/50 group-hover:border-accent">
@@ -67,8 +67,8 @@ export function Sports() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
 

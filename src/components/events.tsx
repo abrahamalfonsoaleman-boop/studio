@@ -32,7 +32,7 @@ export function Events() {
   ]
 
   return (
-    <section id="eventos" className="w-full">
+    <section id="eventos" className="w-full py-8 md:py-12 lg:py-16">
       <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Próximos Eventos</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg px-4">
@@ -41,7 +41,7 @@ export function Events() {
       </div>
       
       {/* Desktop Grid View */}
-      <div className="mx-auto mt-12 hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-2">
+      <div className="mx-auto mt-12 hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-2 px-4">
         {events.map((event, index) => (
           <Card key={index} className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg border-2 border-primary/50">
             <CardHeader>
@@ -101,8 +101,8 @@ export function Events() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
 

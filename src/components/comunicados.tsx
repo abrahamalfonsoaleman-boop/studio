@@ -39,7 +39,7 @@ export function Comunicados() {
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; hint: string } | null>(null)
 
   return (
-    <section id="comunicados" className="w-full">
+    <section id="comunicados" className="w-full py-8 md:py-12 lg:py-16">
       <div className="space-y-4 text-center">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Comunicados</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg px-4">
@@ -48,7 +48,7 @@ export function Comunicados() {
       </div>
       
       {/* Desktop Grid View */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 px-4">
         {comunicados.map((comunicado, index) => (
           <div
             key={index}
@@ -96,8 +96,8 @@ export function Comunicados() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
 
