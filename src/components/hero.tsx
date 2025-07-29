@@ -32,9 +32,6 @@ export function Hero() {
         <p className="mt-4 max-w-2xl text-base md:text-lg">
           Desde 1981 el Club Delago es una asociación civil dedicada a promover la sana convivencia familiar.
         </p>
-        <Button asChild size="lg" className="mt-8">
-          <Link href="#eventos">Próximos Eventos</Link>
-        </Button>
       </div>
     </section>
   )
