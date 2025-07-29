@@ -95,14 +95,14 @@ export default function DirectorioPage() {
       <main className="flex-1">
         <div className="py-8 md:py-12 lg:py-16">
           <div className="space-y-4 text-center mb-12 px-4">
-            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline animate-fade-in">
               Directorio Administrativo
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg animate-fade-in">
               Nuestro equipo está para servirte.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 animate-fade-in">
             {staff.map((person) => (
               <Card key={person.name} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <CardHeader className="flex flex-row items-center space-x-4 p-4">

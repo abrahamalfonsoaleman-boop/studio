@@ -49,15 +49,15 @@ export default function DeportesPage() {
       <main className="flex-1">
         <div className="py-8 md:py-12 lg:py-16">
           <div className="space-y-4 text-center mb-8 px-4">
-            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline animate-fade-in">
               Actividades Deportivas
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg animate-fade-in">
               Explora nuestros próximos eventos y clases. ¡Haz clic en un flyer para verlo en grande!
             </p>
             <Dialog>
               <DialogTrigger asChild>
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 animate-fade-in">
                   <Phone className="mr-2 h-5 w-5" />
                   Contacto Deportivo
                 </Button>
@@ -91,7 +91,7 @@ export default function DeportesPage() {
                 align: "start",
                 loop: true,
               }}
-              className="w-full"
+              className="w-full animate-fade-in"
             >
               <CarouselContent>
                 {flyers.map((flyer, index) => (
