@@ -52,7 +52,7 @@ export function Comunicados() {
         {comunicados.map((comunicado, index) => (
           <div
             key={index}
-            className="cursor-pointer overflow-hidden rounded-lg group transform transition-transform duration-300 hover:scale-105"
+            className="cursor-pointer overflow-hidden rounded-lg group transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
             onClick={() => setSelectedImage(comunicado)}
           >
             <Image

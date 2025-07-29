@@ -104,7 +104,7 @@ export default function DirectorioPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {staff.map((person) => (
-              <Card key={person.name} className="overflow-hidden transition-shadow duration-300 hover:shadow-lg">
+              <Card key={person.name} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <CardHeader className="flex flex-row items-center space-x-4 p-4">
                   <Avatar className="h-20 w-20">
                     <AvatarImage src={person.avatar} alt={person.name} data-ai-hint={person.hint} />
@@ -118,7 +118,7 @@ export default function DirectorioPage() {
                 <CardContent className="p-4 space-y-2 border-t">
                   <div className="flex items-center text-xs text-muted-foreground">
                     <Mail className="h-4 w-4 mr-2" />
-                    <a href={`mailto:${person.email}`} className="hover:text-primary transition-colors">
+                    <a href={`mailto:${person.email}`} className="hover:text-primary transition-colors duration-300">
                       {person.email}
                     </a>
                   </div>

@@ -32,7 +32,7 @@ export function Sports() {
             <div className="bg-card h-32 w-32 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-2 border-2 border-primary/50 group-hover:border-accent">
               {discipline.icon}
             </div>
-            <h3 className="text-base font-semibold mt-2 font-headline">{discipline.name}</h3>
+            <h3 className="text-base font-semibold mt-2 font-headline transition-colors duration-300 group-hover:text-accent">{discipline.name}</h3>
           </div>
         ))}
       </div>
@@ -53,7 +53,7 @@ export function Sports() {
                     <div className="bg-card h-24 w-24 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 border-2 border-primary/50 group-hover:border-accent">
                       {discipline.icon}
                     </div>
-                    <h3 className="text-sm font-semibold text-center font-headline">{discipline.name}</h3>
+                    <h3 className="text-sm font-semibold text-center font-headline transition-colors duration-300 group-hover:text-accent">{discipline.name}</h3>
                   </div>
               </CarouselItem>
             ))}
@@ -68,7 +68,7 @@ export function Sports() {
         <Button size="lg" asChild>
           <Link href="/deportes">
             Ver Todas las Actividades
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </Button>
       </div>

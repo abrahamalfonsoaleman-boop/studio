@@ -23,17 +23,17 @@ export function Gallery() {
         {images.map((image, index) => (
           <div
             key={index}
-            className={`relative overflow-hidden rounded-lg group transform transition-transform duration-300 hover:scale-105 ${
+            className={`relative overflow-hidden rounded-lg group transition-all duration-300 ease-in-out hover:shadow-2xl ${
               index === 1 || index === 4 ? "row-span-2" : ""
             }`}
           >
-            <Image
+             <Image
               src={image.src}
               alt={image.alt}
               data-ai-hint={image.hint}
               width={index === 1 || index === 4 ? 400 : 600}
               height={index === 1 || index === 4 ? 600 : 400}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
               <p className="text-white text-center p-2 text-xs">{image.alt}</p>

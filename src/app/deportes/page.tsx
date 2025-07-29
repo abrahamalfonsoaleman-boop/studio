@@ -71,12 +71,12 @@ export default function DeportesPage() {
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                    <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
-                     <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                     <div className="bg-accent text-accent-foreground p-3 rounded-full">
                        <Phone className="h-6 w-6" />
                      </div>
                     <div>
                       <p className="font-semibold text-sm">Cristina Manzanares - Asistente de Deportes</p>
-                      <a href="mailto:cmanzanares@clubdelago.com.mx" className="text-sm text-muted-foreground hover:text-primary transition-colors">cmanzanares@clubdelago.com.mx</a>
+                      <a href="mailto:cmanzanares@clubdelago.com.mx" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">cmanzanares@clubdelago.com.mx</a>
                       <p className="text-sm text-muted-foreground">Ext. 140</p>
                     </div>
                   </div>
@@ -98,7 +98,7 @@ export default function DeportesPage() {
                   <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                     <DialogTrigger asChild>
                       <Card 
-                        className="overflow-hidden cursor-pointer group transform transition-transform duration-300 hover:scale-105"
+                        className="overflow-hidden cursor-pointer group transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
                         onClick={() => setSelectedFlyer(flyer)}
                       >
                         <CardContent className="p-0">
@@ -116,8 +116,8 @@ export default function DeportesPage() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground" />
-              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground" />
+              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
             </Carousel>
              {selectedFlyer && (
               <DialogContent className="max-w-3xl">

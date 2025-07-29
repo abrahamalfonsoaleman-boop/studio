@@ -26,21 +26,21 @@ export function Footer() {
   return (
     <footer className="bg-muted text-muted-foreground mt-12 border-t">
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between">
-        <div className="flex items-center space-x-2 mb-4 md:mb-0">
-          <Trophy className="h-6 w-6 text-primary" />
+        <div className="flex items-center space-x-2 mb-4 md:mb-0 group">
+          <Trophy className="h-6 w-6 text-primary transition-transform duration-300 group-hover:rotate-12" />
           <span className="font-bold font-headline text-lg text-accent">Club Del Lago</span>
         </div>
         <p className="text-sm text-center md:text-left">
           © {new Date().getFullYear()} Club Del Lago. Todos los derechos reservados.
         </p>
         <div className="flex items-center space-x-4 mt-4 md:mt-0">
-          <Link href="#" className="hover:text-accent transition-colors">
+          <Link href="#" className="hover:text-accent transition-colors duration-300">
             <TwitterIcon className="h-5 w-5" />
           </Link>
-          <Link href="#" className="hover:text-accent transition-colors">
+          <Link href="#" className="hover:text-accent transition-colors duration-300">
             <FacebookIcon className="h-5 w-5" />
           </Link>
-          <Link href="#" className="hover:text-accent transition-colors">
+          <Link href="#" className="hover:text-accent transition-colors duration-300">
             <InstagramIcon className="h-5 w-5" />
           </Link>
         </div>
