@@ -11,7 +11,7 @@ import { FoodAndBeverages } from "@/components/food-and-beverages";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex min-h-screen w-full flex-col overflow-hidden">
       <Header />
       <main className="flex-1">
         <Hero />

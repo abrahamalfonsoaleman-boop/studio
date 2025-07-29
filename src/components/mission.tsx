@@ -33,7 +33,7 @@ export function Mission() {
       </div>
 
       {/* Desktop View */}
-      <div className="hidden md:grid md:grid-cols-3 gap-8 px-4">
+      <div className="hidden md:grid md:grid-cols-3 gap-8">
         {missionData.map((item, index) => (
           <Card key={index} className="text-center border-2 border-primary/50 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card">
             <CardHeader className="flex items-center justify-center">
@@ -77,8 +77,8 @@ export function Mission() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-2rem] top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute right-[-2rem] top-1/2 -translate-y-1/2" />
+          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
         </Carousel>
       </div>
     </section>
