@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -19,6 +20,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'play-lh.googleusercontent.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
