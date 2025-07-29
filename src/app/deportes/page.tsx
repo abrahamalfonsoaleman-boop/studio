@@ -11,7 +11,6 @@ import {
   DialogTrigger,
   DialogDescription,
 } from '@/components/ui/dialog'
-import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Mail, Phone } from 'lucide-react'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
@@ -45,7 +44,6 @@ export default function DeportesPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <Header />
       <main className="flex-1">
         <div className="py-8 md:py-12 lg:py-16">
           <div className="space-y-4 text-center mb-8 px-4">

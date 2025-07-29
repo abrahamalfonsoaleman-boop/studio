@@ -1,5 +1,4 @@
 
-import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -91,7 +90,6 @@ const staff = [
 export default function DirectorioPage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <Header />
       <main className="flex-1">
         <div className="py-8 md:py-12 lg:py-16">
           <div className="space-y-4 text-center mb-12 px-4">
