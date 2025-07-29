@@ -1,8 +1,10 @@
+
 import type {Metadata} from 'next';
 import './globals.css';
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "next-themes"
+import { Header } from '@/components/header';
 
 
 export const metadata: Metadata = {
@@ -31,8 +33,11 @@ export default function RootLayout({
             defaultTheme="light"
             disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <div className="relative flex min-h-screen flex-col">
+            <Header />
+            {children}
+            <Toaster />
+          </div>
         </ThemeProvider>
       </body>
     </html>
