@@ -22,7 +22,7 @@ export function Hero() {
         style={{ 
           // Para usar tu propia imagen, colócala en la carpeta `public`
           // y cambia la URL aquí. Por ejemplo: "url('/hero-background.jpg')"
-          backgroundImage: "url('/hero.png')",
+          backgroundImage: "url('/hero.jpeg')",
           transform: `translateY(${offsetY * 0.5}px)`
         }}
         data-ai-hint="sports club"
