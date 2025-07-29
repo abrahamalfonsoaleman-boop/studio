@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 
 const comunicados = [
   {
@@ -35,14 +36,14 @@ const comunicados = [
   },
 ]
 
-export function Comunicados() {
+export function Comunicados({className}: {className?: string}) {
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; hint: string } | null>(null)
 
   return (
-    <section id="comunicados" className="w-full py-8 md:py-12 lg:py-16">
-      <div className="space-y-4 text-center">
+    <section id="comunicados" className={cn("w-full py-8 md:py-12 lg:py-16", className)}>
+      <div className="space-y-4 text-center px-4">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Comunicados</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg px-4">
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
           Mantente al día con los últimos avisos y comunicados del Club Del Lago.
         </p>
       </div>

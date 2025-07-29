@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, Flag, Gem } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { cn } from "@/lib/utils"
 
 const missionData = [
   {
@@ -22,12 +23,12 @@ const missionData = [
   }
 ];
 
-export function Mission() {
+export function Mission({className}: {className?: string}) {
   return (
-    <section id="mission" className="w-full py-8 md:py-12 lg:py-16">
-      <div className="text-center mb-12">
+    <section id="mission" className={cn("w-full py-8 md:py-12 lg:py-16", className)}>
+      <div className="text-center mb-12 px-4">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Nuestra Esencia</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4 px-4">
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
           Comprometidos con el bienestar y la comunidad.
         </p>
       </div>

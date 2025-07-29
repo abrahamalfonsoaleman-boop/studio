@@ -2,8 +2,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar, Clock, MapPin } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { cn } from "@/lib/utils"
 
-export function Events() {
+export function Events({className}: {className?: string}) {
   const events = [
     {
       title: "Final del Campeonato",
@@ -32,10 +33,10 @@ export function Events() {
   ]
 
   return (
-    <section id="eventos" className="w-full py-8 md:py-12 lg:py-16">
-      <div className="space-y-4 text-center">
+    <section id="eventos" className={cn("w-full py-8 md:py-12 lg:py-16", className)}>
+      <div className="space-y-4 text-center px-4">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Próximos Eventos</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg px-4">
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
           No te pierdas la acción. ¡Acompáñanos en nuestro próximo gran evento!
         </p>
       </div>

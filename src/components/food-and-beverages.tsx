@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { cn } from "@/lib/utils";
 
 
 const restaurants = [
@@ -39,10 +40,10 @@ const restaurants = [
   }
 ];
 
-export function FoodAndBeverages() {
+export function FoodAndBeverages({className}: {className?: string}) {
   return (
-    <section id="alimentos" className="w-full">
-      <div className="text-center mb-12">
+    <section id="alimentos" className={cn("w-full", className)}>
+      <div className="text-center mb-12 px-4">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Alimentos y Bebidas</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
           Una experiencia culinaria para cada momento.

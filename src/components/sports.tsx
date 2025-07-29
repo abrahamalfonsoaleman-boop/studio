@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Dumbbell, PersonStanding, Waves, Medal, Bike, Footprints } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
+import { cn } from "@/lib/utils"
 
 const disciplines = [
   { name: "Tenis", icon: <Medal className="h-10 w-10 text-primary" /> },
@@ -17,16 +18,16 @@ const disciplines = [
   { name: "Ciclismo", icon: <Bike className="h-10 w-10 text-primary" /> },
 ];
 
-export function Sports() {
+export function Sports({className}: {className?: string}) {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   )
 
   return (
-    <section id="deportes" className="w-full py-8 md:py-12 lg:py-16">
-      <div className="space-y-4 text-center">
+    <section id="deportes" className={cn("w-full py-8 md:py-12 lg:py-16", className)}>
+      <div className="space-y-4 text-center px-4">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Disciplinas Deportivas</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4 px-4">
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg mt-4">
           Encuentra tu pasión y mantente activo con nuestras diversas opciones.
         </p>
       </div>
@@ -67,8 +68,8 @@ export function Sports() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-          <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselPrevious className="absolute left-[-2.5rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+          <CarouselNext className="absolute right-[-2.5rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
         </Carousel>
       </div>
 

@@ -1,7 +1,8 @@
 
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 
-export function Gallery() {
+export function Gallery({className}: {className?: string}) {
   const images = [
     { src: "/images/club1.jpg", alt: "Jugadores celebrando un gol", hint: "team celebrating" },
     { src: "/images/club2.jpg", alt: "Un jugador disparando a puerta", hint: "player shooting" },
@@ -12,8 +13,8 @@ export function Gallery() {
   ]
 
   return (
-    <section id="gallery" className="w-full">
-      <div className="space-y-4 text-center">
+    <section id="gallery" className={cn("w-full", className)}>
+      <div className="space-y-4 text-center px-4">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">Galería</h2>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
           Un vistazo a la vida y energía del Club Del Lago.
