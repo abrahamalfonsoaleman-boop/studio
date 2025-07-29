@@ -24,7 +24,7 @@ export default function DelagoAppPage() {
             <main className="flex-1">
                 <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
                     <div className="container px-4 md:px-6">
-                        <div className="grid gap-6 lg:grid-cols-[400px_1fr] lg:gap-12 xl:grid-cols-[400px_1fr]">
+                        <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_550px]">
                             <Image
                                 src="https://play-lh.googleusercontent.com/zkLw3flPo9YpNoXjcMBmwqNWitpPkiSK3SKiHDVJovZZLoybM3_Xwx8Qi6c5APPXogc=w240-h480-rw"
                                 alt="DelagoApp Logo"
@@ -43,14 +43,18 @@ export default function DelagoAppPage() {
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                                    <Button size="lg" className="bg-black text-white hover:bg-black/80">
-                                        <AppleIcon className="mr-2 h-5 w-5" />
-                                        App Store
-                                    </Button>
-                                    <Button size="lg" className="bg-green-600 text-white hover:bg-green-700">
-                                        <GooglePlayIcon className="mr-2 h-5 w-5" />
-                                        Google Play
-                                    </Button>
+                                    <Link href="https://apps.apple.com/mx/app/delagoapp/id6443742007?l=en-GB" target="_blank" rel="noopener noreferrer">
+                                        <Button size="lg" className="bg-black text-white hover:bg-black/80">
+                                            <AppleIcon className="mr-2 h-5 w-5" />
+                                            App Store
+                                        </Button>
+                                    </Link>
+                                    <Link href="https://play.google.com/store/apps/details?id=clubs.zerotwo.com.delagoapp&pcampaignid=web_share" target="_blank" rel="noopener noreferrer">
+                                        <Button size="lg" className="bg-green-600 text-white hover:bg-green-700">
+                                            <GooglePlayIcon className="mr-2 h-5 w-5" />
+                                            Google Play
+                                        </Button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
