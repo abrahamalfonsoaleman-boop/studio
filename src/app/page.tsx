@@ -7,6 +7,7 @@ import { Comunicados } from "@/components/comunicados";
 import { Gallery } from "@/components/gallery";
 import { Footer } from "@/components/footer";
 import { FoodAndBeverages } from "@/components/food-and-beverages";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 export default function Home() {
   return (
@@ -14,12 +15,24 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <div className="container grid gap-12 md:gap-16 lg:gap-24 py-8 md:py-12 lg:py-16">
-          <Mission />
-          <Sports />
-          <FoodAndBeverages />
-          <Events />
-          <Comunicados />
-          <Gallery />
+          <ScrollAnimator>
+            <Mission />
+          </ScrollAnimator>
+          <ScrollAnimator>
+            <Sports />
+          </ScrollAnimator>
+          <ScrollAnimator>
+            <FoodAndBeverages />
+          </ScrollAnimator>
+          <ScrollAnimator>
+            <Events />
+          </ScrollAnimator>
+          <ScrollAnimator>
+            <Comunicados />
+          </ScrollAnimator>
+          <ScrollAnimator>
+            <Gallery />
+          </ScrollAnimator>
         </div>
       </main>
       <Footer />

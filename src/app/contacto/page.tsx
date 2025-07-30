@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast"
 import { sendContactEmail } from "@/ai/flows/send-contact-email"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Footer } from "@/components/footer"
+import { ScrollAnimator } from "@/components/scroll-animator"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -76,6 +77,7 @@ export default function ContactoPage() {
     <div className="flex min-h-screen w-full flex-col">
         <main className="flex-1">
             <div className="w-full max-w-6xl mx-auto py-12 md:py-20 px-4">
+              <ScrollAnimator>
                 <div className="text-center mb-12">
                     <div className="flex justify-center items-center gap-4">
                         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -84,106 +86,111 @@ export default function ContactoPage() {
                         <MailboxIcon className="text-primary h-12 w-12" />
                     </div>
                 </div>
+              </ScrollAnimator>
 
-                <div className="grid md:grid-cols-2 gap-12">
-                <div className="space-y-6">
-                    <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Nombre</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Escribe tu nombre aquí" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Escribe tu correo aquí" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Mensaje</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                placeholder="Escribe aquí tu mensaje"
-                                className="min-h-[150px]"
-                                {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
-                        Enviar
-                        </Button>
-                    </form>
-                    </Form>
-                </div>
+              <div className="grid md:grid-cols-2 gap-12">
+                <ScrollAnimator>
+                  <div className="space-y-6">
+                      <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                          <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormLabel>Nombre</FormLabel>
+                              <FormControl>
+                                  <Input placeholder="Escribe tu nombre aquí" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                          <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                  <Input placeholder="Escribe tu correo aquí" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                          <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormLabel>Mensaje</FormLabel>
+                              <FormControl>
+                                  <Textarea
+                                  placeholder="Escribe aquí tu mensaje"
+                                  className="min-h-[150px]"
+                                  {...field}
+                                  />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                          <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
+                          Enviar
+                          </Button>
+                      </form>
+                      </Form>
+                  </div>
+                </ScrollAnimator>
 
-                <div className="space-y-6">
-                    <Card>
-                    <CardHeader className="flex-row items-center gap-4">
-                        <Phone className="h-6 w-6 text-primary" />
-                        <CardTitle>Teléfono</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-muted-foreground">81 8357 5500</p>
-                    </CardContent>
-                    </Card>
-                    <Card>
-                    <CardHeader className="flex-row items-center gap-4">
-                        <Mail className="h-6 w-6 text-primary" />
-                        <CardTitle>Correo</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-muted-foreground">atencionaasociados@clubdelago.com.mx</p>
-                    </CardContent>
-                    </Card>
-                    <div className="grid sm:grid-cols-2 gap-6">
-                    <Card>
-                        <CardHeader className="flex-row items-center gap-4">
-                        <MapPin className="h-6 w-6 text-primary" />
-                        <CardTitle>Dirección</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                        <p className="text-muted-foreground text-sm">
-                            Priv. del Lago #200, Col, Del Paseo Residencial, 64920, Monterrey, N.L.s
-                        </p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="flex-row items-center gap-4">
-                        <Clock className="h-6 w-6 text-primary" />
-                        <CardTitle>Horarios</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                        <p className="text-muted-foreground text-sm">
-                            Lunes a Viernes: 9:00 a 18:00
-                        </p>
-                        </CardContent>
-                    </Card>
-                    </div>
-                </div>
-                </div>
+                <ScrollAnimator>
+                  <div className="space-y-6">
+                      <Card>
+                      <CardHeader className="flex-row items-center gap-4">
+                          <Phone className="h-6 w-6 text-primary" />
+                          <CardTitle>Teléfono</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                          <p className="text-muted-foreground">81 8357 5500</p>
+                      </CardContent>
+                      </Card>
+                      <Card>
+                      <CardHeader className="flex-row items-center gap-4">
+                          <Mail className="h-6 w-6 text-primary" />
+                          <CardTitle>Correo</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                          <p className="text-muted-foreground">atencionaasociados@clubdelago.com.mx</p>
+                      </CardContent>
+                      </Card>
+                      <div className="grid sm:grid-cols-2 gap-6">
+                      <Card>
+                          <CardHeader className="flex-row items-center gap-4">
+                          <MapPin className="h-6 w-6 text-primary" />
+                          <CardTitle>Dirección</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                          <p className="text-muted-foreground text-sm">
+                              Priv. del Lago #200, Col, Del Paseo Residencial, 64920, Monterrey, N.L.s
+                          </p>
+                          </CardContent>
+                      </Card>
+                      <Card>
+                          <CardHeader className="flex-row items-center gap-4">
+                          <Clock className="h-6 w-6 text-primary" />
+                          <CardTitle>Horarios</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                          <p className="text-muted-foreground text-sm">
+                              Lunes a Viernes: 9:00 a 18:00
+                          </p>
+                          </CardContent>
+                      </Card>
+                      </div>
+                  </div>
+                </ScrollAnimator>
+              </div>
             </div>
         </main>
         <Footer />

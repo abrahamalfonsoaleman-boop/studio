@@ -15,6 +15,7 @@ import { Footer } from '@/components/footer'
 import { Mail, Phone } from 'lucide-react'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Card, CardContent } from '@/components/ui/card'
+import { ScrollAnimator } from '@/components/scroll-animator'
 
 const flyers = [
   {
@@ -46,75 +47,79 @@ export default function DeportesPage() {
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex-1">
         <div className="py-8 md:py-12 lg:py-16">
-          <div className="space-y-4 text-center mb-8 px-4">
-            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline animate-fade-in">
-              Actividades Deportivas
-            </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg animate-fade-in">
-              Explora nuestros próximos eventos y clases. ¡Haz clic en un flyer para verlo en grande!
-            </p>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 animate-fade-in">
-                  <Phone className="mr-2 h-5 w-5" />
-                  Contacto Deportivo
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Contacto Deportivo</DialogTitle>
-                  <DialogDescription>
-                    Contacta a nuestra asistente para inscripciones y reservaciones.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                   <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
-                     <div className="bg-accent text-accent-foreground p-3 rounded-full">
-                       <Phone className="h-6 w-6" />
-                     </div>
-                    <div>
-                      <p className="font-semibold text-sm">Cristina Manzanares - Asistente de Deportes</p>
-                      <a href="mailto:cmanzanares@clubdelago.com.mx" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">cmanzanares@clubdelago.com.mx</a>
-                      <p className="text-sm text-muted-foreground">Ext. 140</p>
+          <ScrollAnimator>
+            <div className="space-y-4 text-center mb-8 px-4">
+              <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
+                Actividades Deportivas
+              </h1>
+              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+                Explora nuestros próximos eventos y clases. ¡Haz clic en un flyer para verlo en grande!
+              </p>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                    <Phone className="mr-2 h-5 w-5" />
+                    Contacto Deportivo
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Contacto Deportivo</DialogTitle>
+                    <DialogDescription>
+                      Contacta a nuestra asistente para inscripciones y reservaciones.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/50">
+                      <div className="bg-accent text-accent-foreground p-3 rounded-full">
+                        <Phone className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm">Cristina Manzanares - Asistente de Deportes</p>
+                        <a href="mailto:cmanzanares@clubdelago.com.mx" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">cmanzanares@clubdelago.com.mx</a>
+                        <p className="text-sm text-muted-foreground">Ext. 140</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </ScrollAnimator>
 
           <Dialog onOpenChange={(isOpen) => !isOpen && setSelectedFlyer(null)}>
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full animate-fade-in"
-            >
-              <CarouselContent>
-                {flyers.map((flyer, index) => (
-                  <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
-                    <DialogTrigger asChild>
-                      <div 
-                        className="overflow-hidden cursor-pointer group transform transition-all duration-300 hover:scale-105 hover:shadow-xl p-2"
-                        onClick={() => setSelectedFlyer(flyer)}
-                      >
-                           <Image
-                            src={flyer.src}
-                            alt={flyer.alt}
-                            data-ai-hint={flyer.hint}
-                            width={600}
-                            height={800}
-                            className="h-full w-full object-cover aspect-[3/4] rounded-lg"
-                          />
-                      </div>
-                    </DialogTrigger>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-              <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-            </Carousel>
+            <ScrollAnimator>
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {flyers.map((flyer, index) => (
+                    <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
+                      <DialogTrigger asChild>
+                        <div 
+                          className="overflow-hidden cursor-pointer group transform transition-all duration-300 hover:scale-105 hover:shadow-xl p-2"
+                          onClick={() => setSelectedFlyer(flyer)}
+                        >
+                            <Image
+                              src={flyer.src}
+                              alt={flyer.alt}
+                              data-ai-hint={flyer.hint}
+                              width={600}
+                              height={800}
+                              className="h-full w-full object-cover aspect-[3/4] rounded-lg"
+                            />
+                        </div>
+                      </DialogTrigger>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+                <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+              </Carousel>
+            </ScrollAnimator>
              {selectedFlyer && (
               <DialogContent className="max-w-3xl">
                 <DialogHeader>

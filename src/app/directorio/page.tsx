@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Phone } from "lucide-react";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const staff = [
   {
@@ -92,44 +93,48 @@ export default function DirectorioPage() {
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex-1">
         <div className="py-8 md:py-12 lg:py-16">
-          <div className="space-y-4 text-center mb-12 px-4">
-            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline animate-fade-in">
-              Directorio Administrativo
-            </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg animate-fade-in">
-              Nuestro equipo está para servirte.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 animate-fade-in">
-            {staff.map((person) => (
-              <Card key={person.name} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                <CardHeader className="flex flex-row items-center space-x-4 p-4">
-                  <Avatar className="h-20 w-20">
-                    <AvatarImage src={person.avatar} alt={person.name} data-ai-hint={person.hint} />
-                    <AvatarFallback>{person.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <CardTitle className="text-lg font-headline">{person.name}</CardTitle>
-                    <p className="text-sm text-primary">{person.title}</p>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4 space-y-2 border-t">
-                  <div className="flex items-center text-xs text-muted-foreground">
-                    <Mail className="h-4 w-4 mr-2" />
-                    <a href={`mailto:${person.email}`} className="hover:text-primary transition-colors duration-300">
-                      {person.email}
-                    </a>
-                  </div>
-                  {person.extension && (
-                    <div className="flex items-center text-xs text-muted-foreground">
-                      <Phone className="h-4 w-4 mr-2" />
-                      <span>{person.extension}</span>
+          <ScrollAnimator>
+            <div className="space-y-4 text-center mb-12 px-4">
+              <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
+                Directorio Administrativo
+              </h1>
+              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+                Nuestro equipo está para servirte.
+              </p>
+            </div>
+          </ScrollAnimator>
+          <ScrollAnimator>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4">
+              {staff.map((person) => (
+                <Card key={person.name} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <CardHeader className="flex flex-row items-center space-x-4 p-4">
+                    <Avatar className="h-20 w-20">
+                      <AvatarImage src={person.avatar} alt={person.name} data-ai-hint={person.hint} />
+                      <AvatarFallback>{person.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <CardTitle className="text-lg font-headline">{person.name}</CardTitle>
+                      <p className="text-sm text-primary">{person.title}</p>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </CardHeader>
+                  <CardContent className="p-4 space-y-2 border-t">
+                    <div className="flex items-center text-xs text-muted-foreground">
+                      <Mail className="h-4 w-4 mr-2" />
+                      <a href={`mailto:${person.email}`} className="hover:text-primary transition-colors duration-300">
+                        {person.email}
+                      </a>
+                    </div>
+                    {person.extension && (
+                      <div className="flex items-center text-xs text-muted-foreground">
+                        <Phone className="h-4 w-4 mr-2" />
+                        <span>{person.extension}</span>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </ScrollAnimator>
         </div>
       </main>
       <Footer />
