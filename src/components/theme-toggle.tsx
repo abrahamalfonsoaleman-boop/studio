@@ -19,10 +19,10 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="relative overflow-hidden group"
+      className="relative overflow-hidden"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu dark:-translate-y-[150%] dark:opacity-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu translate-y-[150%] opacity-0 dark:translate-y-0 dark:opacity-100" />
+      <Sun className="h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu dark:translate-y-[150%] dark:opacity-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu -translate-y-[150%] opacity-0 dark:translate-y-0 dark:opacity-100" />
       <span className="sr-only">Toggle theme</span>
     </Button>
   )
