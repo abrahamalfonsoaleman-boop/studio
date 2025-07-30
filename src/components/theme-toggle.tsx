@@ -21,8 +21,8 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       className="relative overflow-hidden group"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu scale-100 rotate-0 group-hover:scale-110 dark:rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu scale-0 rotate-90 group-hover:scale-110 dark:rotate-0 dark:scale-100" />
+      <Sun className="h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu dark:-translate-y-[150%] dark:opacity-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu translate-y-[150%] opacity-0 dark:translate-y-0 dark:opacity-100" />
       <span className="sr-only">Toggle theme</span>
     </Button>
   )
