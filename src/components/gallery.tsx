@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -6,6 +5,8 @@ import Image from "next/image"
 import {
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 
@@ -53,6 +54,9 @@ export function Gallery({className}: {className?: string}) {
         </div>
         {selectedImage && (
             <DialogContent className="max-w-3xl p-0 border-0">
+               <DialogHeader>
+                  <DialogTitle className="sr-only">{selectedImage.alt}</DialogTitle>
+                </DialogHeader>
                 <div className="relative aspect-video">
                     <Image
                         src={selectedImage.src}
