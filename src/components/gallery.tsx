@@ -50,9 +50,6 @@ export function Gallery({className}: {className?: string}) {
                 height={index === 1 || index === 4 ? 600 : 400}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <p className="text-white text-center p-2 text-xs">{image.alt}</p>
-              </div>
             </div>
           ))}
         </div>
