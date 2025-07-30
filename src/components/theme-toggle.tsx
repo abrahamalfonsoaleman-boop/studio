@@ -29,31 +29,27 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="relative overflow-hidden"
+      className="relative h-9 w-9 overflow-hidden"
     >
+      <span className="sr-only">Toggle theme</span>
       <div
-        className="absolute transition-all duration-500 transform-gpu"
-        style={{
-          transform:
-            theme === "dark"
-              ? "translateY(-150%) rotate(-90deg)"
-              : "translateY(0) rotate(0deg)",
-        }}
+        className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
+          theme === 'dark'
+            ? '-translate-y-full opacity-0'
+            : 'translate-y-0 opacity-100'
+        }`}
       >
         <Sun className="h-[1.2rem] w-[1.2rem] text-primary" />
       </div>
       <div
-        className="absolute transition-all duration-500 transform-gpu"
-        style={{
-          transform:
-            theme === "dark"
-              ? "translateY(0) rotate(0deg)"
-              : "translateY(150%) rotate(90deg)",
-        }}
+        className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
+          theme === 'dark'
+            ? 'translate-y-0 opacity-100'
+            : 'translate-y-full opacity-0'
+        }`}
       >
         <Moon className="h-[1.2rem] w-[1.2rem] text-primary" />
       </div>
-      <span className="sr-only">Toggle theme</span>
     </Button>
   )
 }
