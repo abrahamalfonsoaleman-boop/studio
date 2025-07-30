@@ -15,9 +15,14 @@ export function ThemeToggle() {
   }
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme}>
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 ease-in-out hover:text-primary dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 ease-in-out hover:text-primary dark:rotate-0 dark:scale-100" />
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      className="relative overflow-hidden group"
+    >
+      <Sun className="h-[1.2rem] w-[1.2rem] transform text-primary transition-all duration-500 ease-in-out group-hover:rotate-[15deg] dark:-translate-y-8 dark:scale-50 dark:opacity-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] transform text-primary transition-all duration-500 ease-in-out group-hover:-rotate-[15deg] translate-y-8 scale-50 opacity-0 dark:translate-y-0 dark:scale-100 dark:opacity-100" />
       <span className="sr-only">Toggle theme</span>
     </Button>
   )
