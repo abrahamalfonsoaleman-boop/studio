@@ -1,5 +1,14 @@
 
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 
 export function Gallery({className}: {className?: string}) {
@@ -11,6 +20,9 @@ export function Gallery({className}: {className?: string}) {
     { src: "/images/club5.jpg", alt: "Portero haciendo una parada", hint: "goalkeeper save" },
     { src: "/images/club6.jpg", alt: "Exhibición de trofeos del club", hint: "trophy case" },
   ]
+  
+  const [selectedImage, setSelectedImage] = useState<(typeof images)[0] | null>(null);
+
 
   return (
     <section id="gallery" className={cn("w-full", className)}>
@@ -20,28 +32,47 @@ export function Gallery({className}: {className?: string}) {
           Un vistazo a la vida y energía del Club Del Lago.
         </p>
       </div>
-      <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
-        {images.map((image, index) => (
-          <div
-            key={index}
-            className={`relative overflow-hidden rounded-lg group transition-all duration-300 ease-in-out hover:shadow-2xl ${
-              index === 1 || index === 4 ? "row-span-2" : ""
-            }`}
-          >
-             <Image
-              src={image.src}
-              alt={image.alt}
-              data-ai-hint={image.hint}
-              width={index === 1 || index === 4 ? 400 : 600}
-              height={index === 1 || index === 4 ? 600 : 400}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <p className="text-white text-center p-2 text-xs">{image.alt}</p>
+      <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
+        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              onClick={() => setSelectedImage(image)}
+              className={`relative overflow-hidden rounded-lg group transition-all duration-300 ease-in-out hover:shadow-2xl cursor-pointer ${
+                index === 1 || index === 4 ? "row-span-2" : ""
+              }`}
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                data-ai-hint={image.hint}
+                width={index === 1 || index === 4 ? 400 : 600}
+                height={index === 1 || index === 4 ? 600 : 400}
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <p className="text-white text-center p-2 text-xs">{image.alt}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+        {selectedImage && (
+            <DialogContent className="max-w-3xl">
+                <DialogHeader>
+                    <DialogTitle>{selectedImage.alt}</DialogTitle>
+                </DialogHeader>
+                <div className="relative aspect-video mt-4">
+                    <Image
+                        src={selectedImage.src}
+                        alt={selectedImage.alt}
+                        data-ai-hint={selectedImage.hint}
+                        fill
+                        className="object-contain rounded-md"
+                    />
+                </div>
+            </DialogContent>
+        )}
+      </Dialog>
     </section>
   )
 }
