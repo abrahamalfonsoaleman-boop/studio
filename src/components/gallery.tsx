@@ -13,12 +13,12 @@ import { cn } from "@/lib/utils"
 
 export function Gallery({className}: {className?: string}) {
   const images = [
-    { src: "/images/club1.jpg", alt: "Jugadores celebrando un gol", hint: "team celebrating" },
-    { src: "/images/club2.jpg", alt: "Un jugador disparando a puerta", hint: "player shooting" },
-    { src: "/images/club3.jpg", alt: "Aficionados en el estadio", hint: "stadium crowd" },
-    { src: "/images/club4.jpg", alt: "El equipo reunido", hint: "team huddle" },
-    { src: "/images/club5.jpg", alt: "Portero haciendo una parada", hint: "goalkeeper save" },
-    { src: "/images/club6.jpg", alt: "Exhibición de trofeos del club", hint: "trophy case" },
+    { src: "/images/club1.jpg", alt: "Impresionante vista del campo de golf", hint: "golf course" },
+    { src: "/images/club2.jpg", alt: "Cancha de tenis lista para un partido", hint: "tennis court" },
+    { src: "/images/club3.jpg", alt: "Ambiente familiar en el restaurante", hint: "family dining" },
+    { src: "/images/club4.jpg", alt: "Refrescante alberca para un día soleado", hint: "swimming pool" },
+    { src: "/images/club5.jpg", alt: "Socios disfrutando de una tarde en el club", hint: "club members" },
+    { src: "/images/club6.jpg", alt: "Rincón acogedor de nuestras instalaciones", hint: "cozy corner" },
   ]
   
   const [selectedImage, setSelectedImage] = useState<(typeof images)[0] | null>(null);
