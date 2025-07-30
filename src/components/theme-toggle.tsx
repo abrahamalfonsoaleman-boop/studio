@@ -21,8 +21,28 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       className="relative overflow-hidden"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu dark:translate-y-[150%] dark:opacity-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 transform-gpu -translate-y-[150%] opacity-0 dark:translate-y-0 dark:opacity-100" />
+      <div
+        className="absolute transition-all duration-500 transform-gpu"
+        style={{
+          transform:
+            theme === "dark"
+              ? "translateY(-150%) rotate(-90deg)"
+              : "translateY(0) rotate(0deg)",
+        }}
+      >
+        <Sun className="h-[1.2rem] w-[1.2rem] text-primary" />
+      </div>
+      <div
+        className="absolute transition-all duration-500 transform-gpu"
+        style={{
+          transform:
+            theme === "dark"
+              ? "translateY(0) rotate(0deg)"
+              : "translateY(150%) rotate(90deg)",
+        }}
+      >
+        <Moon className="h-[1.2rem] w-[1.2rem] text-primary" />
+      </div>
       <span className="sr-only">Toggle theme</span>
     </Button>
   )
