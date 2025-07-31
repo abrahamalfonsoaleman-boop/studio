@@ -14,7 +14,7 @@ export function Gallery({className}: {className?: string}) {
   const images = [
     { src: "/images/club1.jpg", alt: "Impresionante vista del campo de golf", hint: "golf course" },
     { src: "/images/club2.jpg", alt: "Cancha de tenis lista para un partido", hint: "tennis court" },
-    { src: "/images/club3.jpg", alt: "Ambiente familiar en el restaurante", hint: "family dining" },
+    { src: "/images/club3.jpeg", alt: "Ambiente familiar en el restaurante", hint: "family dining" },
     { src: "/images/club4.jpg", alt: "Refrescante alberca para un día soleado", hint: "swimming pool" },
     { src: "/images/club5.jpg", alt: "Socios disfrutando de una tarde en el club", hint: "club members" },
     { src: "/images/club6.jpg", alt: "Rincón acogedor de nuestras instalaciones", hint: "cozy corner" },
