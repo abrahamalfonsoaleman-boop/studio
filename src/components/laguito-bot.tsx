@@ -10,7 +10,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -45,7 +44,7 @@ export function LaguitoBot() {
 
     try {
       const botResponse = await laguitoChat({
-        history: [...messages, userMessage],
+        history: messages, // Pass only previous messages
         question: input,
       });
       setMessages((prev) => [...prev, botResponse]);
@@ -84,11 +83,6 @@ export function LaguitoBot() {
             <SheetDescription className="sr-only">
               Chat con el asistente virtual del Club Del Lago.
             </SheetDescription>
-             <SheetClose asChild>
-                <Button variant="ghost" size="icon" className="absolute top-3 right-3">
-                    <X className="h-5 w-5" />
-                </Button>
-            </SheetClose>
           </SheetHeader>
           <ScrollArea className="flex-1" ref={scrollAreaRef}>
             <div className="p-4 space-y-4">
