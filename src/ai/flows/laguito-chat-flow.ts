@@ -70,6 +70,7 @@ DelagoApp:
 const laguitoPrompt = ai.definePrompt({
   name: 'laguitoPrompt',
   input: { schema: LaguitoChatInputSchema },
+  output: { schema: z.string() },
   prompt: `Eres "Laguito", un asistente virtual amigable y servicial para el "Club Del Lago". Tu objetivo es responder las preguntas de los socios de manera concisa y útil, basándote únicamente en la información proporcionada a continuación.
 
 {{#if history}}
@@ -102,14 +103,25 @@ const laguitoChatFlow = ai.defineFlow(
     outputSchema: z.string(),
   },
   async (input) => {
+    // Combine the current history with the new question to form the chat history for the model
+    const history: ChatMessage[] = [
+      ...input.history,
+      { role: 'user', content: input.question },
+    ];
+
     const { text } = await ai.generate({
-      prompt: laguitoPrompt.prompt,
-      history: input.history,
-      input: {
-        question: input.question,
-      },
-      model: 'googleai/gemini-2.0-flash'
+      model: 'googleai/gemini-2.0-flash',
+      history: input.history, // Pass previous messages as context
+      prompt: `
+        ${laguitoPrompt.prompt}
+        
+        Pregunta del usuario:
+        ${input.question}
+        
+        Respuesta de Laguito:
+      `,
     });
+
     return text;
   }
 );
