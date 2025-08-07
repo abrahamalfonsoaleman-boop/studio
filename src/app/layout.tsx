@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "next-themes"
 import { Header } from '@/components/header';
+import { LaguitoBot } from '@/components/laguito-bot';
 
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Header />
             {children}
             <Toaster />
+            <LaguitoBot />
           </div>
         </ThemeProvider>
       </body>
