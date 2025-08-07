@@ -67,18 +67,7 @@ DelagoApp:
 - Permite conectar, gestionar reservaciones y estar al día con el club.
 `;
 
-const laguitoPrompt = ai.definePrompt({
-  name: 'laguitoPrompt',
-  input: { schema: LaguitoChatInputSchema },
-  output: { schema: z.string() },
-  prompt: `Eres "Laguito", un asistente virtual amigable y servicial para el "Club Del Lago". Tu objetivo es responder las preguntas de los socios de manera concisa y útil, basándote únicamente en la información proporcionada a continuación.
-
-{{#if history}}
-Historial de la conversación:
-{{#each history}}
-- {{role}}: {{{content}}}
-{{/each}}
-{{/if}}
+const systemPrompt = `Eres "Laguito", un asistente virtual amigable y servicial para el "Club Del Lago". Tu objetivo es responder las preguntas de los socios de manera concisa y útil, basándote únicamente en la información proporcionada a continuación.
 
 Información del Club:
 ${clubInfo}
@@ -89,12 +78,7 @@ Reglas de Comportamiento:
 3.  Basa tus respuestas ESTRICTAMENTE en la "Información del Club" proporcionada. No inventes información, horarios, precios, o detalles que no estén aquí.
 4.  Si no sabes la respuesta a una pregunta o la información no está disponible, dirige amablemente al usuario al contacto más relevante del directorio. Por ejemplo: "Para información sobre precios de membresía, te recomiendo contactar a Atención a Asociados con Sandra Arévalo."
 5.  Mantén tus respuestas breves y al grano.
-
-Pregunta del usuario:
-{{{question}}}
-
-Respuesta de Laguito:`,
-});
+`;
 
 const laguitoChatFlow = ai.defineFlow(
   {
@@ -111,15 +95,9 @@ const laguitoChatFlow = ai.defineFlow(
 
     const { text } = await ai.generate({
       model: 'googleai/gemini-2.0-flash',
+      system: systemPrompt,
       history: input.history, // Pass previous messages as context
-      prompt: `
-        ${laguitoPrompt.prompt}
-        
-        Pregunta del usuario:
-        ${input.question}
-        
-        Respuesta de Laguito:
-      `,
+      prompt: input.question,
     });
 
     return text;
