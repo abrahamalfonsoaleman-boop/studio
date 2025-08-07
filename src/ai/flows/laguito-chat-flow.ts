@@ -108,7 +108,7 @@ const laguitoChatFlow = ai.defineFlow(
       input: {
         question: input.question,
       },
-      model: ai.model('googleai/gemini-2.0-flash')
+      model: 'googleai/gemini-2.0-flash'
     });
     return text;
   }
