@@ -15,24 +15,24 @@ import { cn } from "@/lib/utils"
 
 const comunicados = [
   {
-    src: "https://placehold.co/600x800.png",
+    src: "/images/Comunicados/InfoTorneo.jpeg",
     alt: "Comunicado Torneo de Golf",
-    hint: "golf tournament announcement",
+    hint: "golf tournament",
   },
   {
-    src: "https://placehold.co/600x800.png",
-    alt: "Comunicado Día del Padre",
-    hint: "father's day announcement",
+    src: "/images/Comunicados/Karaoke.jpeg",
+    alt: "Comunicado Noche de Karaoke",
+    hint: "karaoke night",
   },
   {
-    src: "https://placehold.co/600x800.png",
-    alt: "Comunicado Horario de Verano",
-    hint: "summer schedule announcement",
+    src: "/images/Comunicados/MaratonDelPavo.jpeg",
+    alt: "Comunicado Maratón del Pavo",
+    hint: "marathon announcement",
   },
   {
-    src: "https://placehold.co/600x800.png",
-    alt: "Comunicado Nuevo Menú",
-    hint: "new menu announcement",
+    src: "/images/Comunicados/TorneoCancer.jpeg",
+    alt: "Comunicado Torneo con Causa",
+    hint: "charity tournament",
   },
 ]
 
