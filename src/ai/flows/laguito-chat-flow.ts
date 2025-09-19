@@ -61,6 +61,9 @@ Alimentos y Bebidas:
 - Snack Brasas
 - Para ver los menús, los socios pueden visitar la sección "Alimentos y Bebidas" de la página web.
 
+Eventos:
+- Para información sobre la renta de áreas para eventos, contactar a la Coordinadora de Eventos, Valeria Torres, al correo eventos@clubdelago.com.mx o a la extensión 120.
+
 DelagoApp:
 - La aplicación oficial del club se llama DelagoApp.
 - Está disponible en la App Store para iOS y en Google Play para Android.

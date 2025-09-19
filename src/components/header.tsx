@@ -19,7 +19,7 @@ export function Header() {
   const navLinks = [
     { href: "/", label: "Inicio" },
     { href: "/deportes", label: "Deportes" },
-    { href: "#eventos", label: "Eventos" },
+    { href: "/eventos", label: "Eventos" },
     { href: "#alimentos", label: "Alimentos y Bebidas" },
     { href: "/directorio", label: "Directorio" },
     { href: "/delagoapp", label: "DelagoApp" },
