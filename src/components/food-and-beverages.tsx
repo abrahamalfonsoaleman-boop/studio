@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -13,7 +12,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils";
 
@@ -73,12 +71,12 @@ const restaurants = [
         {
             label: "Ver Menú",
             images: [
-                "/images/MenuSnackBrasas/MENÚ SNACK_page-0001.jpg",
-                "/images/MenuSnackBrasas/MENÚ SNACK_page-0002.jpg",
-                "/images/MenuSnackBrasas/MENÚ SNACK_page-0003.jpg",
-                "/images/MenuSnackBrasas/MENÚ SNACK_page-0004.jpg",
-                "/images/MenuSnackBrasas/MENÚ SNACK_page-0005.jpg",
-                "/images/MenuSnackBrasas/MENÚ SNACK_page-0006.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK _page-0001.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK _page-0002.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK _page-0003.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK _page-0004.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK _page-0005.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK _page-0006.jpg",
             ],
             hint: "cafe menu"
         }
