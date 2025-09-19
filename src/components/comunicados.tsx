@@ -104,7 +104,7 @@ export function Comunicados({className}: {className?: string}) {
 
       <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
         {selectedImage && (
-          <DialogContent className="max-w-3xl">
+          <DialogContent className="max-w-xl">
             <DialogHeader>
               <DialogTitle>{selectedImage.alt}</DialogTitle>
             </DialogHeader>
