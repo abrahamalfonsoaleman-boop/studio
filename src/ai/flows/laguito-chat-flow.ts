@@ -49,7 +49,6 @@ Directorio Principal:
 - Jefe de Sistemas y Comunicación: Juan Andrade (sistemas@clubdelago.com.mx, Ext. 109)
 - Gerente de Capital Humano: Carlos Merlín (recursoshumanos@clubdelago.com.mx, Ext. 113)
 - Coordinadora de Eventos: Ana Karen Rincón (eventos@clubdelago.com.mx, Ext. 120, WhatsApp: +52 81-23-87-08-40)
-- Nutrióloga: Pamela Reyes (nutricion@clubdelago.com.mx, 81 1779 2275)
 - Comunicación: Leidy Rodríguez (edicion@clubdelago.com.mx, Ext. 109)
 
 Deportes:

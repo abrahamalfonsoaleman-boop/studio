@@ -79,15 +79,6 @@ const staff = [
     whatsapp: "+528123870840",
   },
   {
-    name: "Pamela Reyes",
-    title: "Nutrióloga",
-    email: "nutricion@clubdelago.com.mx",
-    extension: "81 1779 2275",
-    avatar: "https://placehold.co/100x100.png",
-    hint: "female portrait",
-    whatsapp: "",
-  },
-  {
     name: "Leidy Rodríguez",
     title: "Comunicación",
     email: "edicion@clubdelago.com.mx",
