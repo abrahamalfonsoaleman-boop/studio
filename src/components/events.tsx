@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -19,21 +18,21 @@ const events = [
     alt: "Flyer Noche de Karaoke",
     hint: "karaoke night flyer",
   },
-  {
-    src: "https://placehold.co/600x800.png",
-    alt: "Flyer Gala de Aniversario",
-    hint: "anniversary gala flyer",
-  },
-  {
-    src: "https://placehold.co/600x800.png",
-    alt: "Flyer Pruebas Equipo Juvenil",
-    hint: "youth tryouts flyer",
-  },
-  {
-    src: "https://placehold.co/600x800.png",
-    alt: "Flyer Partido Amistoso",
-    hint: "friendly match flyer",
-  },
+  // {
+  //   src: "https://placehold.co/600x800.png",
+  //   alt: "Flyer Gala de Aniversario",
+  //   hint: "anniversary gala flyer",
+  // },
+  // {
+  //   src: "https://placehold.co/600x800.png",
+  //   alt: "Flyer Pruebas Equipo Juvenil",
+  //   hint: "youth tryouts flyer",
+  // },
+  // {
+  //   src: "https://placehold.co/600x800.png",
+  //   alt: "Flyer Partido Amistoso",
+  //   hint: "friendly match flyer",
+  // },
 ]
 
 export function Events({className}: {className?: string}) {
@@ -49,58 +48,88 @@ export function Events({className}: {className?: string}) {
       </div>
       
       <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
-        {/* Desktop Grid View */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 px-4">
-          {events.map((event, index) => (
-            <div
-              key={index}
-              className="cursor-pointer overflow-hidden rounded-lg group transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              onClick={() => setSelectedImage(event)}
-            >
-              <Image
-                src={event.src}
-                alt={event.alt}
-                data-ai-hint={event.hint}
-                width={600}
-                height={800}
-                className="h-full w-full object-cover"
-              />
+        <div className="mt-12 px-4">
+          {events.length === 0 && (
+            <div className="text-center text-muted-foreground text-lg py-12">
+              <p>¡Próximamente!</p>
             </div>
-          ))}
-        </div>
+          )}
 
-        {/* Mobile Carousel View */}
-        <div className="md:hidden mt-8">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full max-w-xs mx-auto"
-          >
-            <CarouselContent>
-              {events.map((event, index) => (
-                <CarouselItem key={index}>
-                  <div className="p-1">
-                    <Card className="overflow-hidden" onClick={() => setSelectedImage(event)}>
-                      <CardContent className="p-0">
-                         <Image
-                          src={event.src}
-                          alt={event.alt}
-                          data-ai-hint={event.hint}
-                          width={600}
-                          height={800}
-                          className="h-full w-full object-cover aspect-[3/4]"
-                        />
-                      </CardContent>
-                    </Card>
+          {events.length === 1 && (
+             <div className="flex justify-center">
+              <div
+                className="cursor-pointer overflow-hidden rounded-lg group transform transition-all duration-300 hover:scale-105 hover:shadow-xl max-w-sm"
+                onClick={() => setSelectedImage(events[0])}
+              >
+                <Image
+                  src={events[0].src}
+                  alt={events[0].alt}
+                  data-ai-hint={events[0].hint}
+                  width={600}
+                  height={800}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          )}
+
+          {events.length > 1 && (
+            <>
+              {/* Desktop Grid View */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {events.map((event, index) => (
+                  <div
+                    key={index}
+                    className="cursor-pointer overflow-hidden rounded-lg group transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                    onClick={() => setSelectedImage(event)}
+                  >
+                    <Image
+                      src={event.src}
+                      alt={event.alt}
+                      data-ai-hint={event.hint}
+                      width={600}
+                      height={800}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-            <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
-          </Carousel>
+                ))}
+              </div>
+
+              {/* Mobile Carousel View */}
+              <div className="md:hidden">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-full max-w-xs mx-auto"
+                >
+                  <CarouselContent>
+                    {events.map((event, index) => (
+                      <CarouselItem key={index}>
+                        <div className="p-1">
+                          <Card className="overflow-hidden" onClick={() => setSelectedImage(event)}>
+                            <CardContent className="p-0">
+                              <Image
+                                src={event.src}
+                                alt={event.alt}
+                                data-ai-hint={event.hint}
+                                width={600}
+                                height={800}
+                                className="h-full w-full object-cover aspect-[3/4]"
+                              />
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+                  <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 h-8 w-8 bg-background/50 hover:bg-background/75 text-foreground transition-all duration-300" />
+                </Carousel>
+              </div>
+            </>
+          )}
         </div>
 
         {selectedImage && (
