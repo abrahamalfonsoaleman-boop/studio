@@ -2,7 +2,8 @@
 'use server';
 /**
  * @fileOverview Un chatbot asistente para el Club Del Lago llamado "Laguito".
- * 
+ * Este flujo utiliza un enfoque de clasificación de intenciones para proporcionar respuestas estructuradas y precisas.
+ *
  * - laguitoChat - La función principal que maneja la conversación del chat.
  * - LaguitoChatInput - El tipo de entrada para la función laguitoChat.
  * - ChatMessage - El tipo para un único mensaje en el historial del chat.
@@ -10,6 +11,9 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { AyB, Deportes, Directorio, MisionVisionValores, Renta } from '@/lib/club-data';
+import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoHandoff, LaguitoIntent, LaguitoIntentSchema } from './types';
+
 
 // Define el esquema para un único mensaje en el historial del chat
 const ChatMessageSchema = z.object({
@@ -25,134 +29,230 @@ const LaguitoChatInputSchema = z.object({
 });
 export type LaguitoChatInput = z.infer<typeof LaguitoChatInputSchema>;
 
-// Función exportada que el frontend llamará
-export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
-  const response = await laguitoChatFlow(input);
-  return { role: 'model', content: response };
+
+const systemPrompt = `Eres "Laguito", un asistente virtual amigable y servicial para el "Club Del Lago".
+Tu objetivo es actuar como un enrutador inteligente y un generador de resúmenes.
+1.  **Clasifica la intención**: Primero, determina la intención del usuario a partir de su pregunta. Las intenciones posibles son: ${LaguitoIntentSchema.options.join(", ")}.
+2.  **Genera un resumen**: Basado en la respuesta estructurada que se te proporcionará, crea un resumen de texto corto, amigable y conversacional. No inventes información. Si la respuesta contiene una tabla o una lista, simplemente menciona que has encontrado la información.
+3.  **Formato**: Responde SIEMPRE con un objeto JSON válido que cumpla con el esquema 'LaguitoAnswer'. No agregues texto antes o después del JSON.`;
+
+
+/**
+ * Clasifica la intención del usuario utilizando el modelo de IA.
+ * @param question La pregunta del usuario.
+ * @returns La intención clasificada.
+ */
+async function classifyIntent(question: string): Promise<LaguitoIntent> {
+    const { text } = await ai.generate({
+        model: "googleai/gemini-2.0-flash",
+        system: `Clasifica la pregunta del usuario en una de las siguientes intenciones: ${LaguitoIntentSchema.options.join(", ")}. Devuelve solo la etiqueta de la intención, sin texto adicional.`,
+        prompt: question,
+    });
+    const intent = text.trim();
+    // Validar que la intención sea una de las permitidas
+    if (LaguitoIntentSchema.options.includes(intent as any)) {
+        return intent as LaguitoIntent;
+    }
+    return "desconocido";
 }
 
-const clubInfo = `
-Información General del Club Del Lago:
-- Misión: Ser el mejor club deportivo social y familiar, fomentando la integración y el desarrollo de nuestros socios.
-- Visión: Consolidarnos como un club de excelencia, reconocido por su calidad en servicios e instalaciones.
-- Valores: Respeto, honestidad, compromiso, y trabajo en equipo.
-- Teléfono General: 81 8357 5500
-- Dirección: Priv. del Lago #200, Col, Del Paseo Residencial, 64920, Monterrey, N.L.
-- Horarios de oficina: Lunes a Viernes de 9:00 a 18:00.
+// --- HANDLERS DE INTENCIONES ---
 
-Directorio Principal:
-- Gerente General: Erika de la Fuente (gerenciagral@clubdelago.com.mx, Ext. 111)
-- Atención a Asociados: Sandra Arévalo (atencionaasociados@clubdelago.com.mx, Ext. 116)
-- Gerente Administrativo: Mayra Sánchez (msanchez@clubdelago.com.mx, Ext. 112)
-- Gerente de Operaciones: Víctor Zurita (gerenciaoperaciones@clubdelago.com.mx)
-- Gerente de Alimentos y Bebidas: Julián Obregón (gerenciaayb@clubdelago.com.mx)
-- Jefe de Sistemas y Comunicación: Juan Andrade (sistemas@clubdelago.com.mx, Ext. 109)
-- Gerente de Capital Humano: Carlos Merlín (recursoshumanos@clubdelago.com.mx, Ext. 113)
-- Coordinadora de Eventos: Ana Karen Rincón (eventos@clubdelago.com.mx, Ext. 120, WhatsApp: +52 81-23-87-08-40)
-- Comunicación: Leidy Rodríguez (edicion@clubdelago.com.mx, Ext. 109)
+function buildFallback(question: string, note?: string): LaguitoAnswer {
+    const handoffContact = Directorio["Atención a Asociados"];
+    return {
+        intent: "desconocido",
+        summary: note || "No estoy seguro de cómo responder a eso, pero te puedo comunicar con la persona indicada para ayudarte.",
+        cards: [],
+        handoff: {
+            name: handoffContact.name,
+            email: handoffContact.email,
+            phone: `Tel. 81 8357 5500 ext. ${handoffContact.ext}`,
+            note: "Para preguntas generales, membresías y otros asuntos."
+        },
+        meta: { source: "directorio", matched: ["Atención a Asociados"] }
+    }
+}
 
-Deportes:
-- Contacto Deportivo General: Cristina Manzanares, Asistente de Deportes (cmanzanares@clubdelago.com.mx, Tel. 81 8357 5500 ext. 140).
-- Disciplinas: Tenis, Fútbol, Natación, Gimnasio, Yoga, Boxeo.
-- Detalles de Clases y Horarios:
-  - SPINNING (Mixto Adultos, Sala de spinning):
-    - Nelia Guerra: Lunes, Miércoles, Jueves (6:00-7:00 am y 7:00-8:00 am), Lunes y Miércoles (8:00-9:00 am), Martes y Jueves (6:30-7:30 pm).
-    - Emilio Cabrales: Lunes y Viernes (6:00-7:00 am y 7:00-8:00 am).
-    - Paty Fernández: Lunes, Miércoles, Viernes (9:00-10:00 am), Lunes y Miércoles (6:15-7:15 pm).
-  - FRONTENIS (Mixto Infantil, mayores de 6 años, Cancha de Frontón):
-    - Instructor: Antonio Domínguez.
-    - Horario: Martes y Jueves, 16:00 - 19:00 hrs.
-  - FÚTBOL SOCCER (Cancha de Fútbol 7):
-    - Mixto Infantil (2010-2011): L-J, 18:00-19:00 hrs (Oscar Sandoval).
-    - Mixto Infantil (2012-2013): L-J, 18:00-19:00 hrs (Diego Manzanares).
-    - Mixto Infantil (2014): L-J, 17:00-18:00 hrs (Oscar Sandoval).
-    - Adultos (Mayores de 15 años): L-J, 19:00-20:00 hrs (Oscar Sandoval).
-    - Femenil Infantil (2016-2018): L-J, 17:00-18:00 hrs (Diego Manzanares).
-  - FÚTBOL SOCCER (Cancha de Fútbol 5):
-    - Mixto Infantil (2015-2017): L-J, 18:00-19:00 hrs (Daniel de León).
-    - Mixto Infantil (2018): L-J, 17:00-18:00 hrs (Daniel de León).
-    - Mixto Infantil (2019-2021): L-J, 16:00-17:00 hrs (Diego Manzanares).
-  - ZUMBA (Mayores de 18 años):
-    - Coach: Martha Vázquez.
-    - Horario: Lunes y Miércoles, 6:15 pm - 7:15 pm.
+function buildDeportes(question: string): LaguitoAnswer {
+    const keywords = Object.keys(Deportes).filter(key => 
+        new RegExp(`\\b${key}\\b`, 'i').test(question)
+    );
 
-Alimentos y Bebidas:
-- Para ver los menús completos, los socios pueden visitar la sección "Alimentos y Bebidas" de la página web.
-- Restaurante Las Palmas:
-  - Desayunos: Plato de Fruta ($80), Hot Cakes Gluten Free ($77), Hot Cakes Americanos ($90), Molletes ($70-$115), Enchiladas Suizas ($105), Entomatadas ($105), Huevos al Gusto ($85), Machacado ($120), Omelettes ($90-$105), Chilaquiles ($90), Tacos Mineros ($95), Pan Dulce ($12).
-  - Comidas y Cenas: Sopa del día ($58), Tlalpeño ($90), Pastas ($86), Ensalada Capresse ($90), Ensalada César ($90), Milanesa de Pollo ($150), Milanesa de Res ($120), Filete de Pescado ($110), Salmón ($250-$275), Tacos de Bistec ($110), Club Sándwich ($95), Hamburguesas ($115), Nachos Club ($120), Menú Infantil (Hamburguesa Jr. $78, Chicken Strips $86).
-- Restaurante Terraza Bar:
-  - Tacos y Tostadas: Taco de Rib Eye ($79), Tostada Coqueta ($75), Taco Gobernador ($72), Taco de Pescado ($55), Quesabirrias ($160).
-  - Botanas y Principales: Carpaccio de Betabel ($87), Queso Fundido ($85), Alitas Colorado ($110), Shawarma Kebab ($105), Hamburguesas ($115), Nachos Club ($120), Papas Fritas ($66).
-  - Rollos: Ebi Roll ($135), Damen Roll ($130).
-- Snack Brasas:
-  - Desayunos: Gordita de Guiso ($28), Omelette al Gusto ($105), Machacado ($120), Taco de Guiso ($23).
-  - Principales: Tacos de Bistec ($110), Enchiladas Regias ($125), Pirata ($96), Hamburguesas ($115), Alitas Colorado ($110), Percherón ($148).
-  - Adicionales: Hot Dog ($48), Papas Fritas ($66), Chicken Strips ($86), Dedos de Queso ($110).
+    if (keywords.length === 0) {
+        return buildFallback(question, "No encontré información sobre la disciplina deportiva que mencionaste. Te recomiendo contactar a nuestro equipo de deportes.");
+    }
+    
+    const matchedDeporteKey = keywords[0] as keyof typeof Deportes;
+    const deporte = Deportes[matchedDeporteKey];
 
-Eventos y Comunicados Recientes:
-- Noche de Karaoke: Hay un evento de noche de karaoke. Para más detalles, los socios deben consultar los flyers en el club o en la página web.
-- Torneo de Golf: Se anunció un torneo de golf.
-- Maratón del Pavo: Se llevará a cabo el "Maratón del Pavo".
-- Torneo con Causa (Cáncer): Hay un torneo benéfico relacionado con la lucha contra el cáncer.
-- Clases de Zumba: Se ofrecen clases de Zumba.
-- Para detalles específicos sobre fechas, horarios e inscripciones de estos eventos y comunicados, se debe contactar a Cristina Manzanares (Deportes) o a la recepción del club.
-
-Renta de Áreas para Eventos:
-- Contacto para informes y reservaciones: Ana Karen Rincón (eventos@clubdelago.com.mx, Ext. 120, WhatsApp: +52 81-23-87-08-40).
-- El costo de montaje y servicios para eventos es de $520.00.
-- Detalles de las áreas:
-  - Laguito 1: $4,200.00, Capacidad 20 a 100 personas, 5 horas (L-D). Hora extra: $450.00.
-  - Laguito 2: $4,200.00, Capacidad 50 personas, 5 horas (L-D). Hora extra: $450.00.
-  - Restaurante: $4,200.00, Capacidad 90 personas, 5 horas de 8:30 pm a 1:30 am (L-D). Sin hora extra.
-  - Bar: $5,900.00, Capacidad 90 personas, Renta de 10:00 am a 3:00 pm (L-D). Sin hora extra.
-  - Evento solo socios: Sin Costo, sin invitados, 5 horas (L-D, sujeto a disponibilidad). No incluye montaje.
-  - Palapa de Juegos: $2,700.00, Capacidad 50 personas, 5 horas (L-D). Hora extra: $450.00.
-  - Asadores: $2,500.00, Capacidad 20 personas, 5 horas (L-Mié). Hora extra: $450.00.
-  - Palapa 4: $3,200.00, Capacidad 60 personas, 5 horas (L-D). Hora extra: $450.00.
-
-DelagoApp:
-- La aplicación oficial del club se llama DelagoApp.
-- Está disponible en la App Store para iOS y en Google Play para Android.
-- Permite conectar, gestionar reservaciones y estar al día con el club.
-`;
-
-const systemPrompt = `Eres "Laguito", un asistente virtual amigable y servicial para el "Club Del Lago". Tu objetivo es responder las preguntas de los socios de manera concisa y útil, basándote únicamente en la información proporcionada a continuación.
-
-Información del Club:
-${clubInfo}
-
-Reglas de Comportamiento:
-1.  **Personalidad**: Tu nombre es Laguito. Sé siempre muy cortés, profesional y amigable. Si es el primer mensaje, preséntate.
-2.  **Formato**: Formatea tus respuestas usando markdown para que sean fáciles de leer. Utiliza **texto en negrita** para los títulos (como nombres de clases o restaurantes) y listas con viñetas (*) para enumerar detalles como horarios, platillos o características.
-3.  **Precisión**: Basa tus respuestas ESTRICTAMENTE en la "Información del Club" proporcionada. No inventes información, horarios, precios, o detalles que no estén aquí.
-4.  **Detalle en Deportes**: Cuando te pregunten sobre una clase o disciplina deportiva, proporciona todos los detalles disponibles en una lista: horarios, instructores, categorías, edades y ubicación. Si hay varios horarios o instructores, menciónalos todos.
-5.  **Detalle en Alimentos**: Cuando te pregunten por un platillo o bebida, busca en los menús de 'Alimentos y Bebidas'. Responde con el precio exacto y el nombre del restaurante donde se sirve. Si no encuentras el platillo, dilo amablemente.
-6.  **Detalle en Eventos**: Si te preguntan sobre la renta de un área para eventos, proporciona todos los detalles en una lista: precio, capacidad, duración, horario, costo de hora extra y días disponibles.
-7.  **Manejo de Incertidumbre**: Si no sabes la respuesta a una pregunta o la información no está disponible, dirige amablemente al usuario al contacto más relevante del directorio. Por ejemplo: "Para información sobre precios de membresía, te recomiendo contactar a Atención a Asociados con Sandra Arévalo."
-8.  **Brevedad**: Mantén tus respuestas breves y al grano, pero sin omitir los detalles solicitados en las reglas anteriores.
-`;
-
-const laguitoChatFlow = ai.defineFlow(
-  {
-    name: 'laguitoChatFlow',
-    inputSchema: LaguitoChatInputSchema,
-    outputSchema: z.string(),
-  },
-  async (input) => {
-    // Combine the current history with the new question to form the chat history for the model
-    const history: ChatMessage[] = [
-      ...input.history,
-      { role: 'user', content: input.question },
-    ];
-
-    const { text } = await ai.generate({
-      model: 'googleai/gemini-2.0-flash',
-      system: systemPrompt,
-      history: input.history, // Pass previous messages as context
-      prompt: input.question,
+    const cards: LaguitoCard[] = deporte.grupos.map(grupo => {
+        return {
+            title: `${matchedDeporteKey.charAt(0).toUpperCase() + matchedDeporteKey.slice(1)} - ${'categoria' in grupo ? grupo.categoria : 'General'}`,
+            subtitle: `Instructor: ${grupo.instructor}`,
+            table: {
+                columns: ["Días", "Horario"],
+                rows: grupo.horarios.map(h => [h.dias, h.hora])
+            }
+        };
     });
 
-    return text;
-  }
-);
+    return {
+        intent: "deportes.horarios",
+        summary: `¡Claro! Aquí tienes la información sobre ${matchedDeporteKey}.`,
+        cards,
+        handoff: {
+            name: deporte.contacto.nombre,
+            phone: `Tel. 81 8357 5500 ext. ${deporte.contacto.ext}`,
+            note: "Para inscripciones y más detalles."
+        },
+        meta: { source: "club-data.ts", matched: keywords }
+    };
+}
+
+function buildMenu(question: string): LaguitoAnswer {
+    const keywords = Object.keys(AyB).filter(key => 
+        new RegExp(`\\b${key.replace(" ", "\\s")}\\b`, 'i').test(question)
+    );
+
+    if (keywords.length === 0) {
+        return buildFallback(question, "No pude identificar el restaurante. ¿Te gustaría ver el menú de Las Palmas, Terraza Bar o Snack Brasas?");
+    }
+
+    const matchedRestauranteKey = keywords[0] as keyof typeof AyB;
+    const restaurante = AyB[matchedRestauranteKey];
+
+    const cards: LaguitoCard[] = Object.entries(restaurante).map(([categoria, platillos]) => ({
+        title: `${matchedRestauranteKey} - ${categoria}`,
+        table: {
+            columns: ["Platillo", "Precio"],
+            rows: platillos as string[][]
+        }
+    }));
+    
+    return {
+        intent: "ayb.menu",
+        summary: `Aquí está el menú de ${matchedRestauranteKey}. ¡Buen provecho!`,
+        cards,
+        meta: { source: "club-data.ts", matched: keywords }
+    };
+}
+
+function buildRenta(question: string): LaguitoAnswer {
+    const { areas, contacto } = Renta;
+    
+    return {
+        intent: "eventos.renta",
+        summary: "¡Por supuesto! Aquí tienes la información sobre nuestras áreas disponibles para eventos.",
+        cards: [{
+            title: "Renta de Áreas para Eventos",
+            subtitle: contacto.nota,
+            table: {
+                columns: ["Área", "Precio", "Capacidad", "Duración", "Días"],
+                rows: areas.map(a => [a.nombre, a.precio, `${a.capacidad} pers.`, a.duracion, a.dias])
+            }
+        }],
+        handoff: {
+            name: contacto.nombre,
+            email: contacto.email,
+            phone: `Tel. 81 8357 5500 ext. ${contacto.ext}`,
+            note: "Para informes y reservaciones."
+        },
+        meta: { source: "club-data.ts", matched: ["renta", "eventos"] }
+    };
+}
+
+function buildContacto(question: string): LaguitoAnswer {
+    const keywords = Object.keys(Directorio).filter(key => 
+        new RegExp(`\\b${key.replace(" ", "\\s")}\\b`, 'i').test(question)
+    );
+
+    if (keywords.length === 0) {
+        return buildFallback(question, "No encontré a esa persona en el directorio. ¿Necesitas ayuda para contactar a alguien más?");
+    }
+
+    const matchedKey = keywords[0] as keyof typeof Directorio;
+    const contacto = Directorio[matchedKey];
+    
+    const bullets = [
+        `**Nombre:** ${contacto.name}`,
+        `**Email:** ${contacto.email}`,
+    ];
+    if ('ext' in contacto && contacto.ext) {
+        bullets.push(`**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`);
+    }
+     if ('whatsapp' in contacto && contacto.whatsapp) {
+        bullets.push(`**WhatsApp:** ${contacto.whatsapp}`);
+    }
+
+    return {
+        intent: "directorio.contacto",
+        summary: `¡Claro! Aquí están los datos de contacto para ${matchedKey}.`,
+        cards: [{
+            title: `Contacto: ${matchedKey}`,
+            bullets
+        }],
+        meta: { source: "club-data.ts", matched: keywords }
+    };
+}
+
+function buildGeneralInfo(question: string): LaguitoAnswer {
+     return {
+        intent: "general.info",
+        summary: "Te comparto la información esencial sobre nuestro club.",
+        cards: [
+            {
+                title: "Misión",
+                bullets: [MisionVisionValores.mision]
+            },
+            {
+                title: "Visión",
+                bullets: [MisionVisionValores.vision]
+            },
+            {
+                title: "Valores",
+                bullets: [MisionVisionValores.valores]
+            }
+        ],
+        meta: { source: "club-data.ts", matched: ["mision", "vision", "valores"] }
+    };
+}
+
+
+const intentHandlers: Record<LaguitoIntent, (q: string) => LaguitoAnswer> = {
+  "deportes.horarios": buildDeportes,
+  "ayb.menu": buildMenu,
+  "eventos.renta": buildRenta,
+  "directorio.contacto": buildContacto,
+  "general.info": buildGeneralInfo,
+  "desconocido": buildFallback,
+};
+
+/**
+ * Función principal del chatbot.
+ * Clasifica la intención y llama al handler correspondiente para construir la respuesta.
+ */
+export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
+    const intent = await classifyIntent(input.question);
+    const handler = intentHandlers[intent];
+    const structuredAnswer = handler(input.question);
+
+    const { output } = await ai.generate({
+        model: 'googleai/gemini-2.0-flash',
+        system: systemPrompt,
+        prompt: `Basado en esta pregunta del usuario "${input.question}" y la siguiente respuesta estructurada, genera el campo 'summary' y devuelve el objeto JSON completo. Respuesta Estructurada: ${JSON.stringify(structuredAnswer)}`,
+        output: {
+            schema: LaguitoAnswerSchema,
+            format: "json"
+        }
+    });
+
+    if (!output) {
+        return { role: 'model', content: JSON.stringify(buildFallback(input.question, "Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo.")) };
+    }
+    
+    // Asegurarnos de que el output se ajuste al esquema, incluso si el LLM falla.
+    const finalAnswer = LaguitoAnswerSchema.parse(output);
+
+    return { role: 'model', content: JSON.stringify(finalAnswer) };
+}

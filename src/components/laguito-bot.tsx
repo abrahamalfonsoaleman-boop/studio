@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Bot, Send, Loader, User, X } from "lucide-react";
+import { useState, useRef, useEffect, Fragment } from "react";
+import { Bot, Send, Loader, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -16,6 +16,79 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { laguitoChat, type ChatMessage } from "@/ai/flows/laguito-chat-flow";
 import { cn } from "@/lib/utils";
+import { type LaguitoAnswer } from "@/ai/flows/types";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import Link from "next/link";
+
+
+// Componente para renderizar la respuesta estructurada del bot
+const BotMessageContent = ({ content }: { content: string }) => {
+  try {
+    const parsedContent: LaguitoAnswer = JSON.parse(content);
+    
+    return (
+      <div className="space-y-3">
+        <p className="text-sm">{parsedContent.summary}</p>
+        {parsedContent.cards.map((card, index) => (
+          <Card key={index} className="bg-muted/50">
+            <CardHeader className="p-3">
+              <CardTitle className="text-sm font-semibold">{card.title}</CardTitle>
+              {card.subtitle && <p className="text-xs text-muted-foreground">{card.subtitle}</p>}
+            </CardHeader>
+            <CardContent className="p-3 pt-0">
+              {card.bullets && card.bullets.length > 0 && (
+                <ul className="list-disc list-inside space-y-1 text-xs">
+                  {card.bullets.map((bullet, i) => (
+                    <li key={i} dangerouslySetInnerHTML={{ __html: bullet.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                  ))}
+                </ul>
+              )}
+              {card.table && card.table.rows.length > 0 && (
+                 <Table className="text-xs">
+                   <TableHeader>
+                     <TableRow>
+                       {card.table.columns.map((col, i) => <TableHead key={i} className="h-6 px-2">{col}</TableHead>)}
+                     </TableRow>
+                   </TableHeader>
+                   <TableBody>
+                     {card.table.rows.map((row, i) => (
+                       <TableRow key={i}>
+                         {row.map((cell, j) => <TableCell key={j} className="p-2">{cell}</TableCell>)}
+                       </TableRow>
+                     ))}
+                   </TableBody>
+                 </Table>
+              )}
+              {card.cta && (
+                <Button asChild size="sm" className="mt-2">
+                    <Link href={card.cta.href}>{card.cta.label}</Link>
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+        {parsedContent.handoff && (
+            <Card className="bg-accent/20 border-accent">
+                 <CardHeader className="p-3">
+                    <CardTitle className="text-sm font-semibold">Te recomiendo contactar a:</CardTitle>
+                 </CardHeader>
+                 <CardContent className="p-3 pt-0 text-xs space-y-1">
+                    <p><strong>{parsedContent.handoff.name}</strong></p>
+                    {parsedContent.handoff.email && <p><a href={`mailto:${parsedContent.handoff.email}`} className="hover:underline">{parsedContent.handoff.email}</a></p>}
+                    {parsedContent.handoff.phone && <p>{parsedContent.handoff.phone}</p>}
+                    {parsedContent.handoff.note && <p className="text-muted-foreground mt-1">{parsedContent.handoff.note}</p>}
+                 </CardContent>
+            </Card>
+        )}
+      </div>
+    );
+  } catch (error) {
+    // Si no es un JSON, muestra el texto plano.
+    return <div className="text-sm">{content}</div>;
+  }
+};
+
 
 export function LaguitoBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +117,7 @@ export function LaguitoBot() {
 
     try {
       const botResponse = await laguitoChat({
-        history: messages, // Pass only previous messages
+        history: messages,
         question: input,
       });
       setMessages((prev) => [...prev, botResponse]);
@@ -52,7 +125,11 @@ export function LaguitoBot() {
       console.error("Error al contactar al bot:", error);
       const errorMessage: ChatMessage = {
         role: "model",
-        content: "Lo siento, tuve un problema para responder. Inténtalo de nuevo.",
+        content: JSON.stringify({
+            intent: "desconocido",
+            summary: "Lo siento, tuve un problema para responder. Por favor, inténtalo de nuevo más tarde.",
+            cards: []
+        }),
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -71,7 +148,7 @@ export function LaguitoBot() {
       </Button>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent className="flex flex-col p-0">
+        <SheetContent className="flex flex-col p-0 w-full sm:max-w-md">
           <SheetHeader className="p-4 border-b">
             <SheetTitle className="flex items-center gap-2 font-headline">
               <Avatar className="h-8 w-8">
@@ -107,13 +184,13 @@ export function LaguitoBot() {
                   )}
                   <div
                     className={cn(
-                      "max-w-xs rounded-lg px-4 py-2 text-sm",
+                      "max-w-xs md:max-w-sm rounded-lg px-3 py-2",
                       message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
+                        ? "bg-primary text-primary-foreground text-sm"
+                        : "bg-background"
                     )}
                   >
-                    {message.content}
+                    {message.role === 'model' ? <BotMessageContent content={message.content} /> : <p className="text-sm">{message.content}</p>}
                   </div>
                   {message.role === "user" && (
                      <Avatar className="h-8 w-8">
