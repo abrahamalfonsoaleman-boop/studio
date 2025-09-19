@@ -1,7 +1,9 @@
 
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -84,7 +86,36 @@ const restaurants = [
   }
 ];
 
+type MenuState = {
+    menu: (typeof restaurants)[0]['menus'][0] | null;
+    page: number;
+    restaurantName: string;
+};
+
 export function FoodAndBeverages({className}: {className?: string}) {
+  const [activeMenu, setActiveMenu] = useState<MenuState>({ menu: null, page: 0, restaurantName: "" });
+
+  const handleOpenMenu = (menu: (typeof restaurants)[0]['menus'][0], restaurantName: string) => {
+    setActiveMenu({ menu, page: 0, restaurantName });
+  };
+
+  const handleCloseMenu = () => {
+    setActiveMenu({ menu: null, page: 0, restaurantName: "" });
+  };
+
+  const handleNextPage = () => {
+    if (activeMenu.menu && activeMenu.page < activeMenu.menu.images.length - 1) {
+      setActiveMenu(prev => ({ ...prev, page: prev.page + 1 }));
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (activeMenu.menu && activeMenu.page > 0) {
+      setActiveMenu(prev => ({ ...prev, page: prev.page - 1 }));
+    }
+  };
+
+
   return (
     <section id="alimentos" className={cn("w-full", className)}>
       <div className="text-center mb-12 px-4">
@@ -111,38 +142,9 @@ export function FoodAndBeverages({className}: {className?: string}) {
                     <h3 className="text-2xl font-bold mb-4 font-headline">{restaurant.name}</h3>
                     <div className="flex gap-4">
                         {restaurant.menus.map((menu, menuIndex) => (
-                             <Dialog key={menuIndex}>
-                                <DialogTrigger asChild>
-                                    <Button variant="secondary">{menu.label}</Button>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-xl">
-                                    <DialogHeader>
-                                    <DialogTitle>{menu.label} - {restaurant.name}</DialogTitle>
-                                    <DialogDescription>
-                                        Explora nuestra deliciosa selección de platillos.
-                                    </DialogDescription>
-                                    </DialogHeader>
-                                    <Carousel opts={{ loop: true }} className="w-full">
-                                    <CarouselContent>
-                                        {menu.images.map((image, imgIndex) => (
-                                        <CarouselItem key={imgIndex}>
-                                            <div className="relative w-full aspect-[3/4]">
-                                            <Image
-                                                src={image}
-                                                alt={`Menú página ${imgIndex + 1}`}
-                                                data-ai-hint={menu.hint}
-                                                fill
-                                                className="object-contain rounded-md"
-                                            />
-                                            </div>
-                                        </CarouselItem>
-                                        ))}
-                                    </CarouselContent>
-                                    <CarouselPrevious className="absolute left-[-2rem] top-1/2 -translate-y-1/2 z-10" />
-                                    <CarouselNext className="absolute right-[-2rem] top-1/2 -translate-y-1/2 z-10" />
-                                    </Carousel>
-                                </DialogContent>
-                            </Dialog>
+                             <Button key={menuIndex} variant="secondary" onClick={() => handleOpenMenu(menu, restaurant.name)}>
+                                {menu.label}
+                             </Button>
                         ))}
                     </div>
                   </div>
@@ -154,6 +156,40 @@ export function FoodAndBeverages({className}: {className?: string}) {
         <CarouselPrevious className="absolute left-[-2.5rem] top-1/2 -translate-y-1/2" />
         <CarouselNext className="absolute right-[-2.5rem] top-1/2 -translate-y-1/2" />
       </Carousel>
+
+      <Dialog open={!!activeMenu.menu} onOpenChange={(isOpen) => !isOpen && handleCloseMenu()}>
+        <DialogContent className="max-w-xl">
+            {activeMenu.menu && (
+                <>
+                    <DialogHeader>
+                        <DialogTitle>{activeMenu.menu.label} - {activeMenu.restaurantName}</DialogTitle>
+                        <DialogDescription>
+                            Página {activeMenu.page + 1} de {activeMenu.menu.images.length}
+                        </DialogDescription>
+                    </DialogHeader>
+                    
+                    <div className="relative w-full aspect-[3/4] mt-4">
+                        <Image
+                            src={activeMenu.menu.images[activeMenu.page]}
+                            alt={`Menú página ${activeMenu.page + 1}`}
+                            data-ai-hint={activeMenu.menu.hint}
+                            fill
+                            className="object-contain rounded-md"
+                        />
+                    </div>
+
+                    <div className="flex justify-between items-center mt-4">
+                        <Button onClick={handlePrevPage} disabled={activeMenu.page === 0} variant="outline">
+                            <ChevronLeft className="mr-2 h-4 w-4" /> Anterior
+                        </Button>
+                        <Button onClick={handleNextPage} disabled={activeMenu.page === activeMenu.menu.images.length - 1} variant="outline">
+                            Siguiente <ChevronRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </div>
+                </>
+            )}
+        </DialogContent>
+      </Dialog>
     </section>
   )
 }
