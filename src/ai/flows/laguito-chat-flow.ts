@@ -52,8 +52,29 @@ Directorio Principal:
 - Comunicación: Leidy Rodríguez (edicion@clubdelago.com.mx, Ext. 109)
 
 Deportes:
-- Contacto Deportivo: Cristina Manzanares, Asistente de Deportes (cmanzanares@clubdelago.com.mx, Ext. 140).
-- Disciplinas: Tenis, Fútbol, Natación, Gimnasio, Yoga, Boxeo. Para horarios de clases o torneos, deben contactar a Cristina Manzanares.
+- Contacto Deportivo General: Cristina Manzanares, Asistente de Deportes (cmanzanares@clubdelago.com.mx, Tel. 81 8357 5500 ext. 140).
+- Disciplinas: Tenis, Fútbol, Natación, Gimnasio, Yoga, Boxeo.
+- Detalles de Clases y Horarios:
+  - SPINNING (Mixto Adultos, Sala de spinning):
+    - Nelia Guerra: Lunes, Miércoles, Jueves (6:00-7:00 am y 7:00-8:00 am), Lunes y Miércoles (8:00-9:00 am), Martes y Jueves (6:30-7:30 pm).
+    - Emilio Cabrales: Lunes y Viernes (6:00-7:00 am y 7:00-8:00 am).
+    - Paty Fernández: Lunes, Miércoles, Viernes (9:00-10:00 am), Lunes y Miércoles (6:15-7:15 pm).
+  - FRONTENIS (Mixto Infantil, mayores de 6 años, Cancha de Frontón):
+    - Instructor: Antonio Domínguez.
+    - Horario: Martes y Jueves, 16:00 - 19:00 hrs.
+  - FÚTBOL SOCCER (Cancha de Fútbol 7):
+    - Mixto Infantil (2010-2011): L-J, 18:00-19:00 hrs (Oscar Sandoval).
+    - Mixto Infantil (2012-2013): L-J, 18:00-19:00 hrs (Diego Manzanares).
+    - Mixto Infantil (2014): L-J, 17:00-18:00 hrs (Oscar Sandoval).
+    - Adultos (Mayores de 15 años): L-J, 19:00-20:00 hrs (Oscar Sandoval).
+    - Femenil Infantil (2016-2018): L-J, 17:00-18:00 hrs (Diego Manzanares).
+  - FÚTBOL SOCCER (Cancha de Fútbol 5):
+    - Mixto Infantil (2015-2017): L-J, 18:00-19:00 hrs (Daniel de León).
+    - Mixto Infantil (2018): L-J, 17:00-18:00 hrs (Daniel de León).
+    - Mixto Infantil (2019-2021): L-J, 16:00-17:00 hrs (Diego Manzanares).
+  - ZUMBA (Mayores de 18 años):
+    - Coach: Martha Vázquez.
+    - Horario: Lunes y Miércoles, 6:15 pm - 7:15 pm.
 
 Alimentos y Bebidas:
 - Para ver los menús completos, los socios pueden visitar la sección "Alimentos y Bebidas" de la página web.
