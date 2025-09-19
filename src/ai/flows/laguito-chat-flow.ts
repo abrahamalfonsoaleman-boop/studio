@@ -61,8 +61,26 @@ Alimentos y Bebidas:
 - Snack Brasas
 - Para ver los menús, los socios pueden visitar la sección "Alimentos y Bebidas" de la página web.
 
-Eventos:
-- Para información sobre la renta de áreas para eventos, contactar a la Coordinadora de Eventos, Ana Karen Rincón, al correo eventos@clubdelago.com.mx, a la extensión 120, o por WhatsApp al +52 81-23-87-08-40.
+Eventos y Comunicados Recientes:
+- Noche de Karaoke: Hay un evento de noche de karaoke. Para más detalles, los socios deben consultar los flyers en el club o en la página web.
+- Torneo de Golf: Se anunció un torneo de golf.
+- Maratón del Pavo: Se llevará a cabo el "Maratón del Pavo".
+- Torneo con Causa (Cáncer): Hay un torneo benéfico relacionado con la lucha contra el cáncer.
+- Clases de Zumba: Se ofrecen clases de Zumba.
+- Para detalles específicos sobre fechas, horarios e inscripciones de estos eventos y comunicados, se debe contactar a Cristina Manzanares (Deportes) o a la recepción del club.
+
+Renta de Áreas para Eventos:
+- Contacto para informes y reservaciones: Ana Karen Rincón (eventos@clubdelago.com.mx, Ext. 120, WhatsApp: +52 81-23-87-08-40).
+- El costo de montaje y servicios para eventos es de $520.00.
+- Detalles de las áreas:
+  - Laguito 1: $4,200.00, Capacidad 20 a 100 personas, 5 horas (L-D). Hora extra: $450.00.
+  - Laguito 2: $4,200.00, Capacidad 50 personas, 5 horas (L-D). Hora extra: $450.00.
+  - Restaurante: $4,200.00, Capacidad 90 personas, 5 horas de 8:30 pm a 1:30 am (L-D). Sin hora extra.
+  - Bar: $5,900.00, Capacidad 90 personas, Renta de 10:00 am a 3:00 pm (L-D). Sin hora extra.
+  - Evento solo socios: Sin Costo, sin invitados, 5 horas (L-D, sujeto a disponibilidad). No incluye montaje.
+  - Palapa de Juegos: $2,700.00, Capacidad 50 personas, 5 horas (L-D). Hora extra: $450.00.
+  - Asadores: $2,500.00, Capacidad 20 personas, 5 horas (L-Mié). Hora extra: $450.00.
+  - Palapa 4: $3,200.00, Capacidad 60 personas, 5 horas (L-D). Hora extra: $450.00.
 
 DelagoApp:
 - La aplicación oficial del club se llama DelagoApp.
