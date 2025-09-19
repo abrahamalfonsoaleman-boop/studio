@@ -2,7 +2,7 @@
 import { Footer } from "@/components/footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, MessageSquare } from "lucide-react";
 import { ScrollAnimator } from "@/components/scroll-animator";
 
 const staff = [
@@ -13,6 +13,7 @@ const staff = [
     extension: "Ext. 111",
     avatar: "https://placehold.co/100x100.png",
     hint: "female portrait",
+    whatsapp: "",
   },
   {
     name: "Sandra Arévalo",
@@ -21,6 +22,7 @@ const staff = [
     extension: "Ext. 116",
     avatar: "https://placehold.co/100x100.png",
     hint: "female portrait",
+    whatsapp: "",
   },
   {
     name: "Mayra Sánchez",
@@ -29,6 +31,7 @@ const staff = [
     extension: "Ext. 112",
     avatar: "https://placehold.co/100x100.png",
     hint: "female portrait",
+    whatsapp: "",
   },
   {
     name: "Víctor Zurita",
@@ -37,6 +40,7 @@ const staff = [
     extension: "",
     avatar: "https://placehold.co/100x100.png",
     hint: "male portrait",
+    whatsapp: "",
   },
   {
     name: "Julián Obregón",
@@ -45,6 +49,7 @@ const staff = [
     extension: "",
     avatar: "https://placehold.co/100x100.png",
     hint: "male portrait",
+    whatsapp: "",
   },
   {
     name: "Juan Andrade",
@@ -53,22 +58,25 @@ const staff = [
     extension: "Ext. 109",
     avatar: "https://placehold.co/100x100.png",
     hint: "male portrait",
+    whatsapp: "",
   },
   {
     name: "Carlos Merlín",
-    title: "Recursos Humanos",
+    title: "Gerente de Capital Humano",
     email: "recursoshumanos@clubdelago.com.mx",
     extension: "Ext. 113",
     avatar: "https://placehold.co/100x100.png",
     hint: "male portrait",
+    whatsapp: "",
   },
   {
-    name: "Valeria Torres",
+    name: "Ana Karen Rincón",
     title: "Coordinadora de Eventos",
     email: "eventos@clubdelago.com.mx",
     extension: "Ext. 120",
     avatar: "https://placehold.co/100x100.png",
     hint: "female portrait",
+    whatsapp: "+528123870840",
   },
   {
     name: "Pamela Reyes",
@@ -77,6 +85,7 @@ const staff = [
     extension: "81 1779 2275",
     avatar: "https://placehold.co/100x100.png",
     hint: "female portrait",
+    whatsapp: "",
   },
   {
     name: "Leidy Rodríguez",
@@ -85,6 +94,7 @@ const staff = [
     extension: "Ext. 109",
     avatar: "https://placehold.co/100x100.png",
     hint: "female portrait",
+    whatsapp: "",
   },
 ];
 
@@ -128,6 +138,14 @@ export default function DirectorioPage() {
                       <div className="flex items-center text-xs text-muted-foreground">
                         <Phone className="h-4 w-4 mr-2" />
                         <span>{person.extension}</span>
+                      </div>
+                    )}
+                     {person.whatsapp && (
+                      <div className="flex items-center text-xs text-muted-foreground">
+                        <MessageSquare className="h-4 w-4 mr-2" />
+                         <a href={`https://wa.me/${person.whatsapp}`} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-300">
+                          WhatsApp
+                        </a>
                       </div>
                     )}
                   </CardContent>
