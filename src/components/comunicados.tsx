@@ -20,11 +20,6 @@ const comunicados = [
     hint: "golf tournament",
   },
   {
-    src: "/images/Comunicados/Karaoke.jpeg",
-    alt: "Comunicado Noche de Karaoke",
-    hint: "karaoke night",
-  },
-  {
     src: "/images/Comunicados/MaratonDelPavo.jpeg",
     alt: "Comunicado Maratón del Pavo",
     hint: "marathon announcement",
@@ -33,6 +28,11 @@ const comunicados = [
     src: "/images/Comunicados/TorneoCancer.jpeg",
     alt: "Comunicado Torneo con Causa",
     hint: "charity tournament",
+  },
+  {
+    src: "/images/Comunicados/Zumba.jpeg",
+    alt: "Comunicado Clase de Zumba",
+    hint: "zumba class",
   },
 ]
 

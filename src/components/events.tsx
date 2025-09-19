@@ -15,9 +15,9 @@ import { cn } from "@/lib/utils"
 
 const events = [
   {
-    src: "https://placehold.co/600x800.png",
-    alt: "Flyer Final del Campeonato",
-    hint: "championship flyer",
+    src: "/images/Eventos/Karaoke.jpeg",
+    alt: "Flyer Noche de Karaoke",
+    hint: "karaoke night flyer",
   },
   {
     src: "https://placehold.co/600x800.png",
