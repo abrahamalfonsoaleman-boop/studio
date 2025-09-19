@@ -21,22 +21,42 @@ const restaurants = [
     name: "Restaurante Las Palmas",
     image: "/images/Palmas.jpg",
     hint: "restaurant interior",
-    menuImage: "https://placehold.co/600x800.png",
-    menuHint: "restaurant menu"
+    menus: [
+        {
+            label: "Ver Menú Desayunos",
+            image: "/menus/MenuRestaurantePalmasDesayuno.png",
+            hint: "breakfast menu"
+        },
+        {
+            label: "Ver Menú Comidas",
+            image: "/menus/MenuRestaurantePalmasComida.png",
+            hint: "lunch menu"
+        }
+    ]
   },
   {
     name: "Restaurante Terraza Bar",
     image: "/images/bar.jpg",
     hint: "terrace bar",
-    menuImage: "https://placehold.co/600x800.png",
-    menuHint: "bar menu"
+    menus: [
+        {
+            label: "Ver Menú",
+            image: "/menus/MenuBarTerraza.png",
+            hint: "bar menu"
+        }
+    ]
   },
   {
     name: "Snack Brasas",
     image: "/images/brasas.jpg",
     hint: "grill snack bar",
-    menuImage: "https://placehold.co/600x800.png",
-    menuHint: "cafe menu"
+    menus: [
+        {
+            label: "Ver Menú",
+            image: "/menus/MenuSnackBrasas.png",
+            hint: "cafe menu"
+        }
+    ]
   }
 ];
 
@@ -65,28 +85,32 @@ export function FoodAndBeverages({className}: {className?: string}) {
                   />
                   <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-6 text-white text-center rounded-lg">
                     <h3 className="text-2xl font-bold mb-4 font-headline">{restaurant.name}</h3>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="secondary">Ver Menú</Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-3xl">
-                        <DialogHeader>
-                          <DialogTitle>Menú de {restaurant.name}</DialogTitle>
-                          <DialogDescription>
-                            Explora nuestra deliciosa selección de platillos.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="relative aspect-[3/4] mt-4">
-                          <Image
-                            src={restaurant.menuImage}
-                            alt={`Menú de ${restaurant.name}`}
-                            data-ai-hint={restaurant.menuHint}
-                            fill
-                            className="object-contain rounded-md"
-                          />
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                    <div className="flex gap-4">
+                        {restaurant.menus.map((menu, menuIndex) => (
+                             <Dialog key={menuIndex}>
+                                <DialogTrigger asChild>
+                                    <Button variant="secondary">{menu.label}</Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-3xl">
+                                    <DialogHeader>
+                                    <DialogTitle>Menú de {restaurant.name}</DialogTitle>
+                                    <DialogDescription>
+                                        Explora nuestra deliciosa selección de platillos.
+                                    </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="relative aspect-[3/4] mt-4">
+                                    <Image
+                                        src={menu.image}
+                                        alt={`Menú de ${restaurant.name}`}
+                                        data-ai-hint={menu.hint}
+                                        fill
+                                        className="object-contain rounded-md"
+                                    />
+                                    </div>
+                                </DialogContent>
+                            </Dialog>
+                        ))}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
