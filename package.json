@@ -10,8 +10,7 @@
     "build": "next build",
     "start": "node server.js",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "deploy": "npm run build && npm start"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.14.1",
