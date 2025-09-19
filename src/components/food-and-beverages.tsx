@@ -25,20 +25,20 @@ const restaurants = [
         {
             label: "Ver Menú Desayunos",
             images: [
-                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-1.jpg",
-                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-2.jpg",
-                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-3.jpg",
-                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-4.jpg",
+                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-1.jpg",
+                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-2.jpg",
+                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-3.jpg",
+                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-4.jpg",
             ],
             hint: "breakfast menu"
         },
         {
             label: "Ver Menú Comidas",
             images: [
-                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-1.jpg",
-                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-2.jpg",
-                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-3.jpg",
-                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-4.jpg",
+                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-1.jpg",
+                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-2.jpg",
+                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-3.jpg",
+                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-4.jpg",
             ],
             hint: "lunch menu"
         }
@@ -52,8 +52,8 @@ const restaurants = [
         {
             label: "Ver Menú",
             images: [
-                "/menus/MenuBarTerraza/MenuBarTerraza-1.jpg",
-                "/menus/MenuBarTerraza/MenuBarTerraza-2.jpg",
+                "/images/MenuBarTerraza/MenuBarTerraza-1.jpg",
+                "/images/MenuBarTerraza/MenuBarTerraza-2.jpg",
             ],
             hint: "bar menu"
         }
@@ -67,7 +67,7 @@ const restaurants = [
         {
             label: "Ver Menú",
             images: [
-                "/menus/MenuSnackBrasas/MenuSnackBrasas-1.jpg",
+                "/images/MenuSnackBrasas/MenuSnackBrasas-1.jpg",
             ],
             hint: "cafe menu"
         }
