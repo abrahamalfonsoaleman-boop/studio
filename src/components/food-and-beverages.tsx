@@ -106,32 +106,34 @@ export function FoodAndBeverages({className}: {className?: string}) {
                                 <DialogTrigger asChild>
                                     <Button variant="secondary">{menu.label}</Button>
                                 </DialogTrigger>
-                                <DialogContent className="max-w-3xl">
+                                <DialogContent className="max-w-xl max-h-[90vh] flex flex-col">
                                     <DialogHeader>
                                     <DialogTitle>{menu.label} - {restaurant.name}</DialogTitle>
                                     <DialogDescription>
                                         Explora nuestra deliciosa selección de platillos.
                                     </DialogDescription>
                                     </DialogHeader>
-                                    <Carousel opts={{ loop: true }} className="w-full mt-4">
-                                      <CarouselContent>
-                                        {menu.images.map((image, imgIndex) => (
-                                          <CarouselItem key={imgIndex}>
-                                            <div className="relative aspect-[3/4]">
-                                              <Image
-                                                  src={image}
-                                                  alt={`Menú página ${imgIndex + 1}`}
-                                                  data-ai-hint={menu.hint}
-                                                  fill
-                                                  className="object-contain rounded-md"
-                                              />
-                                            </div>
-                                          </CarouselItem>
-                                        ))}
-                                      </CarouselContent>
-                                      <CarouselPrevious className="absolute left-[-2rem] top-1/e2 -translate-y-1/2 z-10" />
-                                      <CarouselNext className="absolute right-[-2rem] top-1/2 -translate-y-1/2 z-10" />
-                                    </Carousel>
+                                    <div className="flex-1 min-h-0">
+                                      <Carousel opts={{ loop: true }} className="w-full h-full">
+                                        <CarouselContent className="h-full">
+                                          {menu.images.map((image, imgIndex) => (
+                                            <CarouselItem key={imgIndex} className="h-full">
+                                              <div className="relative w-full h-full">
+                                                <Image
+                                                    src={image}
+                                                    alt={`Menú página ${imgIndex + 1}`}
+                                                    data-ai-hint={menu.hint}
+                                                    fill
+                                                    className="object-contain rounded-md"
+                                                />
+                                              </div>
+                                            </CarouselItem>
+                                          ))}
+                                        </CarouselContent>
+                                        <CarouselPrevious className="absolute left-[-2rem] top-1/2 -translate-y-1/2 z-10" />
+                                        <CarouselNext className="absolute right-[-2rem] top-1/2 -translate-y-1/2 z-10" />
+                                      </Carousel>
+                                    </div>
                                 </DialogContent>
                             </Dialog>
                         ))}
