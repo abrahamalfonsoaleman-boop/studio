@@ -48,7 +48,7 @@ Directorio Principal:
 - Gerente de Alimentos y Bebidas: Julián Obregón (gerenciaayb@clubdelago.com.mx)
 - Jefe de Sistemas y Comunicación: Juan Andrade (sistemas@clubdelago.com.mx, Ext. 109)
 - Recursos Humanos: Carlos Merlín (recursoshumanos@clubdelago.com.mx, Ext. 113)
-- Coordinadora de Eventos: Valeria Torres (eventos@clubdelago.com.mx, Ext. 120)
+- Coordinadora de Eventos: Ana Karen Rincón (eventos@clubdelago.com.mx, Ext. 120, WhatsApp: +52 81-23-87-08-40)
 - Nutrióloga: Pamela Reyes (nutricion@clubdelago.com.mx, 81 1779 2275)
 
 Deportes:
@@ -62,7 +62,7 @@ Alimentos y Bebidas:
 - Para ver los menús, los socios pueden visitar la sección "Alimentos y Bebidas" de la página web.
 
 Eventos:
-- Para información sobre la renta de áreas para eventos, contactar a la Coordinadora de Eventos, Valeria Torres, al correo eventos@clubdelago.com.mx o a la extensión 120.
+- Para información sobre la renta de áreas para eventos, contactar a la Coordinadora de Eventos, Ana Karen Rincón, al correo eventos@clubdelago.com.mx, a la extensión 120, o por WhatsApp al +52 81-23-87-08-40.
 
 DelagoApp:
 - La aplicación oficial del club se llama DelagoApp.
