@@ -25,20 +25,20 @@ const restaurants = [
         {
             label: "Ver Menú Desayunos",
             images: [
-                "/menus/MenuRestaurantePalmasDesayuno-1.jpg",
-                "/menus/MenuRestaurantePalmasDesayuno-2.jpg",
-                "/menus/MenuRestaurantePalmasDesayuno-3.jpg",
-                "/menus/MenuRestaurantePalmasDesayuno-4.jpg",
+                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-1.jpg",
+                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-2.jpg",
+                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-3.jpg",
+                "/menus/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-4.jpg",
             ],
             hint: "breakfast menu"
         },
         {
             label: "Ver Menú Comidas",
             images: [
-                "/menus/MenuRestaurantePalmasComida-1.jpg",
-                "/menus/MenuRestaurantePalmasComida-2.jpg",
-                "/menus/MenuRestaurantePalmasComida-3.jpg",
-                "/menus/MenuRestaurantePalmasComida-4.jpg",
+                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-1.jpg",
+                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-2.jpg",
+                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-3.jpg",
+                "/menus/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-4.jpg",
             ],
             hint: "lunch menu"
         }
@@ -52,8 +52,8 @@ const restaurants = [
         {
             label: "Ver Menú",
             images: [
-                "/menus/MenuBarTerraza-1.jpg",
-                "/menus/MenuBarTerraza-2.jpg",
+                "/menus/MenuBarTerraza/MenuBarTerraza-1.jpg",
+                "/menus/MenuBarTerraza/MenuBarTerraza-2.jpg",
             ],
             hint: "bar menu"
         }
@@ -67,7 +67,7 @@ const restaurants = [
         {
             label: "Ver Menú",
             images: [
-                "/menus/MenuSnackBrasas-1.jpg",
+                "/menus/MenuSnackBrasas/MenuSnackBrasas-1.jpg",
             ],
             hint: "cafe menu"
         }
@@ -129,7 +129,7 @@ export function FoodAndBeverages({className}: {className?: string}) {
                                           </CarouselItem>
                                         ))}
                                       </CarouselContent>
-                                      <CarouselPrevious className="absolute left-[-2rem] top-1/2 -translate-y-1/2 z-10" />
+                                      <CarouselPrevious className="absolute left-[-2rem] top-1/e2 -translate-y-1/2 z-10" />
                                       <CarouselNext className="absolute right-[-2rem] top-1/2 -translate-y-1/2 z-10" />
                                     </Carousel>
                                 </DialogContent>
