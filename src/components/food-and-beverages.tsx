@@ -24,12 +24,22 @@ const restaurants = [
     menus: [
         {
             label: "Ver Menú Desayunos",
-            image: "/menus/MenuRestaurantePalmasDesayuno.png",
+            images: [
+                "/menus/MenuRestaurantePalmasDesayuno-1.jpg",
+                "/menus/MenuRestaurantePalmasDesayuno-2.jpg",
+                "/menus/MenuRestaurantePalmasDesayuno-3.jpg",
+                "/menus/MenuRestaurantePalmasDesayuno-4.jpg",
+            ],
             hint: "breakfast menu"
         },
         {
             label: "Ver Menú Comidas",
-            image: "/menus/MenuRestaurantePalmasComida.png",
+            images: [
+                "/menus/MenuRestaurantePalmasComida-1.jpg",
+                "/menus/MenuRestaurantePalmasComida-2.jpg",
+                "/menus/MenuRestaurantePalmasComida-3.jpg",
+                "/menus/MenuRestaurantePalmasComida-4.jpg",
+            ],
             hint: "lunch menu"
         }
     ]
@@ -41,7 +51,10 @@ const restaurants = [
     menus: [
         {
             label: "Ver Menú",
-            image: "/menus/MenuBarTerraza.png",
+            images: [
+                "/menus/MenuBarTerraza-1.jpg",
+                "/menus/MenuBarTerraza-2.jpg",
+            ],
             hint: "bar menu"
         }
     ]
@@ -53,7 +66,9 @@ const restaurants = [
     menus: [
         {
             label: "Ver Menú",
-            image: "/menus/MenuSnackBrasas.png",
+            images: [
+                "/menus/MenuSnackBrasas-1.jpg",
+            ],
             hint: "cafe menu"
         }
     ]
@@ -93,20 +108,30 @@ export function FoodAndBeverages({className}: {className?: string}) {
                                 </DialogTrigger>
                                 <DialogContent className="max-w-3xl">
                                     <DialogHeader>
-                                    <DialogTitle>Menú de {restaurant.name}</DialogTitle>
+                                    <DialogTitle>{menu.label} - {restaurant.name}</DialogTitle>
                                     <DialogDescription>
                                         Explora nuestra deliciosa selección de platillos.
                                     </DialogDescription>
                                     </DialogHeader>
-                                    <div className="relative aspect-[3/4] mt-4">
-                                    <Image
-                                        src={menu.image}
-                                        alt={`Menú de ${restaurant.name}`}
-                                        data-ai-hint={menu.hint}
-                                        fill
-                                        className="object-contain rounded-md"
-                                    />
-                                    </div>
+                                    <Carousel opts={{ loop: true }} className="w-full mt-4">
+                                      <CarouselContent>
+                                        {menu.images.map((image, imgIndex) => (
+                                          <CarouselItem key={imgIndex}>
+                                            <div className="relative aspect-[3/4]">
+                                              <Image
+                                                  src={image}
+                                                  alt={`Menú página ${imgIndex + 1}`}
+                                                  data-ai-hint={menu.hint}
+                                                  fill
+                                                  className="object-contain rounded-md"
+                                              />
+                                            </div>
+                                          </CarouselItem>
+                                        ))}
+                                      </CarouselContent>
+                                      <CarouselPrevious className="absolute left-[-2rem] top-1/2 -translate-y-1/2 z-10" />
+                                      <CarouselNext className="absolute right-[-2rem] top-1/2 -translate-y-1/2 z-10" />
+                                    </Carousel>
                                 </DialogContent>
                             </Dialog>
                         ))}
