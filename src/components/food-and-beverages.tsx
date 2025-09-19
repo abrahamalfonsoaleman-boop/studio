@@ -25,20 +25,22 @@ const restaurants = [
         {
             label: "Ver Menú Desayunos",
             images: [
-                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-1.jpg",
-                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-2.jpg",
-                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-3.jpg",
-                "/images/MenuRestaurantePalmasDesayuno/MenuRestaurantePalmasDesayuno-4.jpg",
+                "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0001.jpg",
+                "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0002.jpg",
+                "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0003.jpg",
+                "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0004.jpg",
             ],
             hint: "breakfast menu"
         },
         {
             label: "Ver Menú Comidas",
             images: [
-                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-1.jpg",
-                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-2.jpg",
-                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-3.jpg",
-                "/images/MenuRestaurantePalmasComida/MenuRestaurantePalmasComida-4.jpg",
+                "/images/MenuRestaurantePalmasComida/MENU COMIDA (1)_page-0001.jpg",
+                "/images/MenuRestaurantePalmasComida/MENU COMIDA (1)_page-0002.jpg",
+                "/images/MenuRestaurantePalmasComida/MENU COMIDA (1)_page-0003.jpg",
+                "/images/MenuRestaurantePalmasComida/MENU COMIDA (1)_page-0004.jpg",
+                "/images/MenuRestaurantePalmasComida/MENU COMIDA (1)_page-0005.jpg",
+                "/images/MenuRestaurantePalmasComida/MENU COMIDA (1)_page-0006.jpg",
             ],
             hint: "lunch menu"
         }
@@ -52,8 +54,10 @@ const restaurants = [
         {
             label: "Ver Menú",
             images: [
-                "/images/MenuBarTerraza/MenuBarTerraza-1.jpg",
-                "/images/MenuBarTerraza/MenuBarTerraza-2.jpg",
+                "/images/MenuBarTerraza/MENÚ BAR_page-0001.jpg",
+                "/images/MenuBarTerraza/MENÚ BAR_page-0002.jpg",
+                "/images/MenuBarTerraza/MENÚ BAR_page-0003.jpg",
+                "/images/MenuBarTerraza/MENÚ BAR_page-0004.jpg",
             ],
             hint: "bar menu"
         }
@@ -67,7 +71,12 @@ const restaurants = [
         {
             label: "Ver Menú",
             images: [
-                "/images/MenuSnackBrasas/MenuSnackBrasas-1.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK_page-0001.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK_page-0002.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK_page-0003.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK_page-0004.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK_page-0005.jpg",
+                "/images/MenuSnackBrasas/MENÚ SNACK_page-0006.jpg",
             ],
             hint: "cafe menu"
         }
