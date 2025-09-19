@@ -53,7 +53,7 @@ Directorio Principal:
 
 Deportes:
 - Contacto Deportivo: Cristina Manzanares, Asistente de Deportes (cmanzanares@clubdelago.com.mx, Ext. 140).
-- Disciplinas: Tenis, Fútbol, Natación, Gimnasio, Yoga, Ciclismo. Para horarios de clases o torneos, deben contactar a Cristina Manzanares.
+- Disciplinas: Tenis, Fútbol, Natación, Gimnasio, Yoga, Boxeo. Para horarios de clases o torneos, deben contactar a Cristina Manzanares.
 
 Alimentos y Bebidas:
 - Restaurante Las Palmas
