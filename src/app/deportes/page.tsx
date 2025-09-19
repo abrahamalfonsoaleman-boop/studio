@@ -19,24 +19,39 @@ import { ScrollAnimator } from '@/components/scroll-animator'
 
 const flyers = [
   {
-    src: 'https://placehold.co/600x800.png',
-    alt: 'Flyer Torneo de Tenis',
-    hint: 'tennis tournament flyer',
+    src: '/images/ActividadesDeportivas/Frontenis.jpeg',
+    alt: 'Flyer de Frontenis',
+    hint: 'frontenis flyer',
   },
   {
-    src: 'https://placehold.co/600x800.png',
-    alt: 'Flyer Clases de Natación',
-    hint: 'swimming classes flyer',
+    src: '/images/ActividadesDeportivas/FutbolFemenil.jpeg',
+    alt: 'Flyer de Fútbol Femenil',
+    hint: 'womens soccer',
   },
   {
-    src: 'https://placehold.co/600x800.png',
-    alt: 'Flyer Liga de Fútbol',
-    hint: 'soccer league flyer',
+    src: '/images/ActividadesDeportivas/FutbolNiños.jpeg',
+    alt: 'Flyer de Fútbol para Niños',
+    hint: 'kids soccer',
   },
   {
-    src: 'https://placehold.co/600x800.png',
-    alt: 'Flyer Reto de Gimnasio',
-    hint: 'gym challenge flyer',
+    src: '/images/ActividadesDeportivas/Soccer.jpeg',
+    alt: 'Flyer de Soccer',
+    hint: 'soccer flyer',
+  },
+  {
+    src: '/images/ActividadesDeportivas/SoccerAdultos.jpeg',
+    alt: 'Flyer de Soccer para Adultos',
+    hint: 'adults soccer',
+  },
+  {
+    src: '/images/ActividadesDeportivas/Spinning.jpeg',
+    alt: 'Flyer de Spinning',
+    hint: 'spinning class',
+  },
+  {
+    src: '/images/ActividadesDeportivas/Zumba.jpeg',
+    alt: 'Flyer de Zumba',
+    hint: 'zumba class',
   },
 ]
 
