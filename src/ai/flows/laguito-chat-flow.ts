@@ -162,10 +162,19 @@ function buildRenta(question: string): LaguitoAnswer {
     };
 }
 
+const normalizeText = (text: string) => {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+};
+
 function buildContacto(question: string): LaguitoAnswer {
-    const keywords = Object.keys(Directorio).filter(key => 
-        new RegExp(`\\b${key.replace(" ", "\\s")}\\b`, 'i').test(question)
-    );
+    const normalizedQuestion = normalizeText(question);
+    const keywords = Object.keys(Directorio).filter(key => {
+        const normalizedKey = normalizeText(key);
+        return new RegExp(`\\b${normalizedKey.replace(" ", "\\s")}\\b`, 'i').test(normalizedQuestion);
+    });
 
     if (keywords.length === 0) {
         return buildFallback(question, "No encontré a esa persona en el directorio. ¿Necesitas ayuda para contactar a alguien más?");
