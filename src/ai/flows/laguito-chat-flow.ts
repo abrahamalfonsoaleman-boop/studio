@@ -12,7 +12,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { AyB, Deportes, Directorio, MisionVisionValores, Renta } from '@/lib/club-data';
-import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoHandoff, LaguitoIntent, LaguitoIntentSchema } from './types';
+import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
 
 
 // Define el esquema para un único mensaje en el historial del chat
@@ -171,12 +171,11 @@ const normalizeText = (text: string) => {
 
 function buildContacto(question: string): LaguitoAnswer {
     const normalizedQuestion = normalizeText(question);
-    const questionKeywords = normalizedQuestion.split(/\s+/).filter(Boolean);
-
+    
     const matchedKeys = Object.keys(Directorio).filter(key => {
         const normalizedKey = normalizeText(key);
-        // Check if any keyword from the question is present in the directory key
-        return questionKeywords.some(qKeyword => normalizedKey.includes(qKeyword));
+        const keyWords = normalizedKey.split(/\s+/).filter(Boolean);
+        return keyWords.some(kWord => normalizedQuestion.includes(kWord));
     });
 
 
