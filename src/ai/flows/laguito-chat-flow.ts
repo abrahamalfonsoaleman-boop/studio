@@ -174,8 +174,8 @@ function buildContacto(question: string): LaguitoAnswer {
     
     const matchedKeys = Object.keys(Directorio).filter(key => {
         const normalizedKey = normalizeText(key);
-        const keyWords = normalizedKey.split(/\s+/).filter(Boolean);
-        return keyWords.some(kWord => normalizedQuestion.includes(kWord));
+        const keyWordsInQuestion = normalizedQuestion.split(/\s+/).filter(Boolean);
+        return keyWordsInQuestion.some(qWord => normalizedKey.includes(qWord));
     });
 
 
