@@ -55,7 +55,7 @@ export const Deportes = {
     },
   },
   futbol: {
-    lugar: "Canchas de Fútbol 5 y 7",
+    lugar: "Canchas de Fútbol",
     grupos: [
       {
         instructor: "Oscar Sandoval",
@@ -146,29 +146,25 @@ export const AyB = {
       ["Chilaquiles", "$90"],
       ["Tacos Mineros", "$95"],
     ],
-    "Comidas y Cenas": [
-      ["Sopa del día", "$58"],
-      ["Tlalpeño", "$90"],
-      ["Pastas (Mamma Rossa / Bianca / Pesto)", "$86"],
-      ["Ensalada (Capresse / César)", "$90"],
-      ["Milanesa de Pollo", "$150"],
-      ["Milanesa de Res", "$120"],
-      ["Filete de Pescado", "$110"],
-      ["Salmón (Jamaica / En Salsa)", "$250 / $275"],
-      ["Tacos de Bistec", "$110"],
-      ["Club Sándwich", "$95"],
-      ["Hamburguesas (Del Lago / Luisiana)", "$115"],
-      ["Nachos Club", "$120"],
+    Postres: [
+        ["Bisquet", "$32"],
+        ["Pan Dulce", "$12"],
+        ["Empanada", "$15"],
+        ["Pastel de la Casa", "$58"],
+        ["Flan", "$58"],
     ],
-    Infantil: [
-      ["Hamburguesa Jr.", "$78"],
-      ["Chicken Strips", "$86"],
-    ],
+    Bebidas: [
+        ["Refrescos", "$21-$26"],
+        ["Fuze Té", "$28"],
+        ["Limonada", "$28-$37"],
+        ["Jugo", "$43-$48"],
+        ["Café Refil", "$20"],
+        ["Chocolate Abuelita", "$32"],
+    ]
   },
   "Terraza Bar": {
     "Tacos y Tostadas": [
       ["Taco de Rib Eye", "$79"],
-      ["Tostada Coqueta", "$75"],
       ["Taco Gobernador", "$72"],
       ["Taco de Pescado", "$55"],
       ["Quesabirrias", "$160"],
@@ -176,37 +172,56 @@ export const AyB = {
     "Botanas y Principales": [
       ["Carpaccio de Betabel", "$87"],
       ["Queso Fundido", "$85"],
-      ["Alitas Colorado", "$110"],
+      ["Ensalada Gaucha", "$70"],
+      ["Percherón", "$148"],
+      ["Percherón Mar y Tierra", "$163"],
       ["Shawarma Kebab", "$105"],
-      ["Hamburguesas", "$115"],
-      ["Nachos Club", "$120"],
-      ["Papas Fritas", "$66"],
+      ["Alitas", "$110"],
+    ],
+    "Hamburguesas": [
+        ["Delago", "$115"],
+        ["Luisiana", "$115"],
+        ["Mediterránea", "$115"],
     ],
     Rollos: [
       ["Ebi Roll", "$135"],
       ["Damen Roll", "$130"],
     ],
+    "Postres": [
+        ["Pastel de la Casa", "$58"],
+        ["Flan", "$58"],
+    ]
   },
   "Snack Brasas": {
     Desayunos: [
       ["Gordita de Guiso", "$28"],
       ["Omelette al Gusto", "$105"],
+      ["Huevos al Gusto", "$85"],
       ["Machacado", "$120"],
       ["Taco de Guiso", "$23"],
     ],
     Principales: [
       ["Tacos de Bistec", "$110"],
       ["Enchiladas Regias", "$125"],
+      ["Enchiladas Potosinas", "$95"],
       ["Pirata", "$96"],
       ["Hamburguesas", "$115"],
-      ["Alitas Colorado", "$110"],
+      ["Alitas", "$110"],
       ["Percherón", "$148"],
     ],
-    Adicionales: [
-      ["Hot Dog", "$48"],
-      ["Papas Fritas", "$66"],
-      ["Chicken Strips", "$86"],
-      ["Dedos de Queso", "$110"],
+    Extras: [
+        ["Hamburguesa Jr.", "$78"],
+        ["Hot Dog", "$48"],
+        ["Papas Fritas", "$66-$90"],
+        ["Chicken Strips", "$86"],
+        ["Dedos de Queso", "$110"],
+    ],
+    Postres: [
+      ["Bisquet", "$32"],
+      ["Pan Dulce", "$12"],
+      ["Pastel", "$58"],
+      ["Empanada", "$15"],
+      ["Flan", "$58"],
     ],
   },
 } as const;
@@ -240,8 +255,8 @@ export const Directorio = {
   "Gerente Administrativo": { name: "Mayra Sánchez", email: "msanchez@clubdelago.com.mx", ext: "112" },
   "Gerente de Operaciones": { name: "Víctor Zurita", email: "gerenciaoperaciones@clubdelago.com.mx" },
   "Gerente de Alimentos y Bebidas": { name: "Julián Obregón", email: "gerenciaayb@clubdelago.com.mx" },
-  "Sistemas y Comunicación": { name: "Juan Andrade", email: "sistemas@clubdelago.com.mx", ext: "109" },
-  "Capital Humano": { name: "Carlos Merlín", email: "recursoshumanos@clubdelago.com.mx", ext: "113" },
+  "Jefe de Sistemas y Comunicación": { name: "Juan Andrade", email: "sistemas@clubdelago.com.mx", ext: "109" },
+  "Gerente de Capital Humano": { name: "Carlos Merlín", email: "recursoshumanos@clubdelago.com.mx", ext: "113" },
   "Coordinadora de Eventos": { name: "Ana Karen Rincón", email: "eventos@clubdelago.com.mx", ext: "120", whatsapp: "+528123870840" },
   "Comunicación": { name: "Leidy Rodríguez", email: "edicion@clubdelago.com.mx", ext: "109" },
   "Asistente de Deportes": { name: "Cristina Manzanares", email: "cmanzanares@clubdelago.com.mx", ext: "140" },
