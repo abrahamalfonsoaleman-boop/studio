@@ -175,7 +175,7 @@ function buildContacto(question: string): LaguitoAnswer {
     const matchedKeys = Object.keys(Directorio).filter(key => {
         const normalizedKey = normalizeText(key);
         const keyWordsInQuestion = normalizedQuestion.split(/\s+/).filter(Boolean);
-        return keyWordsInQuestion.some(qWord => normalizedKey.includes(qWord));
+        return keyWordsInQuestion.some(qWord => qWord.length > 2 && normalizedKey.includes(qWord));
     });
 
 
@@ -246,7 +246,7 @@ const intentHandlers: Record<LaguitoIntent, (q: string) => LaguitoAnswer> = {
  */
 export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
     const intent = await classifyIntent(input.question);
-    const handler = intentHandlers[intent];
+    const handler = intentHandlers[intent] || intentHandlers["desconocido"];
     const structuredAnswer = handler(input.question);
 
     const { output } = await ai.generate({
