@@ -171,16 +171,20 @@ const normalizeText = (text: string) => {
 
 function buildContacto(question: string): LaguitoAnswer {
     const normalizedQuestion = normalizeText(question);
-    const keywords = Object.keys(Directorio).filter(key => {
+    const questionKeywords = normalizedQuestion.split(/\s+/).filter(Boolean);
+
+    const matchedKeys = Object.keys(Directorio).filter(key => {
         const normalizedKey = normalizeText(key);
-        return new RegExp(`\\b${normalizedKey.replace(" ", "\\s")}\\b`, 'i').test(normalizedQuestion);
+        // Check if any keyword from the question is present in the directory key
+        return questionKeywords.some(qKeyword => normalizedKey.includes(qKeyword));
     });
 
-    if (keywords.length === 0) {
+
+    if (matchedKeys.length === 0) {
         return buildFallback(question, "No encontré a esa persona en el directorio. ¿Necesitas ayuda para contactar a alguien más?");
     }
 
-    const matchedKey = keywords[0] as keyof typeof Directorio;
+    const matchedKey = matchedKeys[0] as keyof typeof Directorio;
     const contacto = Directorio[matchedKey];
     
     const bullets = [
@@ -201,7 +205,7 @@ function buildContacto(question: string): LaguitoAnswer {
             title: `Contacto: ${matchedKey}`,
             bullets
         }],
-        meta: { source: "club-data.ts", matched: keywords }
+        meta: { source: "club-data.ts", matched: matchedKeys }
     };
 }
 
