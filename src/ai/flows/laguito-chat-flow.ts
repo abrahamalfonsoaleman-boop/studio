@@ -206,8 +206,8 @@ function buildSafeFallback(summary: string): LaguitoAnswer {
       title: "Atención a Asociados",
       subtitle: handoffContact.name,
       bullets: [
-        `**Correo:** ${handoContact.email}`,
-        `**Tel.:** 81 8357 5500 ext. ${handoContact.ext}`
+        `**Correo:** ${handoffContact.email}`,
+        `**Tel.:** 81 8357 5500 ext. ${handoffContact.ext}`
       ],
     }],
     meta: { source: "parser-fallback", confidence: 0 }
@@ -233,14 +233,20 @@ const CONTACTS_ROUTE: Record<string, ContactRoute> = {
   comunicacion:{ name:"Leidy Rodríguez",    title:"Comunicación", email:"edicion@clubdelago.com.mx", ext:"109" },
   asociados:  { name:"Sandra Arévalo",      title:"Atención a Asociados", email:"atencionaasociados@clubdelago.com.mx", ext:"116" },
 };
-const DETERMINISTIC_AREAS: Record<string, keyof typeof CONTACTS_ROUTE> = {
-    sistemas: "sistemas",
-    administracion: "administracion",
-    operaciones: "operaciones",
-    comunicacion: "comunicacion",
-    asociados: "asociados",
-    membresia: "asociados"
-}
+
+type AreaKeywords = {
+    area: keyof typeof CONTACTS_ROUTE;
+    keywords: string[];
+};
+
+const DETERMINISTIC_AREA_KEYWORDS: AreaKeywords[] = [
+    { area: "sistemas", keywords: ["sistemas", "wifi", "internet", "delagoapp", "aplicacion", "app", "correo"] },
+    { area: "administracion", keywords: ["administracion", "factura", "pago", "caja"] },
+    { area: "operaciones", keywords: ["operaciones", "mantenimiento", "limpieza", "seguridad"] },
+    { area: "comunicacion", keywords: ["comunicacion", "redes", "sociales", "prensa"] },
+    { area: "asociados", keywords: ["asociados", "membresia", "socio", "afiliarse"] },
+    { area: "eventos", keywords: ["eventos", "salon", "fiesta"] },
+];
 
 
 /**
@@ -251,7 +257,29 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     const { content: question } = input;
     const normalizedQuestion = question.toLowerCase().trim();
 
-    // 1. Pre-ruteo determinista
+    // 1. Pre-ruteo determinista para Áreas
+    for (const areaConfig of DETERMINISTIC_AREA_KEYWORDS) {
+        if (areaConfig.keywords.some(keyword => normalizedQuestion.includes(keyword))) {
+            const contact = CONTACTS_ROUTE[areaConfig.area];
+            const payload: LaguitoAnswer = {
+                intent: "directorio.contacto",
+                summary: `Aquí tienes el contacto para ${contact.title}.`,
+                cards: [{
+                    title: contact.name,
+                    subtitle: contact.title,
+                    bullets: [
+                        contact.email ? `**Email:** ${contact.email}` : '',
+                        `**Teléfono:** 81 8357 5500${contact.ext ? ` ext. ${contact.ext}` : ''}`
+                    ].filter(Boolean)
+                }],
+                meta: { source: "laguito-v3-deterministic", confidence: 1.0 }
+            };
+            return { role: "model", content: JSON.stringify(payload) };
+        }
+    }
+
+
+    // 2. Pre-ruteo determinista para Deportes Resumen
     if (/^\s*deportes\s*$/i.test(normalizedQuestion) || /\b(clases?|deportiv)/i.test(normalizedQuestion) && /deport/.test(normalizedQuestion)) {
       const cardResumen = resumenDisciplinas();
       const contacto = CONTACTS_ROUTE.deportes;
@@ -278,27 +306,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
       return { role: "model", content: JSON.stringify(payload) };
     }
 
-    if (DETERMINISTIC_AREAS[normalizedQuestion]) {
-        const areaKey = DETERMINISTIC_AREAS[normalizedQuestion];
-        const contact = CONTACTS_ROUTE[areaKey];
-        const payload: LaguitoAnswer = {
-            intent: "directorio.contacto",
-            summary: `Aquí tienes el contacto para ${contact.title}.`,
-            cards: [{
-                title: contact.name,
-                subtitle: contact.title,
-                bullets: [
-                    contact.email ? `**Email:** ${contact.email}` : '',
-                    `**Teléfono:** 81 8357 5500${contact.ext ? ` ext. ${contact.ext}` : ''}`
-                ].filter(Boolean)
-            }],
-            meta: { source: "laguito-v3-deterministic", confidence: 1.0 }
-        };
-        return { role: "model", content: JSON.stringify(payload) };
-    }
-
-
-    // 2. Llamada al modelo Gemini con el prompt de sistema
+    // 3. Llamada al modelo Gemini con el prompt de sistema
     try {
         const { output } = await ai.generate({
             model: 'googleai/gemini-2.0-flash',
@@ -314,7 +322,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
             return { role: 'model', content: JSON.stringify(buildSafeFallback("No pude procesar tu solicitud en este momento.")) };
         }
         
-        // 3. Validación de salida
+        // 4. Validación de salida
         const finalAnswer = LaguitoAnswerSchema.parse(output);
         return { role: 'model', content: JSON.stringify(finalAnswer) };
 
