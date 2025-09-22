@@ -14,9 +14,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { AyB, Deportes, MisionVisionValores, Renta } from '@/lib/club-data';
 import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
-import { keywordRouter } from './keywordRouter';
 import { extractEntities } from './nlu';
-
 
 // Define el esquema para un único mensaje en el historial del chat
 const ChatMessageSchema = z.object({
@@ -47,8 +45,13 @@ Tu objetivo es actuar como un enrutador inteligente y un generador de resúmenes
  */
 async function classifyIntent(question: string): Promise<LaguitoIntent> {
     const nq = question.toLowerCase();
-    if (/\bsocio|membres/i.test(nq)) return "directorio.contacto";
-    if (/\bsistemas|it|ti|wifi|internet|correo|red/i.test(nq)) return "directorio.contacto";
+
+    // overrides deterministas
+    if (/\b(deporte|zumba|spinning|frontenis|futbol|fútbol|soccer)\b/.test(nq)) return "deportes.horarios";
+    if (/\b(men[uú]|restaurante|bar|alimentos|comida)\b/.test(nq)) return "ayb.menu";
+    if (/\b(evento|renta|sal[oó]n|palapa|asador)\b/.test(nq)) return "eventos.renta";
+    if (/\b(socios?|membres[ií]a|sistemas|operaciones|administraci[oó]n|comunicaci[oó]n|it|ti|wifi|internet)\b/.test(nq)) return "directorio.contacto";
+    if (/\b(mision|misión|vision|visi[oó]n|valores)\b/.test(nq)) return "general.info";
 
     const { text } = await ai.generate({
         model: "googleai/gemini-2.0-flash",
@@ -542,6 +545,45 @@ const slotPlans: Record<LaguitoIntent, { required: string[] }> = {
 };
 
 
+type ContactRoute = { name: string; title: string; email?: string; ext?: string };
+
+const CONTACTS_ROUTE: Record<string, ContactRoute> = {
+  deportes:   { name:"Cristina Manzanares", title:"Asistente de Deportes", email:"cmanzanares@clubdelago.com.mx", ext:"140" },
+  sistemas:   { name:"Juan Andrade",        title:"Jefe de Sistemas y Comunicación", email:"sistemas@clubdelago.com.mx", ext:"109" },
+  eventos:    { name:"Ana Karen Rincón",    title:"Coordinadora de Eventos", email:"eventos@clubdelago.com.mx", ext:"120" },
+  alimentos:  { name:"Julián Obregón",      title:"Gerente de Alimentos y Bebidas", email:"gerenciaayb@clubdelago.com.mx" },
+  administracion:{ name:"Mayra Sánchez",    title:"Gerente Administrativo", email:"msanchez@clubdelago.com.mx", ext:"112" },
+  operaciones:{ name:"Víctor Zurita",       title:"Gerente de Operaciones", email:"gerenciaoperaciones@clubdelago.com.mx" },
+  comunicacion:{ name:"Leidy Rodríguez",    title:"Comunicación", email:"edicion@clubdelago.com.mx", ext:"109" },
+  asociados:  { name:"Sandra Arévalo",      title:"Atención a Asociados", email:"atencionaasociados@clubdelago.com.mx", ext:"116" },
+};
+
+const ALIASES: Record<string, keyof typeof CONTACTS_ROUTE> = {
+  // áreas
+  deportes:"deportes", eventos:"eventos", sistemas:"sistemas", alimentos:"alimentos",
+  administracion:"administracion", operaciones:"operaciones", comunicacion:"comunicacion",
+  asociados:"asociados", socio:"asociados", membresia:"asociados", membresía:"asociados",
+  // términos afines
+  futbol:"deportes", fútbol:"deportes", spinning:"deportes", zumba:"deportes", frontenis:"deportes",
+  menu:"alimentos", menú:"alimentos", bar:"alimentos", restaurante:"alimentos",
+  salon:"eventos", palapa:"eventos", renta:"eventos",
+  it:"sistemas", ti:"sistemas", wifi:"sistemas", internet:"sistemas", correo:"sistemas",
+};
+
+function routeArea(question: string): ContactRoute | null {
+  const nq = normalize(question);
+  const tokens = nq.split(/\s+/).filter(Boolean);
+
+  // 1) una sola palabra → alias directo
+  if (tokens.length <= 2 && ALIASES[nq]) return CONTACTS_ROUTE[ALIASES[nq]];
+
+  // 2) frase corta / sin contexto → primer alias que aparezca
+  for (const t of tokens) {
+    if (ALIASES[t]) return CONTACTS_ROUTE[ALIASES[t]];
+  }
+  return null;
+}
+
 /**
  * Función principal del chatbot.
  * Clasifica la intención y llama al handler correspondiente para construir la respuesta.
@@ -549,24 +591,24 @@ const slotPlans: Record<LaguitoIntent, { required: string[] }> = {
 export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
     const { question } = input;
 
-    // 1. Pre-router determinista para palabras clave críticas
-    const quickRoute = await keywordRouter(question);
-    if (quickRoute.type === 'contact') {
-        const c = quickRoute.payload;
-        const payload: LaguitoAnswer = {
-            intent: "directorio.contacto",
-            summary: `Claro, aquí tienes la información de ${c.title}.`,
-            cards: [{
-                title: c.name,
-                subtitle: c.title,
-                bullets: [
-                    c.email ? `**Email:** ${c.email}` : undefined,
-                    `**Teléfono:** 81 8357 5500${c.ext ? ` ext. ${String(c.ext)}` : ""}`
-                ].filter(Boolean) as string[]
-            }],
-            meta: { source: "keyword_router", matched: [] }
-        };
-        return { role: 'model', content: JSON.stringify(payload) };
+    // A) Router directo por área (una palabra o frase corta)
+    const directContact = routeArea(question);
+    if (directContact) {
+      const payload: LaguitoAnswer = {
+        intent: "directorio.contacto",
+        summary: `Claro, aquí tienes la información de ${directContact.title}.`,
+        cards: [{
+          title: directContact.name,
+          subtitle: directContact.title,
+          bullets: [
+            directContact.email ? `**Email:** ${directContact.email}` : undefined,
+            `**Teléfono:** 81 8357 5500${directContact.ext ? ` ext. ${String(directContact.ext)}` : ""}`
+          ].filter(Boolean) as string[],
+          quickReplies: ["Ver horarios de Zumba","Fútbol 7 (2010–2011)","Menú Las Palmas","Rentar Palapa 4"]
+        }],
+        meta: { source: "router_directo" }
+      };
+      return { role: 'model', content: JSON.stringify(payload) };
     }
 
     try {
