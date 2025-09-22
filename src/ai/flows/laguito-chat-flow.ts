@@ -200,7 +200,7 @@ const resumenDisciplinas = (): LaguitoCard => {
 }
 
 
-function buildMenu(question: string, entities: Awaited<ReturnType<typeof extractEntities>>): LaguitoAnswer {
+async function buildMenu(question: string, entities: Awaited<ReturnType<typeof extractEntities>>): Promise<LaguitoAnswer> {
     const restauranteKey = entities.restaurante as keyof typeof AyB | undefined;
 
     if (!restauranteKey || !AyB[restauranteKey]) {
@@ -371,7 +371,7 @@ const levenshtein = (a: string, b: string) => {
   for (let i=0;i<=m;i++) dp[i][0]=i;
   for (let j=0;j<=n;j++) dp[0][j]=j;
   for (let i=1;i<=m;i++){
-    for (let j=1;i<=n;j++){
+    for (let j=1;j<=n;j++){ // FIX: el bucle interno debe ser j<=n
       const cost = s[i-1]===t[j-1]?0:1;
       dp[i][j]=Math.min(
         dp[i-1][j]+1,
@@ -528,13 +528,13 @@ function buildGeneralInfo(question: string): LaguitoAnswer {
 }
 
 
-const intentHandlers: Record<LaguitoIntent, (q: string, e: Awaited<ReturnType<typeof extractEntities>>) => LaguitoAnswer> = {
-  "deportes.horarios": (q) => buildFallback(q, "buildDeportes no debería ser llamado directamente"),
+const intentHandlers: Record<LaguitoIntent, (q: string, e: Awaited<ReturnType<typeof extractEntities>>) => Promise<LaguitoAnswer>> = {
+  "deportes.horarios": (q) => Promise.resolve(buildFallback(q, "buildDeportes no debería ser llamado directamente")),
   "ayb.menu": buildMenu,
-  "eventos.renta": buildRenta,
-  "directorio.contacto": buildContacto,
-  "general.info": buildGeneralInfo,
-  "desconocido": buildFallback,
+  "eventos.renta": (q) => Promise.resolve(buildRenta(q)),
+  "directorio.contacto": (q) => Promise.resolve(buildContacto(q)),
+  "general.info": (q) => Promise.resolve(buildGeneralInfo(q)),
+  "desconocido": (q) => Promise.resolve(buildFallback(q)),
 };
 
 const slotPlans: Record<LaguitoIntent, { required: string[] }> = {
@@ -720,7 +720,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
 
         // 4. Si hay contexto, llamar al handler correspondiente
         const handler = intentHandlers[intent] || intentHandlers["desconocido"];
-        const structuredAnswer = handler(question, entities);
+        const structuredAnswer = await handler(question, entities);
 
         // 5. Usar LLM para generar el resumen final
         const { output } = await ai.generate({
@@ -745,7 +745,3 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
         return { role: 'model', content: JSON.stringify(buildFallback(question, "Ocurrió un error al procesar tu solicitud.")) };
     }
 }
-
-    
-
-    
