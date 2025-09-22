@@ -69,3 +69,56 @@ function _extractEntities(q: string){
 export async function extractEntities(q: string) {
     return _extractEntities(q);
 }
+
+export type DeportesQuery = {
+  disciplina?: "futbol"|"spinning"|"zumba"|"frontenis";
+  categoria?: string;     // ej. "2014", "2010-2011", "femenil", "adultos"
+  instructor?: string;    // ej. "paty", "emilio", "oscar", "diego", "daniel", "nelia"
+  cancha?: "Fútbol 5"|"Fútbol 7";
+  dia?: string;           // "lunes" | "martes" | ...
+  hora?: string;          // ej. "17:00", "6:15 pm"
+};
+
+const DISC = { spinning:"spinning", spin:"spinning", zumba:"zumba",
+  frontenis:"frontenis", fronton:"frontenis", "frontón":"frontenis",
+  futbol:"futbol", "fútbol":"futbol", soccer:"futbol"
+};
+
+const INSTRUCTORES = ["paty","emilio","nelia","oscar","diego","daniel","martha","antonio"];
+const DIAS = ["lunes","martes","miercoles","miércoles","jueves","viernes","sabado","sábado","domingo"];
+
+export async function parseDeportesQuery(q: string): Promise<DeportesQuery> {
+  const t = N(q);
+
+  // disciplina
+  let disciplina: DeportesQuery["disciplina"];
+  for (const [k,v] of Object.entries(DISC)) if (t.includes(k)) disciplina = v as any;
+
+  // categoría/año
+  let categoria: string | undefined;
+  const mRango = t.match(/\b(201[0-9])\s*[-–]\s*(201[0-9])\b/);
+  if (mRango) categoria = `${mRango[1]}-${mRango[2]}`;
+  const mAno = t.match(/\b(201[0-9]|202[0-9]|2014)\b/);
+  if (!categoria && mAno) categoria = mAno[1];
+  if (/femenil/.test(t)) categoria = "femenil";
+  if (/adult/.test(t)) categoria = "adultos";
+
+  // instructor
+  const instructor = INSTRUCTORES.find(n => t.includes(n));
+
+  // cancha
+  const cancha: DeportesQuery["cancha"] =
+    /\bfutbol 5|fútbol 5\b/.test(t) ? "Fútbol 5" :
+    (/\bfutbol 7|fútbol 7\b/.test(t) ? "Fútbol 7" : undefined);
+
+  // día
+  let dia = DIAS.find(d => t.includes(N(d)));
+  if (dia === "miercoles") dia = "miércoles";
+  if (dia === "sabado") dia = "sábado";
+
+  // hora (captura 6:15, 17:00, 6:15 pm)
+  const h = t.match(/\b(\d{1,2}:\d{2}\s*(am|pm)?)\b/);
+  const hora = h?.[1];
+
+  return { disciplina, categoria, instructor, cancha, dia, hora };
+}

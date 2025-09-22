@@ -14,7 +14,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { AyB, Deportes, MisionVisionValores, Renta } from '@/lib/club-data';
 import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
-import { extractEntities, extractDisciplina } from './nlu';
+import { extractEntities, extractDisciplina, parseDeportesQuery, DeportesQuery } from './nlu';
 
 // Define el esquema para un único mensaje en el historial del chat
 const ChatMessageSchema = z.object({
@@ -86,148 +86,116 @@ function buildFallback(question: string, note?: string): LaguitoAnswer {
     }
 }
 
+
 // -------------------------------
-// buildDeportes (nueva implementación robusta)
+// buildDeportes (nueva implementación robusta y con filtrado)
 // -------------------------------
 type Row = [string, string, string, string]; // Instructor, Categoría, Días, Horario
 
-const norm = (s: string) =>
-  s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/\s+/g, " ").trim();
+function normalizeStr(s?: string){ return s ? s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"") : ""; }
 
-const includesAny = (txt: string, kws: string[]) => kws.some(k => txt.includes(norm(k)));
+function matchCategoria(cat: string|undefined, qCat?: string){
+  if (!qCat) return true;
+  if (!cat) return false;
+  const C = normalizeStr(cat);
+  const Q = normalizeStr(qCat);
+  return C.includes(Q);
+}
 
+function matchInstructor(name: string, qInst?: string){
+  if (!qInst) return true;
+  return normalizeStr(name).includes(normalizeStr(qInst));
+}
 
-function buildRowsFor(
-  key: keyof typeof Deportes,
-  q: string
-): Row[] {
+function matchDia(dias: string, qDia?: string){
+  if (!qDia) return true;
+  return normalizeStr(dias).includes(normalizeStr(qDia));
+}
+
+function matchHora(hora: string, qHora?: string){
+  if (!qHora) return true;
+  const H = qHora.replace(/\s*(am|pm)/,'').trim();
+  return hora.includes(H);
+}
+
+function matchCancha(cancha: string|undefined, qCancha?: "Fútbol 5"|"Fútbol 7"){
+  if (!qCancha) return true;
+  return cancha === qCancha;
+}
+
+async function buildDeportesFiltered(question: string): Promise<LaguitoAnswer | null>{
+  const q = await parseDeportesQuery(question);
+
+  if (!q.disciplina) return null;
+
+  const key = q.disciplina as keyof typeof Deportes;
   const d = Deportes[key];
 
-  // filtros opcionales por categoría/cancha/segmento
-  const nq = norm(q);
-  const wantAdultos = includesAny(nq, ["adulto", "adultos", "+15"]);
-  const wantFemenil = includesAny(nq, ["femenil", "femenino"]);
-  const wantInfantil = includesAny(nq, ["infantil", "niñ", "201", "20", "2014", "2019", "2021"]);
-
   const rows: Row[] = [];
+  d.grupos.forEach((g:any)=>{
+    if (!matchCancha((g as any).cancha, q.cancha)) return;
+    if (!matchInstructor(g.instructor, q.instructor)) return;
 
-  d.grupos.forEach((g: any) => {
-    // Filtros específicos fútbol
-    if (key === "futbol") {
-      const cat = (g.categoria || "").toLowerCase();
-      if (wantAdultos && !/adult/.test(cat)) return;
-      if (wantFemenil && !/femenil/.test(cat)) return;
-      if (wantInfantil && /adult/.test(cat)) return; // si pidió infantil, evita adultos
-    }
+    const categoria = g.categoria ?? (d as any).notas ?? "";
+    g.horarios.forEach((h:any)=>{
+      if (!matchCategoria(categoria, q.categoria)) return;
+      if (!matchDia(h.dias, q.dia)) return;
+      if (!matchHora(h.hora, q.hora)) return;
 
-    g.horarios.forEach((h: any) => {
-      rows.push([
-        g.instructor,
-        g.categoria ?? (key === "spinning" ? "Mixto Adultos" : (d as any).notas ?? ""),
-        h.dias,
-        h.hora,
-      ]);
+      rows.push([g.instructor, categoria, h.dias, h.hora]);
     });
   });
 
-  // Si tras filtrar quedó vacío, rellena con todo para esa disciplina
-  if (!rows.length) {
-    d.grupos.forEach((g: any) => {
-      g.horarios.forEach((h: any) => {
-        rows.push([
-          g.instructor,
-          g.categoria ?? (key === "spinning" ? "Mixto Adultos" : (d as any).notas ?? ""),
-          h.dias,
-          h.hora,
-        ]);
-      });
-    });
-  }
+  const relaxed = !rows.length ? `No encontré coincidencias exactas para tu búsqueda. Te muestro todos los horarios para ${q.disciplina}.` : undefined;
+  const finalRows = rows.length ? rows : (()=> {
+    const all: Row[] = [];
+    d.grupos.forEach((g:any)=>g.horarios.forEach((h:any)=>{
+      all.push([g.instructor, g.categoria ?? (d as any).notas ?? "", h.dias, h.hora]);
+    }));
+    return all;
+  })();
 
-  return rows;
-}
+  const contacto = CONTACTS_ROUTE.deportes;
 
-const deportesCard = (key: keyof typeof Deportes): LaguitoCard => {
-  const pretty = key.charAt(0).toUpperCase() + key.slice(1);
-  const d = Deportes[key];
-  const rows: [string, string, string, string][] = [];
-   d.grupos.forEach(g => g.horarios.forEach(h=>{
-    rows.push([
-      g.instructor,
-      (g as any).categoria ?? (d as any).notas ?? "",
-      h.dias,
-      h.hora
-    ]);
-  }));
-
-  return {
-    title: pretty,
-    subtitle: `Sede: ${d.lugar}`,
-    table: {
-      columns: ["Instructor","Categoría","Días","Horario"],
-      rows: rows
-    }
+  const answer: LaguitoAnswer = {
+    intent: "deportes.horarios",
+    summary: relaxed || `¡Claro! Aquí tienes la información sobre ${q.disciplina}.`,
+    cards: [
+        {
+          title: contacto.name,
+          subtitle: contacto.title,
+          bullets: [
+            `**Email:** ${contacto.email}`,
+            `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
+          ]
+        },
+        {
+            title: key.charAt(0).toUpperCase() + key.slice(1),
+            subtitle: [
+                `Sede: ${d.lugar}`,
+                q.categoria ? `Categoría: ${q.categoria}` : "",
+                q.instructor ? `Instructor: ${q.instructor}` : "",
+                q.cancha ? q.cancha : "",
+                q.dia ? `Día: ${q.dia}` : "",
+                q.hora ? `Hora: ${q.hora}` : "",
+            ].filter(Boolean).join(" • "),
+            table: {
+                columns: ["Instructor","Categoría","Días","Horario"],
+                rows: finalRows
+            },
+        }
+    ]
   };
+  return answer;
 }
+
+
 
 const resumenDisciplinas = (): LaguitoCard => {
   const keys = Object.keys(Deportes) as (keyof typeof Deportes)[];
   return {
     title: "Clases deportivas disponibles",
     bullets: keys.map(k => k[0].toUpperCase()+k.slice(1)) // Spinning, Frontenis, Futbol, Zumba
-  };
-}
-
-
-function buildDeportes(question: string, entities: Awaited<ReturnType<typeof extractEntities>>): LaguitoAnswer {
-  const disc = entities.disciplina as keyof typeof Deportes | undefined;
-
-  const makeCard = (title: string, sede: string, rows: Row[]): LaguitoCard => ({
-    title,
-    subtitle: `Sede: ${sede}`,
-    table: {
-      columns: ["Instructor", "Categoría", "Días", "Horario"],
-      rows,
-    },
-  });
-
-  // 1) Si pidió una disciplina concreta
-  if (disc && Deportes[disc]) {
-    const rows = buildRowsFor(disc, question);
-    const title = disc.charAt(0).toUpperCase() + disc.slice(1);
-    const sede = Deportes[disc].lugar;
-    return {
-      intent: "deportes.horarios",
-      summary: `¡Claro! Aquí tienes la información sobre ${title}.`,
-      cards: [makeCard(title, sede, rows)],
-      handoff: {
-        name: Deportes[disc].contacto.nombre,
-        phone: `Tel. 81 8357 5500 ext. ${Deportes[disc].contacto.ext}`,
-        note: "Para inscripciones y más detalles."
-      },
-      meta: { source: "club-data.ts", matched: [disc] },
-    };
-  }
-
-  // 2) Si NO especificó → devolver TODO Deportes en varias tarjetas
-  const allCards = (Object.keys(Deportes) as (keyof typeof Deportes)[])
-    .map(k => {
-        const rows = buildRowsFor(k, ""); // Sin filtro de pregunta para obtener todos
-        const title = k.charAt(0).toUpperCase() + k.slice(1);
-        const sede = Deportes[k].lugar;
-        return makeCard(title, sede, rows);
-    });
-
-  return {
-    intent: "deportes.horarios",
-    summary: "¡Por supuesto! Aquí tienes un resumen de todas nuestras actividades deportivas.",
-    cards: allCards,
-    handoff: {
-        name: "Cristina Manzanares",
-        phone: `Tel. 81 8357 5500 ext. 140`,
-        note: "Para inscripciones y más detalles."
-    },
-    meta: { source: "club-data.ts", matched: ["all"] },
   };
 }
 
@@ -559,7 +527,7 @@ function buildGeneralInfo(question: string): LaguitoAnswer {
 
 
 const intentHandlers: Record<LaguitoIntent, (q: string, e: Awaited<ReturnType<typeof extractEntities>>) => LaguitoAnswer> = {
-  "deportes.horarios": buildDeportes,
+  "deportes.horarios": (q) => buildFallback(q, "buildDeportes no debería ser llamado directamente"),
   "ayb.menu": buildMenu,
   "eventos.renta": buildRenta,
   "directorio.contacto": buildContacto,
@@ -652,8 +620,16 @@ function routeArea(question: string): ContactRoute | null {
  * Función principal del chatbot.
  * Clasifica la intención y llama al handler correspondiente para construir la respuesta.
  */
-export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
-    const { question } = input;
+export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
+    const { content: question } = input;
+    
+    // Prioridad 1: Filtrado de deportes si se menciona una disciplina
+    if (/\b(spinning|zumba|frontenis|futbol|fútbol|soccer)\b/i.test(question)) {
+        const ans = await buildDeportesFiltered(question);
+        if (ans) {
+            return { role: "model", content: JSON.stringify(ans) };
+        }
+    }
     
      // A) Si pregunta global “clases deportivas…”
     if (/\b(clases?|deportiv)/i.test(question) && /deport/.test(question.toLowerCase())) {
@@ -674,29 +650,6 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
             cardResumen
             ],
             meta: { source: "resumen_deportes" }
-        }
-        return { role: "model", content: JSON.stringify(payload) };
-    }
-
-    // B) Si detecto una disciplina: contacto + horarios
-    const disc = await extractDisciplina(question);
-    if (disc) {
-        const contacto = CONTACTS_ROUTE.deportes;
-        const payload: LaguitoAnswer = {
-            intent: "deportes.horarios",
-            summary: `¡Claro! Aquí está la información de ${disc} y el contacto para inscripciones.`,
-            cards: [
-            {
-                title: contacto.name,
-                subtitle: contacto.title,
-                bullets: [
-                `**Email:** ${contacto.email}`,
-                `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
-                ]
-            },
-            deportesCard(disc)
-            ],
-            meta: { source: "disciplina_detectada", matched: [disc] }
         }
         return { role: "model", content: JSON.stringify(payload) };
     }
