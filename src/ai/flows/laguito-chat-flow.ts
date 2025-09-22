@@ -223,8 +223,22 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     const normalizedQuestion = question.toLowerCase().trim();
 
     // 1. Pre-ruteo determinista por palabras clave de área
+    let bestMatch = { area: '', score: 0 };
     for (const contacto of ClubData.directorio) {
-        if (contacto.palabrasClave.some(keyword => normalizedQuestion.includes(keyword))) {
+        let currentScore = 0;
+        for (const keyword of contacto.palabrasClave) {
+            if (normalizedQuestion.includes(keyword)) {
+                currentScore++;
+            }
+        }
+        if (currentScore > bestMatch.score) {
+            bestMatch = { area: contacto.area, score: currentScore };
+        }
+    }
+
+    if (bestMatch.score > 0) {
+        const contacto = ClubData.directorio.find(c => c.area === bestMatch.area);
+        if (contacto) {
             const payload: LaguitoAnswer = {
                 intent: "directorio.contacto",
                 summary: `Aquí tienes el contacto para ${contacto.puesto}.`,
