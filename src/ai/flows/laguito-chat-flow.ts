@@ -69,7 +69,7 @@ Determina **un** intent según el mensaje del usuario:
    - Si lo indica: devuelve platillos y precios de ese restaurante.
 
 5) **"directorio.contacto"** → si la entrada es **un concepto de área** (“sistemas”, “operaciones”, “administración”, “comunicación”, “asociados”, “membresía”, etc.)
-   - Acción: **solo** el contacto del área (nombre, puesto, correo, extensión). **No** añadas chips de otras áreas.
+   - Acción: **solo** el contacto del área (nombre, puesto, correo y extensión si existe). **No** añadas chips de otras áreas.
 
 6) **"institucional.mvv"** → si mencionan explícitamente misión/visión/valores.
    - Acción: devuelve esos textos si vienen en \`ClubData\`; si no están, redirige a asociados.
@@ -222,42 +222,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     const { content: question } = input;
     const normalizedQuestion = question.toLowerCase().trim();
 
-    // 1. Pre-ruteo determinista por palabras clave de área
-    let bestMatch = { area: '', score: 0 };
-    for (const contacto of ClubData.directorio) {
-        let currentScore = 0;
-        for (const keyword of contacto.palabrasClave) {
-            if (normalizedQuestion.includes(keyword)) {
-                currentScore++;
-            }
-        }
-        if (currentScore > bestMatch.score) {
-            bestMatch = { area: contacto.area, score: currentScore };
-        }
-    }
-
-    if (bestMatch.score > 0) {
-        const contacto = ClubData.directorio.find(c => c.area === bestMatch.area);
-        if (contacto) {
-            const payload: LaguitoAnswer = {
-                intent: "directorio.contacto",
-                summary: `Aquí tienes el contacto para ${contacto.puesto}.`,
-                cards: [{
-                    title: contacto.nombre,
-                    subtitle: contacto.puesto,
-                    bullets: [
-                        contacto.email ? `**Email:** ${contacto.email}` : '',
-                        `**Teléfono:** 81 8357 5500${contacto.ext ? ` ext. ${contacto.ext}` : ''}`
-                    ].filter(Boolean)
-                }],
-                meta: { source: "laguito-v3-deterministic", confidence: 1.0 }
-            };
-            return { role: "model", content: JSON.stringify(payload) };
-        }
-    }
-
-
-    // 2. Pre-ruteo determinista para Resumen de Deportes
+    // 1. Pre-ruteo determinista para Resumen de Deportes
     if (/^\s*deportes\s*$/i.test(normalizedQuestion) || /\b(clases?|deportiv)/i.test(normalizedQuestion) && /deport/.test(normalizedQuestion)) {
       const contactoDeportes = ClubData.directorio.find(c => c.area === 'deportes');
       const payload: LaguitoAnswer = {
@@ -283,7 +248,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
       return { role: "model", content: JSON.stringify(payload) };
     }
 
-    // 3. Llamada al modelo Gemini con el prompt de sistema
+    // 2. Llamada al modelo Gemini con el prompt de sistema
     try {
         const { output } = await ai.generate({
             model: 'googleai/gemini-2.0-flash',
@@ -299,7 +264,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
             return { role: 'model', content: JSON.stringify(buildSafeFallback("No pude procesar tu solicitud en este momento.")) };
         }
         
-        // 4. Validación de salida
+        // 3. Validación de salida
         const finalAnswer = LaguitoAnswerSchema.parse(output);
         return { role: 'model', content: JSON.stringify(finalAnswer) };
 
