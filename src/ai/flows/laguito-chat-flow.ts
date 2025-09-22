@@ -2,7 +2,8 @@
 'use server';
 /**
  * @fileOverview Un chatbot asistente para el Club Del Lago llamado "Laguito".
- * Este flujo utiliza un enfoque de clasificación de intenciones para proporcionar respuestas estructuradas y precisas.
+ * Este flujo utiliza un enfoque de clasificación de intenciones y llenado de "slots" 
+ * para proporcionar respuestas contextuales, haciendo preguntas de seguimiento cuando sea necesario.
  *
  * - laguitoChat - La función principal que maneja la conversación del chat.
  * - LaguitoChatInput - El tipo de entrada para la función laguitoChat.
@@ -14,6 +15,7 @@ import { z } from 'genkit';
 import { AyB, Deportes, MisionVisionValores, Renta } from '@/lib/club-data';
 import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
 import { keywordRouter } from './keywordRouter';
+import { extractEntities } from './nlu';
 
 
 // Define el esquema para un único mensaje en el historial del chat
@@ -91,20 +93,6 @@ const norm = (s: string) =>
 
 const includesAny = (txt: string, kws: string[]) => kws.some(k => txt.includes(norm(k)));
 
-const DISC_MAP: Record<string, string[]> = {
-  spinning: ["spinning", "spin"],
-  frontenis: ["frontenis", "fronton", "frontón"],
-  futbol: ["futbol", "fútbol", "soccer", "futbol 5", "futbol 7", "fútbol 5", "fútbol 7"],
-  zumba: ["zumba"],
-};
-
-function detectDisciplina(q: string): keyof typeof Deportes | null {
-  const nq = norm(q);
-  for (const [key, aliases] of Object.entries(DISC_MAP)) {
-    if (includesAny(nq, aliases.map(norm))) return key as keyof typeof Deportes;
-  }
-  return null;
-}
 
 function buildRowsFor(
   key: keyof typeof Deportes,
@@ -156,8 +144,8 @@ function buildRowsFor(
   return rows;
 }
 
-function buildDeportes(question: string): LaguitoAnswer {
-  const disc = detectDisciplina(question);
+function buildDeportes(question: string, entities: ReturnType<typeof extractEntities>): LaguitoAnswer {
+  const disc = entities.disciplina as keyof typeof Deportes | undefined;
 
   const makeCard = (title: string, sede: string, rows: Row[]): LaguitoCard => ({
     title,
@@ -169,7 +157,7 @@ function buildDeportes(question: string): LaguitoAnswer {
   });
 
   // 1) Si pidió una disciplina concreta
-  if (disc) {
+  if (disc && Deportes[disc]) {
     const rows = buildRowsFor(disc, question);
     const title = disc.charAt(0).toUpperCase() + disc.slice(1);
     const sede = Deportes[disc].lugar;
@@ -209,20 +197,17 @@ function buildDeportes(question: string): LaguitoAnswer {
 }
 
 
-function buildMenu(question: string): LaguitoAnswer {
-    const keywords = Object.keys(AyB).filter(key => 
-        new RegExp(`\\b${key.replace(" ", "\\s")}\\b`, 'i').test(question)
-    );
+function buildMenu(question: string, entities: ReturnType<typeof extractEntities>): LaguitoAnswer {
+    const restauranteKey = entities.restaurante as keyof typeof AyB | undefined;
 
-    if (keywords.length === 0) {
-        return buildFallback(question, "No pude identificar el restaurante. ¿Te gustaría ver el menú de Las Palmas, Terraza Bar o Snack Brasas?");
+    if (!restauranteKey || !AyB[restauranteKey]) {
+         return buildFallback(question, "No pude identificar el restaurante. ¿Te gustaría ver el menú de Las Palmas, Terraza Bar o Snack Brasas?");
     }
 
-    const matchedRestauranteKey = keywords[0] as keyof typeof AyB;
-    const restaurante = AyB[matchedRestauranteKey];
+    const restaurante = AyB[restauranteKey];
 
     const cards: LaguitoCard[] = Object.entries(restaurante).map(([categoria, platillos]) => ({
-        title: `${matchedRestauranteKey} - ${categoria}`,
+        title: `${restauranteKey} - ${categoria}`,
         table: {
             columns: ["Platillo", "Precio"],
             rows: platillos as string[][]
@@ -231,9 +216,9 @@ function buildMenu(question: string): LaguitoAnswer {
     
     return {
         intent: "ayb.menu",
-        summary: `Aquí está el menú de ${matchedRestauranteKey}. ¡Buen provecho!`,
+        summary: `Aquí está el menú de ${restauranteKey}. ¡Buen provecho!`,
         cards,
-        meta: { source: "club-data.ts", matched: keywords }
+        meta: { source: "club-data.ts", matched: [restauranteKey] }
     };
 }
 
@@ -483,7 +468,8 @@ function buildContacto(question: string): LaguitoAnswer {
       summary: "No estoy completamente seguro de a quién buscas. ¿Te refieres a alguna de estas personas?",
       cards: [{
         title: "¿A quién necesitas contactar?",
-        bullets: top.map(c => `${c.name} - ${c.title}${c.ext ? ` (Ext. ${c.ext})` : ""}`)
+        bullets: top.map(c => `${c.name} - ${c.title}${c.ext ? ` (Ext. ${c.ext})` : ""}`),
+        quickReplies: ["Deportes", "Eventos", "Sistemas", "Membresías"]
       }],
       handoff: { 
         name: handoffContact.name, 
@@ -537,7 +523,7 @@ function buildGeneralInfo(question: string): LaguitoAnswer {
 }
 
 
-const intentHandlers: Record<LaguitoIntent, (q: string) => LaguitoAnswer> = {
+const intentHandlers: Record<LaguitoIntent, (q: string, e: ReturnType<typeof extractEntities>) => LaguitoAnswer> = {
   "deportes.horarios": buildDeportes,
   "ayb.menu": buildMenu,
   "eventos.renta": buildRenta,
@@ -546,15 +532,28 @@ const intentHandlers: Record<LaguitoIntent, (q: string) => LaguitoAnswer> = {
   "desconocido": buildFallback,
 };
 
+const slotPlans: Record<LaguitoIntent, { required: string[] }> = {
+    "deportes.horarios": { required: ["disciplina"] },
+    "ayb.menu": { required: ["restaurante"] },
+    "eventos.renta": { required: [] }, // No hay slot requerido, siempre muestra todas las áreas.
+    "directorio.contacto": { required: [] }, // El scoring interno maneja la falta de info.
+    "general.info": { required: [] },
+    "desconocido": { required: [] },
+};
+
+
 /**
  * Función principal del chatbot.
  * Clasifica la intención y llama al handler correspondiente para construir la respuesta.
  */
 export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
-    const quickRoute = await keywordRouter(input.question);
+    const { question } = input;
+
+    // 1. Pre-router determinista para palabras clave críticas
+    const quickRoute = await keywordRouter(question);
     if (quickRoute.type === 'contact') {
         const c = quickRoute.payload;
-        const payload = {
+        const payload: LaguitoAnswer = {
             intent: "directorio.contacto",
             summary: `Claro, aquí tienes la información de ${c.title}.`,
             cards: [{
@@ -571,14 +570,51 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
     }
 
     try {
-        const intent = await classifyIntent(input.question);
-        const handler = intentHandlers[intent] || intentHandlers["desconocido"];
-        const structuredAnswer = handler(input.question);
+        // 2. Clasificar intención y extraer entidades
+        const intent = await classifyIntent(question);
+        const entities = extractEntities(question);
 
+        // 3. Lógica de "Slot Filling": preguntar si falta contexto
+        const requiredSlots = slotPlans[intent].required;
+        const missingSlots = requiredSlots.filter(slot => !(entities as any)[slot]);
+
+        if (missingSlots.length > 0) {
+            const slotToAsk = missingSlots[0];
+            const followUps: Record<string, { title: string; subtitle: string; quickReplies: string[] }> = {
+                disciplina: {
+                    title: "Para ayudarte mejor…",
+                    subtitle: "¿Qué disciplina te interesa?",
+                    quickReplies: ["Spinning", "Zumba", "Frontenis", "Fútbol"]
+                },
+                restaurante: {
+                    title: "Para ayudarte mejor…",
+                    subtitle: "¿De qué restaurante te gustaría ver el menú?",
+                    quickReplies: ["Las Palmas", "Terraza Bar", "Snack Brasas"]
+                },
+            };
+            
+            const askCard = followUps[slotToAsk];
+            if (askCard) {
+                const askAnswer: LaguitoAnswer = {
+                    intent: intent,
+                    summary: "Necesito un poco más de información para darte la respuesta correcta.",
+                    cards: [askCard],
+                    meta: { source: "slot_filler", matched: [] }
+                };
+                return { role: 'model', content: JSON.stringify(askAnswer) };
+            }
+        }
+
+
+        // 4. Si hay contexto, llamar al handler correspondiente
+        const handler = intentHandlers[intent] || intentHandlers["desconocido"];
+        const structuredAnswer = handler(question, entities);
+
+        // 5. Usar LLM para generar el resumen final
         const { output } = await ai.generate({
             model: 'googleai/gemini-2.0-flash',
             system: systemPrompt,
-            prompt: `Basado en esta pregunta del usuario "${input.question}" y la siguiente respuesta estructurada, genera el campo 'summary' y devuelve el objeto JSON completo. Respuesta Estructurada: ${JSON.stringify(structuredAnswer)}`,
+            prompt: `Basado en esta pregunta del usuario "${question}" y la siguiente respuesta estructurada, genera el campo 'summary' y devuelve el objeto JSON completo. Respuesta Estructurada: ${JSON.stringify(structuredAnswer)}`,
             output: {
                 schema: LaguitoAnswerSchema,
                 format: "json"
@@ -586,18 +622,14 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
         });
         
         if (!output) {
-            return { role: 'model', content: JSON.stringify(buildFallback(input.question, "Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo.")) };
+            return { role: 'model', content: JSON.stringify(buildFallback(question, "Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo.")) };
         }
         
-        // Asegurarnos de que el output se ajuste al esquema, incluso si el LLM falla.
         const finalAnswer = LaguitoAnswerSchema.parse(output);
-
         return { role: 'model', content: JSON.stringify(finalAnswer) };
 
     } catch(e) {
         console.error("Error en laguitoChat:", e);
-        return { role: 'model', content: JSON.stringify(buildFallback(input.question, "Ocurrió un error al procesar tu solicitud.")) };
+        return { role: 'model', content: JSON.stringify(buildFallback(question, "Ocurrió un error al procesar tu solicitud.")) };
     }
 }
-
-    

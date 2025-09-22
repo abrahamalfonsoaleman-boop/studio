@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview Defines the structured data types for Laguito chatbot responses.
  * Using Zod schemas ensures that the data returned by the AI model is always
@@ -34,6 +35,7 @@ export const LaguitoCardSchema = z.object({
         href: z.string().describe("The URL or link for the action (e.g., 'tel:+123' or 'mailto:a@b.com').")
     })
     .optional(),
+  quickReplies: z.array(z.string()).optional().describe("A list of suggested replies for the user to click on."),
 });
 export type LaguitoCard = z.infer<typeof LaguitoCardSchema>;
 

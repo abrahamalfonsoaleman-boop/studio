@@ -23,7 +23,7 @@ import Link from "next/link";
 
 
 // Componente para renderizar la respuesta estructurada del bot
-const BotMessageContent = ({ content }: { content: string }) => {
+const BotMessageContent = ({ content, onQuickReply }: { content: string, onQuickReply: (text: string) => void }) => {
   try {
     const parsedContent: LaguitoAnswer = JSON.parse(content);
     
@@ -65,6 +65,15 @@ const BotMessageContent = ({ content }: { content: string }) => {
                     <Link href={card.cta.href}>{card.cta.label}</Link>
                 </Button>
               )}
+              {card.quickReplies && card.quickReplies.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                    {card.quickReplies.map((reply, i) => (
+                        <Button key={i} size="sm" variant="outline" onClick={() => onQuickReply(reply)}>
+                            {reply}
+                        </Button>
+                    ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
@@ -96,6 +105,7 @@ export function LaguitoBot() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -106,19 +116,17 @@ export function LaguitoBot() {
     }
   }, [messages]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (messageContent: string) => {
+    if (!messageContent.trim() || isLoading) return;
 
-    const userMessage: ChatMessage = { role: "user", content: input };
+    const userMessage: ChatMessage = { role: "user", content: messageContent };
     setMessages((prev) => [...prev, userMessage]);
-    setInput("");
     setIsLoading(true);
 
     try {
       const botResponse = await laguitoChat({
         history: messages,
-        question: input,
+        question: messageContent,
       });
       setMessages((prev) => [...prev, botResponse]);
     } catch (error) {
@@ -134,7 +142,18 @@ export function LaguitoBot() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+       setTimeout(() => inputRef.current?.focus(), 100);
     }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage(input);
+    setInput("");
+  };
+
+  const handleQuickReply = (replyText: string) => {
+      sendMessage(replyText);
   };
 
   return (
@@ -190,7 +209,7 @@ export function LaguitoBot() {
                         : "bg-background"
                     )}
                   >
-                    {message.role === 'model' ? <BotMessageContent content={message.content} /> : <p className="text-sm">{message.content}</p>}
+                    {message.role === 'model' ? <BotMessageContent content={message.content} onQuickReply={handleQuickReply}/> : <p className="text-sm">{message.content}</p>}
                   </div>
                   {message.role === "user" && (
                      <Avatar className="h-8 w-8">
@@ -214,13 +233,15 @@ export function LaguitoBot() {
             </div>
           </ScrollArea>
           <div className="p-4 border-t bg-background">
-            <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+            <form onSubmit={handleFormSubmit} className="flex items-center gap-2">
               <Input
+                ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Pregúntale algo a Laguito..."
                 className="flex-1"
                 disabled={isLoading}
+                autoFocus
               />
               <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
                 {isLoading ? (
