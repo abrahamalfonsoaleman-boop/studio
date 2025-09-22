@@ -74,41 +74,133 @@ function buildFallback(question: string, note?: string): LaguitoAnswer {
     }
 }
 
-function buildDeportes(question: string): LaguitoAnswer {
-    const keywords = Object.keys(Deportes).filter(key => 
-        new RegExp(`\\b${key}\\b`, 'i').test(question)
-    );
+// -------------------------------
+// buildDeportes (nueva implementación robusta)
+// -------------------------------
+type Row = [string, string, string, string]; // Instructor, Categoría, Días, Horario
 
-    if (keywords.length === 0) {
-        return buildFallback(question, "No encontré información sobre la disciplina deportiva que mencionaste. Te recomiendo contactar a nuestro equipo de deportes.");
+const norm = (s: string) =>
+  s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/\s+/g, " ").trim();
+
+const includesAny = (txt: string, kws: string[]) => kws.some(k => txt.includes(norm(k)));
+
+const DISC_MAP: Record<string, string[]> = {
+  spinning: ["spinning", "spin"],
+  frontenis: ["frontenis", "fronton", "frontón"],
+  futbol: ["futbol", "fútbol", "soccer", "futbol 5", "futbol 7", "fútbol 5", "fútbol 7"],
+  zumba: ["zumba"],
+};
+
+function detectDisciplina(q: string): keyof typeof Deportes | null {
+  const nq = norm(q);
+  for (const [key, aliases] of Object.entries(DISC_MAP)) {
+    if (includesAny(nq, aliases.map(norm))) return key as keyof typeof Deportes;
+  }
+  return null;
+}
+
+function buildRowsFor(
+  key: keyof typeof Deportes,
+  q: string
+): Row[] {
+  const d = Deportes[key];
+
+  // filtros opcionales por categoría/cancha/segmento
+  const nq = norm(q);
+  const wantAdultos = includesAny(nq, ["adulto", "adultos", "+15"]);
+  const wantFemenil = includesAny(nq, ["femenil", "femenino"]);
+  const wantInfantil = includesAny(nq, ["infantil", "niñ", "201", "20", "2014", "2019", "2021"]);
+
+  const rows: Row[] = [];
+
+  d.grupos.forEach((g: any) => {
+    // Filtros específicos fútbol
+    if (key === "futbol") {
+      const cat = (g.categoria || "").toLowerCase();
+      if (wantAdultos && !/adult/.test(cat)) return;
+      if (wantFemenil && !/femenil/.test(cat)) return;
+      if (wantInfantil && /adult/.test(cat)) return; // si pidió infantil, evita adultos
     }
-    
-    const matchedDeporteKey = keywords[0] as keyof typeof Deportes;
-    const deporte = Deportes[matchedDeporteKey];
 
-    const cards: LaguitoCard[] = deporte.grupos.map(grupo => {
-        return {
-            title: `${matchedDeporteKey.charAt(0).toUpperCase() + matchedDeporteKey.slice(1)} - ${'categoria' in grupo ? grupo.categoria : 'General'}`,
-            subtitle: `Instructor: ${grupo.instructor}`,
-            table: {
-                columns: ["Días", "Horario"],
-                rows: grupo.horarios.map(h => [h.dias, h.hora])
-            }
-        };
+    g.horarios.forEach((h: any) => {
+      rows.push([
+        g.instructor,
+        g.categoria ?? (key === "spinning" ? "Mixto Adultos" : (d as any).notas ?? ""),
+        h.dias,
+        h.hora,
+      ]);
+    });
+  });
+
+  // Si tras filtrar quedó vacío, rellena con todo para esa disciplina
+  if (!rows.length) {
+    d.grupos.forEach((g: any) => {
+      g.horarios.forEach((h: any) => {
+        rows.push([
+          g.instructor,
+          g.categoria ?? (key === "spinning" ? "Mixto Adultos" : (d as any).notas ?? ""),
+          h.dias,
+          h.hora,
+        ]);
+      });
+    });
+  }
+
+  return rows;
+}
+
+function buildDeportes(question: string): LaguitoAnswer {
+  const disc = detectDisciplina(question);
+
+  const makeCard = (title: string, sede: string, rows: Row[]): LaguitoCard => ({
+    title,
+    subtitle: `Sede: ${sede}`,
+    table: {
+      columns: ["Instructor", "Categoría", "Días", "Horario"],
+      rows,
+    },
+  });
+
+  // 1) Si pidió una disciplina concreta
+  if (disc) {
+    const rows = buildRowsFor(disc, question);
+    const title = disc.charAt(0).toUpperCase() + disc.slice(1);
+    const sede = Deportes[disc].lugar;
+    return {
+      intent: "deportes.horarios",
+      summary: `¡Claro! Aquí tienes la información sobre ${title}.`,
+      cards: [makeCard(title, sede, rows)],
+      handoff: {
+        name: Deportes[disc].contacto.nombre,
+        phone: `Tel. 81 8357 5500 ext. ${Deportes[disc].contacto.ext}`,
+        note: "Para inscripciones y más detalles."
+      },
+      meta: { source: "club-data.ts", matched: [disc] },
+    };
+  }
+
+  // 2) Si NO especificó → devolver TODO Deportes en varias tarjetas
+  const allCards = (Object.keys(Deportes) as (keyof typeof Deportes)[])
+    .map(k => {
+        const rows = buildRowsFor(k, ""); // Sin filtro de pregunta para obtener todos
+        const title = k.charAt(0).toUpperCase() + k.slice(1);
+        const sede = Deportes[k].lugar;
+        return makeCard(title, sede, rows);
     });
 
-    return {
-        intent: "deportes.horarios",
-        summary: `¡Claro! Aquí tienes la información sobre ${matchedDeporteKey}.`,
-        cards,
-        handoff: {
-            name: deporte.contacto.nombre,
-            phone: `Tel. 81 8357 5500 ext. ${deporte.contacto.ext}`,
-            note: "Para inscripciones y más detalles."
-        },
-        meta: { source: "club-data.ts", matched: keywords }
-    };
+  return {
+    intent: "deportes.horarios",
+    summary: "¡Por supuesto! Aquí tienes un resumen de todas nuestras actividades deportivas.",
+    cards: allCards,
+    handoff: {
+        name: "Cristina Manzanares",
+        phone: `Tel. 81 8357 5500 ext. 140`,
+        note: "Para inscripciones y más detalles."
+    },
+    meta: { source: "club-data.ts", matched: ["all"] },
+  };
 }
+
 
 function buildMenu(question: string): LaguitoAnswer {
     const keywords = Object.keys(AyB).filter(key => 
@@ -260,15 +352,6 @@ const CONTACTOS: Contact[] = [
 
 // ---------- utilidades ----------
 const STOP = new Set(["el","la","los","las","de","del","y","a","en","para","con","un","una","al", "quien", "es", "la", "persona", "contacto", "con"]);
-
-const normalize = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/[^\p{L}\p{N}\s]/gu, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 
 const tokenize = (s: string) =>
   normalize(s)
