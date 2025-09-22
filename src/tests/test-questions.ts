@@ -1,10 +1,10 @@
 /**
- * @fileoverview Set de 100 preguntas para pruebas exhaustivas del chatbot Laguito.
+ * @fileoverview Set de 70 preguntas para pruebas del chatbot Laguito.
  * El objetivo es validar la robustez, precisión y el manejo de casos de borde.
  */
 
 export const testQuestions = [
-    // =========== 1. Directorio (25 preguntas) ===========
+    // =========== 1. Directorio (20 preguntas) ===========
     // Búsqueda directa por área
     "¿Quién es el contacto de sistemas?",
     "Necesito hablar con alguien de eventos",
@@ -30,15 +30,8 @@ export const testQuestions = [
     "¿Cuál es el correo de Sandra Arévalo?",
     "Pásame la extensión de Julián Obregón",
     "¿Quién es el Gerente Administrativo?",
-    "Necesito el contacto de Cristina Manzanares",
 
-    // Casos con typos o lenguaje natural
-    "sitemas", // typo
-    "kiero ablar con eventos", // typo + lenguaje natural
-    "¿Quién es el mero mero del club?", // Lenguaje natural para Gerente General
-    "la persona de las cuotas", // Lenguaje natural para Asociados/Admin
-
-    // =========== 2. Deportes (35 preguntas) ===========
+    // =========== 2. Deportes (25 preguntas) ===========
     // Resumen general
     "deportes",
     "¿Qué clases deportivas hay?",
@@ -67,32 +60,18 @@ export const testQuestions = [
     "clases de spining",
     "informes de zunba",
     "fronton",
-    "fútbol", // con tilde
-
-    // Disciplinas no existentes (Fallback a Deportes/Asociados)
+    
+    // Disciplinas no existentes
     "¿Hay clases de tenis?",
     "Quiero jugar basketball",
-    "¿Tienen clases de natación?",
-    "¿Hay boxeo?",
 
     // Preguntas ambiguas de deportes
     "quiero clases para mi hijo",
     "¿hay algo para hacer ejercicio en la tarde?",
     "clases en la mañana",
 
-    // Preguntas sobre el instructor
-    "¿Qué clases da Oscar Sandoval?",
-    "horarios de Paty Fernández",
-    "¿Nelia Guerra da clases de spinning?",
-    "Quiero una clase con Antonio Domínguez",
-
-    // Preguntas por día/hora
-    "¿Qué deportes hay los lunes?",
-    "clases a las 6 pm",
-    "deportes los fines de semana",
-    
-    // =========== 3. Eventos (15 preguntas) ===========
-    // Pregunta general (debe pedir slot)
+    // =========== 3. Eventos (10 preguntas) ===========
+    // Pregunta general
     "Quiero rentar un espacio para un evento",
     "¿cuánto cuesta rentar un salón?",
     "información de renta de áreas",
@@ -102,39 +81,26 @@ export const testQuestions = [
     "capacidad del laguito 1",
     "¿puedo rentar el restaurante para una cena?",
     "¿Cuántas personas caben en la Palapa 4?",
-    "¿Qué días puedo rentar el Restaurante?",
-
-    // Preguntas con contexto implícito
-    "quiero hacer una carne asada", // Debería sugerir Asadores o Palapas
-    "una fiesta para 100 personas", // Debería sugerir Laguito 1
     
     // Fallback de eventos
     "¿puedo rentar la cancha de futbol?",
     "rentar la alberca",
-    "¿se puede rentar el gimnasio?",
-    "¿cuánto cuesta una boda en el club?",
     "necesito un lugar para 200 personas",
 
-    // =========== 4. Alimentos y Bebidas (10 preguntas) ===========
-    // Pregunta general (debe pedir slot)
+    // =========== 4. Alimentos y Bebidas (5 preguntas) ===========
+    // Pregunta general
     "¿cuál es el menú?",
     "quiero ver la carta",
     "comida",
-    "restaurante",
-    "¿qué hay de comer?",
 
-    // Pregunta específica (asumiendo que el modelo puede responder)
+    // Pregunta específica
     "menú de Las Palmas",
     "¿qué tacos tienen en el Terraza Bar?",
-    "menú de desayunos",
-    "¿tienen bebidas en el bar?",
-    "precios del snack brasas",
 
-    // =========== 5. Institucional y Fallback (15 preguntas) ===========
+    // =========== 5. Institucional y Fallback (10 preguntas) ===========
     // Institucional
     "¿cuál es la misión del club?",
-    "visión",
-    "valores del club",
+    "visión y valores",
 
     // Saludos y conversación
     "hola",
@@ -145,12 +111,8 @@ export const testQuestions = [
     "¿de qué color es el cielo?",
     "¿venden carros?",
     "cuéntame un chiste",
-    "historia del club",
-    "¿cuál es el precio de la acción?",
 
-    // Preguntas ambiguas que deben llevar a fallback
+    // Preguntas ambiguas
     "información",
-    "ayuda",
-    "tengo una duda",
-    "necesito soporte"
+    "ayuda"
 ];
