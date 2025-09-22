@@ -13,6 +13,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { AyB, Deportes, MisionVisionValores, Renta } from '@/lib/club-data';
 import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
+import { keywordRouter } from './keywordRouter';
 
 
 // Define el esquema para un único mensaje en el historial del chat
@@ -43,6 +44,10 @@ Tu objetivo es actuar como un enrutador inteligente y un generador de resúmenes
  * @returns La intención clasificada.
  */
 async function classifyIntent(question: string): Promise<LaguitoIntent> {
+    const nq = question.toLowerCase();
+    if (/\bsocio|membres/i.test(nq)) return "directorio.contacto";
+    if (/\bsistemas|it|ti|wifi|internet|correo|red/i.test(nq)) return "directorio.contacto";
+
     const { text } = await ai.generate({
         model: "googleai/gemini-2.0-flash",
         system: `Clasifica la pregunta del usuario en una de las siguientes intenciones: ${LaguitoIntentSchema.options.join(", ")}. Devuelve solo la etiqueta de la intención, sin texto adicional.`,
@@ -59,18 +64,20 @@ async function classifyIntent(question: string): Promise<LaguitoIntent> {
 // --- HANDLERS DE INTENCIONES ---
 
 function buildFallback(question: string, note?: string): LaguitoAnswer {
-    const handoffContact = { name: "Sandra Arévalo", email: "atencionaasociados@clubdelago.com.mx", ext: "116" };
+    const handoffContact = { name: "Sandra Arévalo", title: "Atención a Asociados", email: "atencionaasociados@clubdelago.com.mx", ext: "116" };
     return {
         intent: "desconocido",
         summary: note || "No estoy seguro de cómo responder a eso, pero te puedo comunicar con la persona indicada para ayudarte.",
-        cards: [],
-        handoff: {
-            name: handoffContact.name,
-            email: handoffContact.email,
-            phone: `Tel. 81 8357 5500 ext. ${handoffContact.ext}`,
-            note: "Para preguntas generales, membresías y otros asuntos."
-        },
-        meta: { source: "directorio", matched: ["Atención a Asociados"] }
+        cards: [{
+            title: "Atención a Asociados",
+            subtitle: handoffContact.name,
+            bullets: [
+                `Correo: ${handoffContact.email}`,
+                `Tel. 81 8357 5500 ext. ${handoffContact.ext}`,
+                 note || "Ellos pueden ayudarte a canalizar tu pregunta al área correcta."
+            ]
+        }],
+        meta: { source: "regla_fallback" }
     }
 }
 
@@ -247,7 +254,7 @@ function buildRenta(question: string): LaguitoAnswer {
         handoff: {
             name: contacto.nombre,
             email: contacto.email,
-            phone: `Tel. 81 8357 5500 ext. ${contacto.ext}`,
+            phone: `Tel. 81 8357 5500 ext. ${String(contacto.ext)}`,
             note: "Para informes y reservaciones."
         },
         meta: { source: "club-data.ts", matched: ["renta", "eventos"] }
@@ -544,26 +551,53 @@ const intentHandlers: Record<LaguitoIntent, (q: string) => LaguitoAnswer> = {
  * Clasifica la intención y llama al handler correspondiente para construir la respuesta.
  */
 export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
-    const intent = await classifyIntent(input.question);
-    const handler = intentHandlers[intent] || intentHandlers["desconocido"];
-    const structuredAnswer = handler(input.question);
-
-    const { output } = await ai.generate({
-        model: 'googleai/gemini-2.0-flash',
-        system: systemPrompt,
-        prompt: `Basado en esta pregunta del usuario "${input.question}" y la siguiente respuesta estructurada, genera el campo 'summary' y devuelve el objeto JSON completo. Respuesta Estructurada: ${JSON.stringify(structuredAnswer)}`,
-        output: {
-            schema: LaguitoAnswerSchema,
-            format: "json"
-        }
-    });
-
-    if (!output) {
-        return { role: 'model', content: JSON.stringify(buildFallback(input.question, "Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo.")) };
+    const quickRoute = await keywordRouter(input.question);
+    if (quickRoute.type === 'contact') {
+        const c = quickRoute.payload;
+        const payload = {
+            intent: "directorio.contacto",
+            summary: `Claro, aquí tienes la información de ${c.title}.`,
+            cards: [{
+                title: c.name,
+                subtitle: c.title,
+                bullets: [
+                    c.email ? `**Email:** ${c.email}` : undefined,
+                    `**Teléfono:** 81 8357 5500${c.ext ? ` ext. ${String(c.ext)}` : ""}`
+                ].filter(Boolean) as string[]
+            }],
+            meta: { source: "keyword_router", matched: [] }
+        };
+        return { role: 'model', content: JSON.stringify(payload) };
     }
-    
-    // Asegurarnos de que el output se ajuste al esquema, incluso si el LLM falla.
-    const finalAnswer = LaguitoAnswerSchema.parse(output);
 
-    return { role: 'model', content: JSON.stringify(finalAnswer) };
+    try {
+        const intent = await classifyIntent(input.question);
+        const handler = intentHandlers[intent] || intentHandlers["desconocido"];
+        const structuredAnswer = handler(input.question);
+
+        const { output } = await ai.generate({
+            model: 'googleai/gemini-2.0-flash',
+            system: systemPrompt,
+            prompt: `Basado en esta pregunta del usuario "${input.question}" y la siguiente respuesta estructurada, genera el campo 'summary' y devuelve el objeto JSON completo. Respuesta Estructurada: ${JSON.stringify(structuredAnswer)}`,
+            output: {
+                schema: LaguitoAnswerSchema,
+                format: "json"
+            }
+        });
+        
+        if (!output) {
+            return { role: 'model', content: JSON.stringify(buildFallback(input.question, "Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo.")) };
+        }
+        
+        // Asegurarnos de que el output se ajuste al esquema, incluso si el LLM falla.
+        const finalAnswer = LaguitoAnswerSchema.parse(output);
+
+        return { role: 'model', content: JSON.stringify(finalAnswer) };
+
+    } catch(e) {
+        console.error("Error en laguitoChat:", e);
+        return { role: 'model', content: JSON.stringify(buildFallback(input.question, "Ocurrió un error al procesar tu solicitud.")) };
+    }
 }
+
+    
