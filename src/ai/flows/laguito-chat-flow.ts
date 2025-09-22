@@ -14,7 +14,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { AyB, Deportes, MisionVisionValores, Renta } from '@/lib/club-data';
 import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
-import { extractEntities } from './nlu';
+import { extractEntities, extractDisciplina } from './nlu';
 
 // Define el esquema para un único mensaje en el historial del chat
 const ChatMessageSchema = z.object({
@@ -146,6 +146,38 @@ function buildRowsFor(
 
   return rows;
 }
+
+const deportesCard = (key: keyof typeof Deportes): LaguitoCard => {
+  const pretty = key.charAt(0).toUpperCase() + key.slice(1);
+  const d = Deportes[key];
+  const rows: [string, string, string, string][] = [];
+   d.grupos.forEach(g => g.horarios.forEach(h=>{
+    rows.push([
+      g.instructor,
+      (g as any).categoria ?? (d as any).notas ?? "",
+      h.dias,
+      h.hora
+    ]);
+  }));
+
+  return {
+    title: pretty,
+    subtitle: `Sede: ${d.lugar}`,
+    table: {
+      columns: ["Instructor","Categoría","Días","Horario"],
+      rows: rows
+    }
+  };
+}
+
+const resumenDisciplinas = (): LaguitoCard => {
+  const keys = Object.keys(Deportes) as (keyof typeof Deportes)[];
+  return {
+    title: "Clases deportivas disponibles",
+    bullets: keys.map(k => k[0].toUpperCase()+k.slice(1)) // Spinning, Frontenis, Futbol, Zumba
+  };
+}
+
 
 function buildDeportes(question: string, entities: Awaited<ReturnType<typeof extractEntities>>): LaguitoAnswer {
   const disc = entities.disciplina as keyof typeof Deportes | undefined;
@@ -622,8 +654,55 @@ function routeArea(question: string): ContactRoute | null {
  */
 export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage> {
     const { question } = input;
+    
+     // A) Si pregunta global “clases deportivas…”
+    if (/\b(clases?|deportiv)/i.test(question) && /deport/.test(question.toLowerCase())) {
+        const cardResumen = resumenDisciplinas();
+        const contacto = CONTACTS_ROUTE.deportes;
+        const payload: LaguitoAnswer = {
+            intent: "deportes.horarios",
+            summary: "Aquí tienes un resumen de nuestras clases deportivas y el contacto para inscripciones.",
+            cards: [
+            {
+                title: contacto.name,
+                subtitle: contacto.title,
+                bullets: [
+                `**Email:** ${contacto.email}`,
+                `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
+                ]
+            },
+            cardResumen
+            ],
+            meta: { source: "resumen_deportes" }
+        }
+        return { role: "model", content: JSON.stringify(payload) };
+    }
 
-    // A) Router directo por área (una palabra o frase corta)
+    // B) Si detecto una disciplina: contacto + horarios
+    const disc = extractDisciplina(question);
+    if (disc) {
+        const contacto = CONTACTS_ROUTE.deportes;
+        const payload: LaguitoAnswer = {
+            intent: "deportes.horarios",
+            summary: `¡Claro! Aquí está la información de ${disc} y el contacto para inscripciones.`,
+            cards: [
+            {
+                title: contacto.name,
+                subtitle: contacto.title,
+                bullets: [
+                `**Email:** ${contacto.email}`,
+                `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
+                ]
+            },
+            deportesCard(disc as any)
+            ],
+            meta: { source: "disciplina_detectada", matched: [disc] }
+        }
+        return { role: "model", content: JSON.stringify(payload) };
+    }
+
+
+    // C) Router directo por área (una palabra o frase corta)
     const directContact = routeArea(question);
     if (directContact) {
       const areaKey = Object.entries(CONTACTS_ROUTE).find(([,v]) => v.email === directContact.email)?.[0] ?? "asociados";
@@ -653,7 +732,7 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
         const entities = await extractEntities(question);
 
         // 3. Lógica de "Slot Filling": preguntar si falta contexto
-        const requiredSlots = slotPlans[intent].required;
+        const requiredSlots = slotPlans[intent]?.required ?? [];
         const missingSlots = requiredSlots.filter(slot => !(entities as any)[slot]);
 
         if (missingSlots.length > 0) {
