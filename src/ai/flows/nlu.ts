@@ -86,6 +86,13 @@ export async function parseDeportesQuery(q: string): Promise<DeportesQuery> {
   // disciplina
   let disciplina: DeportesQuery["disciplina"];
   for (const [k,v] of Object.entries(DISC)) if (t.includes(k)) disciplina = v as any;
+  if (!disciplina && /deportes?/i.test(q)) {
+      if (/futbol|fútbol|soccer/i.test(q)) disciplina = "futbol";
+      if (/spinning|spin/i.test(q)) disciplina = "spinning";
+      if (/zumba/i.test(q)) disciplina = "zumba";
+      if (/frontenis|fronton/i.test(q)) disciplina = "frontenis";
+  }
+
 
   // categoría/año
   let categoria: string | undefined;
@@ -115,3 +122,5 @@ export async function parseDeportesQuery(q: string): Promise<DeportesQuery> {
 
   return { disciplina, categoria, instructor, cancha, dia, hora };
 }
+
+    

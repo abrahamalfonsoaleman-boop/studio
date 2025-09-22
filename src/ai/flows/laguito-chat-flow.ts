@@ -677,7 +677,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     }
     
     // Prioridad 1: Filtrado de deportes si se menciona una disciplina
-    if (/\b(spinning|zumba|frontenis|futbol|fútbol|soccer)\b/i.test(question)) {
+    if (/\b(deportes|spinning|zumba|frontenis|futbol|fútbol|soccer)\b/i.test(question)) {
         const ans = await buildDeportesFiltered(question);
         if (ans) {
             return { role: "model", content: JSON.stringify(ans) };
@@ -773,5 +773,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     }
 }
 
+
+    
 
     
