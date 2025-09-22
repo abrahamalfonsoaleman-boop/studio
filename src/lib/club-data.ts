@@ -248,20 +248,6 @@ export const Renta = {
     ]
 } as const;
 
-
-export const Directorio = {
-  "Gerente General": { name: "Erika de la Fuente", email: "gerenciagral@clubdelago.com.mx", ext: "111" },
-  "Atención a Asociados": { name: "Sandra Arévalo", email: "atencionaasociados@clubdelago.com.mx", ext: "116" },
-  "Gerente Administrativo": { name: "Mayra Sánchez", email: "msanchez@clubdelago.com.mx", ext: "112" },
-  "Gerente de Operaciones": { name: "Víctor Zurita", email: "gerenciaoperaciones@clubdelago.com.mx" },
-  "Gerente de Alimentos y Bebidas": { name: "Julián Obregón", email: "gerenciaayb@clubdelago.com.mx" },
-  "Jefe de Sistemas y Comunicación": { name: "Juan Andrade", email: "sistemas@clubdelago.com.mx", ext: "109" },
-  "Gerente de Capital Humano": { name: "Carlos Merlín", email: "recursoshumanos@clubdelago.com.mx", ext: "113" },
-  "Coordinadora de Eventos": { name: "Ana Karen Rincón", email: "eventos@clubdelago.com.mx", ext: "120", whatsapp: "+528123870840" },
-  "Comunicación": { name: "Leidy Rodríguez", email: "edicion@clubdelago.com.mx", ext: "109" },
-  "Asistente de Deportes": { name: "Cristina Manzanares", email: "cmanzanares@clubdelago.com.mx", ext: "140" },
-} as const;
-
 export const MisionVisionValores = {
     mision: "Ser el mejor club deportivo social y familiar, fomentando la integración y el desarrollo de nuestros socios.",
     vision: "Consolidarnos como un club de excelencia, reconocido por su calidad en servicios e instalaciones.",

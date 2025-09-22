@@ -11,7 +11,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { AyB, Deportes, Directorio, MisionVisionValores, Renta } from '@/lib/club-data';
+import { AyB, Deportes, MisionVisionValores, Renta } from '@/lib/club-data';
 import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
 
 
@@ -59,7 +59,7 @@ async function classifyIntent(question: string): Promise<LaguitoIntent> {
 // --- HANDLERS DE INTENCIONES ---
 
 function buildFallback(question: string, note?: string): LaguitoAnswer {
-    const handoffContact = Directorio["Atención a Asociados"];
+    const handoffContact = { name: "Sandra Arévalo", email: "atencionaasociados@clubdelago.com.mx", ext: "116" };
     return {
         intent: "desconocido",
         summary: note || "No estoy seguro de cómo responder a eso, pero te puedo comunicar con la persona indicada para ayudarte.",
@@ -162,77 +162,258 @@ function buildRenta(question: string): LaguitoAnswer {
     };
 }
 
-const normalizeText = (text: string): string => {
-  return text
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+// -------------------------------
+// buildContacto (nueva implementación robusta)
+// -------------------------------
+type Contact = {
+  key: string;
+  name: string;
+  title: string;
+  email?: string;
+  ext?: string;
+  whatsapp?: string;
+  tags: string[];     // palabras/frases que describen el área
+  weight?: number;    // por si quieres priorizar manualmente
 };
 
-function buildContacto(question: string): LaguitoAnswer {
-    const normalizedQuestion = normalizeText(question);
-    const questionWords = new Set(normalizedQuestion.split(/\s+/).filter(w => w.length > 3 && !/gerente|jefe|de|y/i.test(w)));
+const CONTACTOS: Contact[] = [
+  {
+    key: "gerencia_general",
+    name: "Erika de la Fuente",
+    title: "Gerente General",
+    email: "gerenciagral@clubdelago.com.mx",
+    ext: "111",
+    tags: ["gerente general","direccion","directora","quejas","direccion general"]
+  },
+  {
+    key: "atencion_asociados",
+    name: "Sandra Arévalo",
+    title: "Atención a Asociados",
+    email: "atencionaasociados@clubdelago.com.mx",
+    ext: "116",
+    tags: ["atencion a socios","membresia","membresías","socios","credencial"]
+  },
+  {
+    key: "administracion",
+    name: "Mayra Sánchez",
+    title: "Gerente Administrativo",
+    email: "msanchez@clubdelago.com.mx",
+    ext: "112",
+    tags: ["administracion","administración","factura","facturacion","pagos","contabilidad","caja"]
+  },
+  {
+    key: "operaciones",
+    name: "Víctor Zurita",
+    title: "Gerente de Operaciones",
+    email: "gerenciaoperaciones@clubdelago.com.mx",
+    tags: ["operaciones","mantenimiento","servicios generales","limpieza","jardineria","seguridad"]
+  },
+  {
+    key: "ayb",
+    name: "Julián Obregón",
+    title: "Gerente de Alimentos y Bebidas",
+    email: "gerenciaayb@clubdelago.com.mx",
+    tags: ["alimentos","bebidas","restaurante","terraza bar","banquete","cocina","menus","menú","ayb"]
+  },
+  {
+    key: "sistemas",
+    name: "Juan Andrade",
+    title: "Jefe de Sistemas y Comunicación",
+    email: "sistemas@clubdelago.com.mx",
+    ext: "109",
+    tags: ["sistemas","it","ti","tecnologia","tecnología","internet","wifi","correo","comunicacion","impresoras","red"]
+  },
+  {
+    key: "capital_humano",
+    name: "Carlos Merlín",
+    title: "Gerente de Capital Humano",
+    email: "recursoshumanos@clubdelago.com.mx",
+    ext: "113",
+    tags: ["recursos humanos","capital humano","vacante","empleo","nomina","reclutamiento","contratacion"]
+  },
+  {
+    key: "eventos",
+    name: "Ana Karen Rincón",
+    title: "Coordinadora de Eventos",
+    email: "eventos@clubdelago.com.mx",
+    ext: "120",
+    whatsapp: "+528123870840",
+    tags: ["eventos","renta","salon","salón","palapa","asadores","reservacion","reservación","cotizacion","cotización"]
+  },
+  {
+    key: "comunicacion_staff", // Renombrado para evitar conflicto con la tag
+    name: "Leidy Rodríguez",
+    title: "Comunicación",
+    email: "edicion@clubdelago.com.mx",
+    ext: "109",
+    tags: ["comunicacion","prensa","redes","diseño","edición","marketing"]
+  },
+  {
+    key: "deportes_staff", // Renombrado para evitar conflicto con la tag
+    name: "Cristina Manzanares",
+    title: "Asistente de Deportes",
+    email: "cmanzanares@clubdelago.com.mx",
+    ext: "140",
+    tags: ["deportes","clases","escuelas","torneo","spinning","futbol","frontenis","zumba","promocion deportiva"]
+  }
+];
 
-    let bestMatch: { key: string; score: number } | null = null;
+// ---------- utilidades ----------
+const STOP = new Set(["el","la","los","las","de","del","y","a","en","para","con","un","una","al", "quien", "es", "la", "persona", "contacto", "con"]);
 
-    for (const key in Directorio) {
-        const normalizedKey = normalizeText(key);
-        const keyWords = new Set(normalizedKey.split(/\s+/));
-        
-        let currentScore = 0;
+const normalize = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
-        // Exact phrase match bonus
-        if (normalizedKey.includes(normalizedQuestion)) {
-            currentScore += 10;
-        }
+const tokenize = (s: string) =>
+  normalize(s)
+    .split(" ")
+    .filter(w => w && !STOP.has(w));
 
-        for (const qWord of questionWords) {
-            let matchFound = false;
-            for (const kWord of keyWords) {
-                if (kWord.includes(qWord)) {
-                    // Higher score for more exact matches
-                    currentScore += qWord.length / kWord.length * 2;
-                    matchFound = true;
-                    break; 
-                }
-            }
-        }
-        
-        if (currentScore > 0 && (!bestMatch || currentScore > bestMatch.score)) {
-            bestMatch = { key, score: currentScore };
-        }
+const levenshtein = (a: string, b: string) => {
+  const s = a, t = b;
+  const m = s.length, n = t.length;
+  const dp = Array.from({length: m+1}, (_,i)=>Array(n+1).fill(0));
+  for (let i=0;i<=m;i++) dp[i][0]=i;
+  for (let j=0;j<=n;j++) dp[0][j]=j;
+  for (let i=1;i<=m;i++){
+    for (let j=1;j<=n;j++){
+      const cost = s[i-1]===t[j-1]?0:1;
+      dp[i][j]=Math.min(
+        dp[i-1][j]+1,
+        dp[i][j-1]+1,
+        dp[i-1][j-1]+cost
+      );
     }
+  }
+  return dp[m][n];
+};
 
-    if (!bestMatch || bestMatch.score < 1) {
-        return buildFallback(question, "No encontré a esa persona en el directorio. ¿Necesitas ayuda para contactar a alguien más?");
-    }
-    
-    const matchedKey = bestMatch.key as keyof typeof Directorio;
-    const contacto = Directorio[matchedKey];
-    
-    const bullets = [
-        `**Nombre:** ${contacto.name}`,
-    ];
-    if (contacto.email) {
-        bullets.push(`**Email:** ${contacto.email}`);
-    }
-    if ('ext' in contacto && contacto.ext) {
-        bullets.push(`**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`);
-    }
-     if ('whatsapp' in contacto && contacto.whatsapp) {
-        bullets.push(`**WhatsApp:** ${contacto.whatsapp}`);
-    }
+const SYN: Record<string,string[]> = {
+  operaciones: ["operacion","mantenimiento","servicios","servicio","generales"],
+  sistemas: ["it","ti","tecnologia","tecnología","informatico","informática","red","wifi","correo"],
+  alimentos: ["ayb","restaurante","cocina","terraza","bar","bebidas","menu","menú"],
+  eventos: ["renta","salon","salón","palapa","asador","reservacion","cotizacion","fiesta"],
+  asociados: ["socios","membresia","membresias"],
+  comunicacion: ["prensa","redes","edicion","diseño","marketing"],
+  "capital humano": ["recursos humanos","rh","reclutamiento","vacante","empleo","nomina"],
+};
 
-    return {
-        intent: "directorio.contacto",
-        summary: `¡Claro! Aquí están los datos de contacto para ${matchedKey}.`,
-        cards: [{
-            title: `Contacto: ${matchedKey}`,
-            bullets
-        }],
-        meta: { source: "club-data.ts", matched: [matchedKey] }
-    };
+const expandTokens = (tokens: string[]) => {
+  const extra: string[] = [];
+  for (const t of tokens) {
+    for (const [k, arr] of Object.entries(SYN)) {
+      if (t === normalize(k) || arr.map(normalize).includes(t)) {
+        extra.push(normalize(k), ...arr.map(normalize));
+      }
+    }
+  }
+  return Array.from(new Set(tokens.concat(extra)));
+};
+
+// ---------- scoring ----------
+function scoreContact(q: string, c: Contact): number {
+  const qNorm = normalize(q);
+  const qTokens = expandTokens(tokenize(qNorm));
+  const title = normalize(c.title);
+  const name = normalize(c.name);
+  const tags = c.tags.map(normalize);
+
+  let score = 0;
+
+  const extMatch = qNorm.match(/\bext\.?\s*(\d+)|\bextension\s*(\d+)|\bext\s*(\d+)/i);
+  const extAsked = extMatch?.[1] || extMatch?.[2] || extMatch?.[3];
+  if (extAsked && c.ext && extAsked === c.ext) score += 100;
+
+  for (const phrase of [title, ...tags]) {
+    if (qNorm.includes(phrase) && phrase.split(" ").length >= 2) score += 30;
+  }
+
+  for (const t of qTokens) {
+    if (!t) continue;
+    if (title.split(" ").includes(t)) score += 7;
+    if (tags.includes(t)) score += 9;
+    if (name.split(" ").includes(t)) score += 5;
+  }
+
+  for (const t of qTokens) {
+    if (t.length < 3) continue;
+    for (const cand of [title, name, ...tags]) {
+      const dist = levenshtein(t, cand);
+      const ratio = dist / Math.max(t.length, cand.length);
+      if (ratio <= 0.34) score += 3;
+    }
+  }
+
+  if (/operaciones/.test(qNorm) && /operaciones/.test(title)) score += 12;
+  if (/sistemas|ti|it|tecnolog/.test(qNorm) && /sistemas|comunicacion/.test(title)) score += 14;
+  if (/alimentos|bebidas|ayb|restaurante|bar/.test(qNorm) && /alimentos|bebidas/.test(title)) score += 12;
+  if (/asociad/.test(qNorm) && /asociados/.test(title)) score += 10;
+  if (/capital humano|recursos humanos|rh/.test(qNorm) && /capital humano/.test(title)) score += 12;
+  if (/evento|renta|salon|salón|palapa|asador/.test(qNorm) && /eventos/.test(title)) score += 14;
+
+  if (c.weight) score += c.weight;
+
+  return score;
 }
+
+function buildContacto(question: string): LaguitoAnswer {
+  const scored = CONTACTOS
+    .map(c => ({ c, score: scoreContact(question, c) }))
+    .sort((a,b) => b.score - a.score);
+
+  const best = scored[0];
+  const second = scored[1];
+
+  const LOW_THRESHOLD = 10;
+  const CLOSE_THRESHOLD = 8;
+  const isLow = best.score < LOW_THRESHOLD;
+  const isClose = second && (best.score - second.score) <= CLOSE_THRESHOLD;
+
+  if (!best || isLow || isClose) {
+    const top = scored.slice(0, 3).map(({c}) => c);
+    const handoffContact = CONTACTOS.find(c => c.key === 'atencion_asociados')!;
+    
+    return {
+      intent: "directorio.contacto",
+      summary: "No estoy completamente seguro de a quién buscas. ¿Te refieres a alguna de estas personas?",
+      cards: [{
+        title: "¿A quién necesitas contactar?",
+        bullets: top.map(c => `${c.name} - ${c.title}${c.ext ? ` (Ext. ${c.ext})` : ""}`)
+      }],
+      handoff: { 
+        name: handoffContact.name, 
+        email: handoffContact.email, 
+        phone: `Tel. 81 8357 5500 ext. ${handoffContact.ext}`, 
+        note: "Si ninguna de estas opciones es la correcta, el equipo de Atención a Asociados podrá ayudarte." 
+      },
+      meta: { source: "directorio local", matched: tokenize(question) }
+    };
+  }
+
+  const c = best.c;
+  const bullets = [];
+  if (c.email) bullets.push(`**Email:** ${c.email}`);
+  if (c.ext) bullets.push(`**Teléfono:** 81 8357 5500 ext. ${c.ext}`);
+  if (c.whatsapp) bullets.push(`**WhatsApp:** ${c.whatsapp}`);
+
+  return {
+    intent: "directorio.contacto",
+    summary: `¡Claro! Aquí están los datos de contacto para ${c.title}.`,
+    cards: [{
+      title: `${c.name}`,
+      subtitle: c.title,
+      bullets: bullets,
+    }],
+    meta: { source: "directorio local", matched: tokenize(question) }
+  };
+}
+
 
 function buildGeneralInfo(question: string): LaguitoAnswer {
      return {
