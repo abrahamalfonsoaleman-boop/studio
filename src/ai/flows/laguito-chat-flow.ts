@@ -246,6 +246,7 @@ const DETERMINISTIC_AREA_KEYWORDS: AreaKeywords[] = [
     { area: "comunicacion", keywords: ["comunicacion", "redes", "sociales", "prensa"] },
     { area: "asociados", keywords: ["asociados", "membresia", "socio", "afiliarse"] },
     { area: "eventos", keywords: ["eventos", "salon", "fiesta"] },
+    { area: "alimentos", keywords: ["alimentos", "bebidas", "menu", "restaurante", "comida", "gerente"] },
 ];
 
 
@@ -331,5 +332,3 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
         return { role: 'model', content: JSON.stringify(buildSafeFallback("Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo.")) };
     }
 }
-
-    
