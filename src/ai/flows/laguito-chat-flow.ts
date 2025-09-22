@@ -384,7 +384,7 @@ const normalize = (s: string) =>
   s
     .toLowerCase()
     .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
+    .replace(/\p{Diacritic}/gu, " ")
     .replace(/[^\p{L}\p{N}\s]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -679,7 +679,7 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
     }
 
     // B) Si detecto una disciplina: contacto + horarios
-    const disc = extractDisciplina(question);
+    const disc = await extractDisciplina(question);
     if (disc) {
         const contacto = CONTACTS_ROUTE.deportes;
         const payload: LaguitoAnswer = {
@@ -694,7 +694,7 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
                 `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
                 ]
             },
-            deportesCard(disc as any)
+            deportesCard(disc)
             ],
             meta: { source: "disciplina_detectada", matched: [disc] }
         }
