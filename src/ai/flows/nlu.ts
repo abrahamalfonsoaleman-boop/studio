@@ -8,7 +8,7 @@
 
 const N = (s:string)=>s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"").trim();
 
-export async function extractEntities(q: string){
+function _extractEntities(q: string){
   const nq = N(q);
 
   const disciplina =
@@ -30,4 +30,8 @@ export async function extractEntities(q: string){
     /sistemas|eventos|deportes|alimentos|administraci[oó]n|operaciones|comunicaci[oó]n|asociados|membres[ií]a/.exec(nq)?.[0];
 
   return { disciplina, categoria, cancha, restaurante, platillo, area };
+}
+
+export async function extractEntities(q: string) {
+    return _extractEntities(q);
 }

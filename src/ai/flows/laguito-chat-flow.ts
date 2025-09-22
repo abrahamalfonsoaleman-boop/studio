@@ -144,7 +144,7 @@ function buildRowsFor(
   return rows;
 }
 
-function buildDeportes(question: string, entities: ReturnType<typeof extractEntities>): LaguitoAnswer {
+function buildDeportes(question: string, entities: Awaited<ReturnType<typeof extractEntities>>): LaguitoAnswer {
   const disc = entities.disciplina as keyof typeof Deportes | undefined;
 
   const makeCard = (title: string, sede: string, rows: Row[]): LaguitoCard => ({
@@ -197,7 +197,7 @@ function buildDeportes(question: string, entities: ReturnType<typeof extractEnti
 }
 
 
-function buildMenu(question: string, entities: ReturnType<typeof extractEntities>): LaguitoAnswer {
+function buildMenu(question: string, entities: Awaited<ReturnType<typeof extractEntities>>): LaguitoAnswer {
     const restauranteKey = entities.restaurante as keyof typeof AyB | undefined;
 
     if (!restauranteKey || !AyB[restauranteKey]) {
@@ -523,7 +523,7 @@ function buildGeneralInfo(question: string): LaguitoAnswer {
 }
 
 
-const intentHandlers: Record<LaguitoIntent, (q: string, e: ReturnType<typeof extractEntities>) => LaguitoAnswer> = {
+const intentHandlers: Record<LaguitoIntent, (q: string, e: Awaited<ReturnType<typeof extractEntities>>) => LaguitoAnswer> = {
   "deportes.horarios": buildDeportes,
   "ayb.menu": buildMenu,
   "eventos.renta": buildRenta,
@@ -572,7 +572,7 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
     try {
         // 2. Clasificar intención y extraer entidades
         const intent = await classifyIntent(question);
-        const entities = extractEntities(question);
+        const entities = await extractEntities(question);
 
         // 3. Lógica de "Slot Filling": preguntar si falta contexto
         const requiredSlots = slotPlans[intent].required;
