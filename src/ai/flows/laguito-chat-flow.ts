@@ -545,6 +545,7 @@ const slotPlans: Record<LaguitoIntent, { required: string[] }> = {
 };
 
 
+// Lógica de enrutamiento por área para consultas de bajo contexto
 type ContactRoute = { name: string; title: string; email?: string; ext?: string };
 
 const CONTACTS_ROUTE: Record<string, ContactRoute> = {
@@ -568,6 +569,37 @@ const ALIASES: Record<string, keyof typeof CONTACTS_ROUTE> = {
   menu:"alimentos", menú:"alimentos", bar:"alimentos", restaurante:"alimentos",
   salon:"eventos", palapa:"eventos", renta:"eventos",
   it:"sistemas", ti:"sistemas", wifi:"sistemas", internet:"sistemas", correo:"sistemas",
+};
+
+const AREA_CAPS: Record<string, {hasContent: boolean}> = {
+  deportes:   { hasContent: true }, 
+  eventos:    { hasContent: true }, 
+  alimentos:  { hasContent: true }, 
+  sistemas:   { hasContent: false },
+  operaciones:{ hasContent: false },
+  administracion:{ hasContent: false },
+  comunicacion:{ hasContent: false },
+  asociados:  { hasContent: false },
+};
+
+const SUGERENCIAS: Record<string, string[]> = {
+  deportes: [
+    "Ver horarios de Zumba",
+    "Horarios Spinning",
+    "Fútbol 7 (2010–2011)",
+    "Frontenis Infantil"
+  ],
+  eventos: [
+    "Rentar Palapa 4",
+    "Rentar Laguito 1",
+    "Renta Restaurante",
+    "Costos de montaje"
+  ],
+  alimentos: [
+      "Menú Las Palmas",
+      "Menú Terraza Bar",
+      "Menú Snack Brasas"
+  ]
 };
 
 function routeArea(question: string): ContactRoute | null {
@@ -594,6 +626,10 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
     // A) Router directo por área (una palabra o frase corta)
     const directContact = routeArea(question);
     if (directContact) {
+      const areaKey = Object.entries(CONTACTS_ROUTE).find(([,v]) => v.email === directContact.email)?.[0] ?? "asociados";
+      const hasContent = AREA_CAPS[areaKey]?.hasContent === true;
+      const quickReplies = hasContent ? (SUGERENCIAS[areaKey] ?? []) : [];
+
       const payload: LaguitoAnswer = {
         intent: "directorio.contacto",
         summary: `Claro, aquí tienes la información de ${directContact.title}.`,
@@ -604,7 +640,7 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
             directContact.email ? `**Email:** ${directContact.email}` : undefined,
             `**Teléfono:** 81 8357 5500${directContact.ext ? ` ext. ${String(directContact.ext)}` : ""}`
           ].filter(Boolean) as string[],
-          quickReplies: ["Ver horarios de Zumba","Fútbol 7 (2010–2011)","Menú Las Palmas","Rentar Palapa 4"]
+          ...(quickReplies.length > 0 && { quickReplies })
         }],
         meta: { source: "router_directo" }
       };
@@ -675,3 +711,5 @@ export async function laguitoChat(input: LaguitoChatInput): Promise<ChatMessage>
         return { role: 'model', content: JSON.stringify(buildFallback(question, "Ocurrió un error al procesar tu solicitud.")) };
     }
 }
+
+    
