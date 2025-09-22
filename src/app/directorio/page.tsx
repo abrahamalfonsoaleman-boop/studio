@@ -108,12 +108,12 @@ export default function DirectorioPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4">
               {staff.map((person) => (
                 <Card key={person.name} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                  <CardHeader className="flex flex-row items-center space-x-4 p-4">
-                    <Avatar className="h-20 w-20">
+                  <CardHeader className="flex flex-col items-center text-center p-4">
+                    <Avatar className="h-24 w-24 mb-4">
                       <AvatarImage src={person.avatar} alt={person.name} data-ai-hint={person.hint} />
                       <AvatarFallback>{person.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
-                    <div>
+                    <div className="text-center">
                       <CardTitle className="text-lg font-headline">{person.name}</CardTitle>
                       <p className="text-sm text-primary">{person.title}</p>
                     </div>
