@@ -60,11 +60,6 @@ const BotMessageContent = ({ content, onQuickReply }: { content: string, onQuick
                    </TableBody>
                  </Table>
               )}
-              {card.cta && (
-                <Button asChild size="sm" className="mt-2">
-                    <Link href={card.cta.href}>{card.cta.label}</Link>
-                </Button>
-              )}
               {card.quickReplies && card.quickReplies.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-3">
                     {card.quickReplies.map((reply, i) => (
@@ -77,19 +72,6 @@ const BotMessageContent = ({ content, onQuickReply }: { content: string, onQuick
             </CardContent>
           </Card>
         ))}
-        {parsedContent.handoff && (
-            <Card className="bg-accent/20 border-accent">
-                 <CardHeader className="p-3">
-                    <CardTitle className="text-sm font-semibold">Te recomiendo contactar a:</CardTitle>
-                 </CardHeader>
-                 <CardContent className="p-3 pt-0 text-xs space-y-1">
-                    <p><strong>{parsedContent.handoff.name}</strong></p>
-                    {parsedContent.handoff.email && <p><a href={`mailto:${parsedContent.handoff.email}`} className="hover:underline">{parsedContent.handoff.email}</a></p>}
-                    {parsedContent.handoff.phone && <p>{parsedContent.handoff.phone}</p>}
-                    {parsedContent.handoff.note && <p className="text-muted-foreground mt-1">{parsedContent.handoff.note}</p>}
-                 </CardContent>
-            </Card>
-        )}
       </div>
     );
   } catch (error) {
@@ -124,17 +106,14 @@ export function LaguitoBot() {
     setIsLoading(true);
 
     try {
-      const botResponse = await laguitoChat({
-        history: messages,
-        question: messageContent,
-      });
+      const botResponse = await laguitoChat(userMessage);
       setMessages((prev) => [...prev, botResponse]);
     } catch (error) {
       console.error("Error al contactar al bot:", error);
       const errorMessage: ChatMessage = {
         role: "model",
         content: JSON.stringify({
-            intent: "desconocido",
+            intent: "fallback",
             summary: "Lo siento, tuve un problema para responder. Por favor, inténtalo de nuevo más tarde.",
             cards: []
         }),
