@@ -12,9 +12,8 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { AyB, Deportes, MisionVisionValores, Renta } from '@/lib/club-data';
-import { LaguitoAnswer, LaguitoAnswerSchema, LaguitoCard, LaguitoIntent, LaguitoIntentSchema } from './types';
-import { extractEntities, extractDisciplina, parseDeportesQuery, DeportesQuery } from './nlu';
+import { ClubData } from '@/lib/club-data';
+import { LaguitoAnswer, LaguitoAnswerSchema } from './types';
 
 // Define el esquema para un único mensaje en el historial del chat
 const ChatMessageSchema = z.object({
@@ -22,14 +21,6 @@ const ChatMessageSchema = z.object({
   content: z.string(),
 });
 export type ChatMessage = z.infer<typeof ChatMessageSchema>;
-
-// Define el esquema de entrada para el flujo del chatbot
-const LaguitoChatInputSchema = z.object({
-  history: z.array(ChatMessageSchema).describe('El historial de la conversación actual.'),
-  question: z.string().describe('La última pregunta del usuario.'),
-});
-export type LaguitoChatInput = z.infer<typeof LaguitoChatInputSchema>;
-
 
 const systemPrompt = `Eres **Laguito**, el asistente virtual del Club Del Lago.
 
@@ -46,7 +37,7 @@ DATOS (fuente)
 ========================
 - Te pasarán \`ClubData\` (o un fragmento) en el prompt del caller. Trátalo como **fuente única de verdad**.
 - Estructura típica:
-  - \`areas\` (asociados, sistemas, deportes, eventos, alimentos, administración, operaciones, comunicación …) con \`contacto\`, \`palabrasClave\`.
+  - \`directorio\` (asociados, sistemas, deportes, eventos, alimentos, administracion, operaciones, comunicacion …) con \`nombre\`, \`puesto\`, \`email\`, \`ext\`, \`palabrasClave\`.
   - \`deportes\` (spinning, futbol, zumba, frontenis) con \`lugar\` y \`grupos\` o \`categorias\`.
   - \`eventos\` (palapa4, laguito1, restaurante, bar, asadores …) con precio, capacidad, duración, días.
   - \`ayb\` (Las Palmas, Terraza Bar, Snack Brasas) con listas de platillos y precios.
@@ -151,7 +142,7 @@ PLANTILLAS DE RESPUESTA (por intent)
 ========================
 A) deportes.resumen
 - summary: “Estas son nuestras disciplinas deportivas.”
-- cards[0]: contacto de Deportes (de ClubData.areas.deportes.contacto)
+- cards[0]: contacto de Deportes (de ClubData.directorio)
 - cards[1]: lista con bullets de disciplinas disponibles
 - quickReplies: hasta 4 disciplinas
 
@@ -198,56 +189,29 @@ CONSISTENCIA Y VALIDACIÓN (Checklist interno ANTES de responder)
  * @returns Un objeto LaguitoAnswer.
  */
 function buildSafeFallback(summary: string): LaguitoAnswer {
-  const handoffContact = { name: "Sandra Arévalo", title: "Atención a Asociados", email: "atencionaasociados@clubdelago.com.mx", ext: "116" };
+  const handoffContact = ClubData.directorio.find(c => c.area === 'asociados');
+  if (!handoffContact) {
+      return {
+          intent: "fallback",
+          summary: "Error interno. No se encontró el contacto de Asociados.",
+          cards: [],
+          meta: { source: "hardcoded-error", confidence: 0 }
+      }
+  }
   return {
     intent: "directorio.contacto",
     summary: summary,
     cards: [{
       title: "Atención a Asociados",
-      subtitle: handoffContact.name,
+      subtitle: handoffContact.nombre,
       bullets: [
         `**Correo:** ${handoffContact.email}`,
-        `**Tel.:** 81 8357 5500 ext. ${handoffContact.ext}`
+        `**Tel.:** 81 8357 5500${handoffContact.ext ? ` ext. ${handoffContact.ext}`: ''}`
       ],
     }],
     meta: { source: "parser-fallback", confidence: 0 }
   };
 }
-
-const resumenDisciplinas = (): LaguitoCard => {
-  const keys = Object.keys(Deportes) as (keyof typeof Deportes)[];
-  return {
-    title: "Clases deportivas disponibles",
-    bullets: keys.map(k => k[0].toUpperCase()+k.slice(1)) // Spinning, Frontenis, Futbol, Zumba
-  };
-}
-
-type ContactRoute = { name: string; title: string; email?: string; ext?: string };
-const CONTACTS_ROUTE: Record<string, ContactRoute> = {
-  deportes:   { name:"Cristina Manzanares", title:"Asistente de Deportes", email:"cmanzanares@clubdelago.com.mx", ext:"140" },
-  sistemas:   { name:"Juan Andrade",        title:"Jefe de Sistemas y Comunicación", email:"sistemas@clubdelago.com.mx", ext:"109" },
-  eventos:    { name:"Ana Karen Rincón",    title:"Coordinadora de Eventos", email:"eventos@clubdelago.com.mx", ext:"120" },
-  alimentos:  { name:"Julián Obregón",      title:"Gerente de Alimentos y Bebidas", email:"gerenciaayb@clubdelago.com.mx" },
-  administracion:{ name:"Mayra Sánchez",    title:"Gerente Administrativo", email:"msanchez@clubdelago.com.mx", ext:"112" },
-  operaciones:{ name:"Víctor Zurita",       title:"Gerente de Operaciones", email:"gerenciaoperaciones@clubdelago.com.mx" },
-  comunicacion:{ name:"Leidy Rodríguez",    title:"Comunicación", email:"edicion@clubdelago.com.mx", ext:"109" },
-  asociados:  { name:"Sandra Arévalo",      title:"Atención a Asociados", email:"atencionaasociados@clubdelago.com.mx", ext:"116" },
-};
-
-type AreaKeywords = {
-    area: keyof typeof CONTACTS_ROUTE;
-    keywords: string[];
-};
-
-const DETERMINISTIC_AREA_KEYWORDS: AreaKeywords[] = [
-    { area: "sistemas", keywords: ["sistemas", "wifi", "internet", "delagoapp", "aplicacion", "app", "correo"] },
-    { area: "administracion", keywords: ["administracion", "factura", "pago", "caja"] },
-    { area: "operaciones", keywords: ["operaciones", "mantenimiento", "limpieza", "seguridad"] },
-    { area: "comunicacion", keywords: ["comunicacion", "redes", "sociales", "prensa"] },
-    { area: "asociados", keywords: ["asociados", "membresia", "socio", "afiliarse"] },
-    { area: "eventos", keywords: ["eventos", "salon", "fiesta"] },
-    { area: "alimentos", keywords: ["alimentos", "bebidas", "menu", "restaurante", "comida", "gerente"] },
-];
 
 
 /**
@@ -258,19 +222,18 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     const { content: question } = input;
     const normalizedQuestion = question.toLowerCase().trim();
 
-    // 1. Pre-ruteo determinista para Áreas
-    for (const areaConfig of DETERMINISTIC_AREA_KEYWORDS) {
-        if (areaConfig.keywords.some(keyword => normalizedQuestion.includes(keyword))) {
-            const contact = CONTACTS_ROUTE[areaConfig.area];
+    // 1. Pre-ruteo determinista por palabras clave de área
+    for (const contacto of ClubData.directorio) {
+        if (contacto.palabrasClave.some(keyword => normalizedQuestion.includes(keyword))) {
             const payload: LaguitoAnswer = {
                 intent: "directorio.contacto",
-                summary: `Aquí tienes el contacto para ${contact.title}.`,
+                summary: `Aquí tienes el contacto para ${contacto.puesto}.`,
                 cards: [{
-                    title: contact.name,
-                    subtitle: contact.title,
+                    title: contacto.nombre,
+                    subtitle: contacto.puesto,
                     bullets: [
-                        contact.email ? `**Email:** ${contact.email}` : '',
-                        `**Teléfono:** 81 8357 5500${contact.ext ? ` ext. ${contact.ext}` : ''}`
+                        contacto.email ? `**Email:** ${contacto.email}` : '',
+                        `**Teléfono:** 81 8357 5500${contacto.ext ? ` ext. ${contacto.ext}` : ''}`
                     ].filter(Boolean)
                 }],
                 meta: { source: "laguito-v3-deterministic", confidence: 1.0 }
@@ -280,26 +243,25 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     }
 
 
-    // 2. Pre-ruteo determinista para Deportes Resumen
+    // 2. Pre-ruteo determinista para Resumen de Deportes
     if (/^\s*deportes\s*$/i.test(normalizedQuestion) || /\b(clases?|deportiv)/i.test(normalizedQuestion) && /deport/.test(normalizedQuestion)) {
-      const cardResumen = resumenDisciplinas();
-      const contacto = CONTACTS_ROUTE.deportes;
-
+      const contactoDeportes = ClubData.directorio.find(c => c.area === 'deportes');
       const payload: LaguitoAnswer = {
         intent: "deportes.resumen",
         summary: "Estas son nuestras disciplinas deportivas. ¿Sobre cuál te gustaría saber más?",
         cards: [
-          {
-            title: contacto.name,
-            subtitle: contacto.title,
+          ...(contactoDeportes ? [{
+            title: `Contacto: ${contactoDeportes.puesto}`,
+            subtitle: contactoDeportes.nombre,
             bullets: [
-              `**Email:** ${contacto.email}`,
-              `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
+              `**Email:** ${contactoDeportes.email}`,
+              `**Teléfono:** 81 8357 5500 ext. ${contactoDeportes.ext}`
             ]
-          },
+          }] : []),
           {
-              ...cardResumen,
-              quickReplies: Object.keys(Deportes)
+              title: "Disciplinas Disponibles",
+              bullets: Object.keys(ClubData.deportes).map(k => k.charAt(0).toUpperCase() + k.slice(1)),
+              quickReplies: Object.keys(ClubData.deportes)
           }
         ],
         meta: { source: "laguito-v3-deterministic", confidence: 1.0 }
@@ -312,7 +274,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
         const { output } = await ai.generate({
             model: 'googleai/gemini-2.0-flash',
             system: systemPrompt,
-            prompt: `ClubData: ${JSON.stringify({Deportes, Renta, AyB, MisionVisionValores})} \n\n User Question: "${question}"`,
+            prompt: `ClubData: ${JSON.stringify(ClubData)} \n\n User Question: "${question}"`,
             output: {
                 schema: LaguitoAnswerSchema,
                 format: "json"

@@ -3,253 +3,189 @@
  * This file contains structured data for sports, food & beverages, event rentals, and staff directory.
  */
 
-export const Deportes = {
-  spinning: {
-    lugar: "Sala de spinning",
-    grupos: [
-      {
-        instructor: "Nelia Guerra",
-        horarios: [
-          { dias: "Lunes, Miércoles, Jueves", hora: "6:00 - 7:00 am" },
-          { dias: "Lunes, Miércoles, Jueves", hora: "7:00 - 8:00 am" },
-          { dias: "Lunes y Miércoles", hora: "8:00 - 9:00 am" },
-          { dias: "Martes y Jueves", hora: "6:30 - 7:30 pm" },
-        ],
-      },
-      {
-        instructor: "Emilio Cabrales",
-        horarios: [
-          { dias: "Lunes y Viernes", hora: "6:00 - 7:00 am" },
-          { dias: "Lunes y Viernes", hora: "7:00 - 8:00 am" },
-        ],
-      },
-      {
-        instructor: "Paty Fernández",
-        horarios: [
-          { dias: "Lunes, Miércoles, Viernes", hora: "9:00 - 10:00 am" },
-          { dias: "Lunes y Miércoles", hora: "6:15 - 7:15 pm" },
-        ],
-      },
-    ],
-    contacto: {
+export const ClubData = {
+  directorio: [
+    {
+      area: "general",
+      nombre: "Erika de la Fuente",
+      puesto: "Gerente General",
+      email: "gerenciagral@clubdelago.com.mx",
+      ext: "111",
+      palabrasClave: ["gerente general", "directora"],
+    },
+    {
+      area: "asociados",
+      nombre: "Sandra Arévalo",
+      puesto: "Atención a Asociados",
+      email: "atencionaasociados@clubdelago.com.mx",
+      ext: "116",
+      palabrasClave: ["socio", "membresía", "afiliación", "asociados", "inscripción"],
+    },
+    {
+      area: "administracion",
+      nombre: "Mayra Sánchez",
+      puesto: "Gerente Administrativo",
+      email: "msanchez@clubdelago.com.mx",
+      ext: "112",
+      palabrasClave: ["factura", "pago", "caja", "administración", "cobranza"],
+    },
+    {
+      area: "operaciones",
+      nombre: "Víctor Zurita",
+      puesto: "Gerente de Operaciones",
+      email: "gerenciaoperaciones@clubdelago.com.mx",
+      palabrasClave: ["operaciones", "mantenimiento", "limpieza", "seguridad", "alberca"],
+    },
+    {
+      area: "alimentos",
+      nombre: "Julián Obregón",
+      puesto: "Gerente de Alimentos y Bebidas",
+      email: "gerenciaayb@clubdelago.com.mx",
+      palabrasClave: ["menú", "restaurante", "comida", "bar", "snack", "bebidas", "alimentos"],
+    },
+    {
+      area: "sistemas",
+      nombre: "Juan Andrade",
+      puesto: "Jefe de Sistemas y Comunicación",
+      email: "sistemas@clubdelago.com.mx",
+      ext: "109",
+      palabrasClave: ["sistemas", "ti", "wifi", "internet", "correo", "delagoapp", "aplicación"],
+    },
+    {
+      area: "rh",
+      nombre: "Carlos Merlín",
+      puesto: "Gerente de Capital Humano",
+      email: "recursoshumanos@clubdelago.com.mx",
+      ext: "113",
+      palabrasClave: ["recursos humanos", "rh", "vacantes"],
+    },
+    {
+      area: "eventos",
+      nombre: "Ana Karen Rincón",
+      puesto: "Coordinadora de Eventos",
+      email: "eventos@clubdelago.com.mx",
+      ext: "120",
+      whatsapp: "+528123870840",
+      palabrasClave: ["evento", "salón", "palapa", "renta", "laguito", "asadores", "fiesta"],
+    },
+    {
+      area: "comunicacion",
+      nombre: "Leidy Rodríguez",
+      puesto: "Comunicación",
+      email: "edicion@clubdelago.com.mx",
+      ext: "109",
+      palabrasClave: ["comunicación", "redes sociales", "prensa", "revista"],
+    },
+    {
+      area: "deportes",
       nombre: "Cristina Manzanares",
       puesto: "Asistente de Deportes",
-      tel: "8183575500",
+      email: "cmanzanares@clubdelago.com.mx",
       ext: "140",
+      palabrasClave: ["deporte", "futbol", "soccer", "zumba", "spinning", "frontenis", "clases"],
     },
-  },
-  frontenis: {
-    lugar: "Cancha de Frontón",
-    grupos: [
-      {
-        instructor: "Antonio Domínguez",
-        horarios: [{ dias: "Martes y Jueves", hora: "16:00 - 19:00 hrs" }],
-      },
-    ],
-    notas: "Mixto Infantil, mayores de 6 años.",
-    contacto: {
-      nombre: "Cristina Manzanares",
-      puesto: "Asistente de Deportes",
-      tel: "8183575500",
-      ext: "140",
-    },
-  },
-  futbol: {
-    lugar: "Canchas de Fútbol",
-    grupos: [
-      {
-        instructor: "Oscar Sandoval",
-        categoria: "Mixto Infantil (2010-2011)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "18:00-19:00 hrs" }],
-        cancha: "Fútbol 7",
-      },
-      {
-        instructor: "Diego Manzanares",
-        categoria: "Mixto Infantil (2012-2013)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "18:00-19:00 hrs" }],
-        cancha: "Fútbol 7",
-      },
-      {
-        instructor: "Oscar Sandoval",
-        categoria: "Mixto Infantil (2014)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "17:00-18:00 hrs" }],
-        cancha: "Fútbol 7",
-      },
-      {
-        instructor: "Oscar Sandoval",
-        categoria: "Adultos (Mayores de 15 años)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "19:00-20:00 hrs" }],
-        cancha: "Fútbol 7",
-      },
-      {
-        instructor: "Diego Manzanares",
-        categoria: "Femenil Infantil (2016-2018)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "17:00-18:00 hrs" }],
-        cancha: "Fútbol 7",
-      },
-      {
-        instructor: "Daniel de León",
-        categoria: "Mixto Infantil (2015-2017)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "18:00-19:00 hrs" }],
-        cancha: "Fútbol 5",
-      },
-      {
-        instructor: "Daniel de León",
-        categoria: "Mixto Infantil (2018)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "17:00-18:00 hrs" }],
-        cancha: "Fútbol 5",
-      },
-      {
-        instructor: "Diego Manzanares",
-        categoria: "Mixto Infantil (2019-2021)",
-        horarios: [{ dias: "Lunes a Jueves", hora: "16:00-17:00 hrs" }],
-        cancha: "Fútbol 5",
-      },
-    ],
-    contacto: {
-      nombre: "Cristina Manzanares",
-      puesto: "Asistente de Deportes",
-      tel: "8183575500",
-      ext: "140",
-    },
-  },
-  zumba: {
-    lugar: "Salón de Zumba",
-    grupos: [
-      {
-        instructor: "Martha Vázquez",
-        horarios: [{ dias: "Lunes y Miércoles", hora: "6:15 pm - 7:15 pm" }],
-      },
-    ],
-    notas: "Mayores de 18 años.",
-    contacto: {
-      nombre: "Cristina Manzanares",
-      puesto: "Asistente de Deportes",
-      tel: "8183575500",
-      ext: "140",
-    },
-  },
-} as const;
+  ],
 
-export const AyB = {
-  "Las Palmas": {
-    Desayunos: [
-      ["Plato de Fruta", "$80"],
-      ["Hot Cakes Gluten Free", "$77"],
-      ["Hot Cakes Americanos", "$90"],
-      ["Molletes (Tradicional / Lago)", "$70 / $115"],
-      ["Enchiladas Suizas", "$105"],
-      ["Entomatadas", "$105"],
-      ["Huevos al Gusto", "$85"],
-      ["Machacado", "$120"],
-      ["Omelette (Fit / Al Gusto)", "$90 / $105"],
-      ["Chilaquiles", "$90"],
-      ["Tacos Mineros", "$95"],
-    ],
-    Postres: [
-        ["Bisquet", "$32"],
-        ["Pan Dulce", "$12"],
-        ["Empanada", "$15"],
-        ["Pastel de la Casa", "$58"],
-        ["Flan", "$58"],
-    ],
-    Bebidas: [
-        ["Refrescos", "$21-$26"],
-        ["Fuze Té", "$28"],
-        ["Limonada", "$28-$37"],
-        ["Jugo", "$43-$48"],
-        ["Café Refil", "$20"],
-        ["Chocolate Abuelita", "$32"],
-    ]
-  },
-  "Terraza Bar": {
-    "Tacos y Tostadas": [
-      ["Taco de Rib Eye", "$79"],
-      ["Taco Gobernador", "$72"],
-      ["Taco de Pescado", "$55"],
-      ["Quesabirrias", "$160"],
-    ],
-    "Botanas y Principales": [
-      ["Carpaccio de Betabel", "$87"],
-      ["Queso Fundido", "$85"],
-      ["Ensalada Gaucha", "$70"],
-      ["Percherón", "$148"],
-      ["Percherón Mar y Tierra", "$163"],
-      ["Shawarma Kebab", "$105"],
-      ["Alitas", "$110"],
-    ],
-    "Hamburguesas": [
-        ["Delago", "$115"],
-        ["Luisiana", "$115"],
-        ["Mediterránea", "$115"],
-    ],
-    Rollos: [
-      ["Ebi Roll", "$135"],
-      ["Damen Roll", "$130"],
-    ],
-    "Postres": [
-        ["Pastel de la Casa", "$58"],
-        ["Flan", "$58"],
-    ]
-  },
-  "Snack Brasas": {
-    Desayunos: [
-      ["Gordita de Guiso", "$28"],
-      ["Omelette al Gusto", "$105"],
-      ["Huevos al Gusto", "$85"],
-      ["Machacado", "$120"],
-      ["Taco de Guiso", "$23"],
-    ],
-    Principales: [
-      ["Tacos de Bistec", "$110"],
-      ["Enchiladas Regias", "$125"],
-      ["Enchiladas Potosinas", "$95"],
-      ["Pirata", "$96"],
-      ["Hamburguesas", "$115"],
-      ["Alitas", "$110"],
-      ["Percherón", "$148"],
-    ],
-    Extras: [
-        ["Hamburguesa Jr.", "$78"],
-        ["Hot Dog", "$48"],
-        ["Papas Fritas", "$66-$90"],
-        ["Chicken Strips", "$86"],
-        ["Dedos de Queso", "$110"],
-    ],
-    Postres: [
-      ["Bisquet", "$32"],
-      ["Pan Dulce", "$12"],
-      ["Pastel", "$58"],
-      ["Empanada", "$15"],
-      ["Flan", "$58"],
-    ],
-  },
-} as const;
-
-export const Renta = {
-    contacto: {
-        nombre: "Ana Karen Rincón",
-        puesto: "Coordinadora de Eventos",
-        email: "eventos@clubdelago.com.mx",
-        tel: "8183575500",
-        ext: "120",
-        whatsapp: "+528123870840",
-        nota: "Costo de montaje y servicios para eventos: $520.00"
+  deportes: {
+    spinning: {
+      lugar: "Sala de Spinning",
+      grupos: [
+        {
+          instructor: "Nelia Guerra",
+          horarios: [
+            { dias: "Lun, Mié, Jue", hora: "6:00–7:00 am" },
+            { dias: "Lun, Mié, Jue", hora: "7:00–8:00 am" },
+          ],
+        },
+        {
+          instructor: "Paty Fernández",
+          horarios: [{ dias: "Lun, Mié", hora: "6:15–7:15 pm" }],
+        },
+      ],
     },
-    areas: [
-        { nombre: "Laguito 1", precio: "$4,200.00", capacidad: "20 a 100", duracion: "5 horas", dias: "L-D" },
-        { nombre: "Laguito 2", precio: "$4,200.00", capacidad: "50", duracion: "5 horas", dias: "L-D" },
-        { nombre: "Restaurante", precio: "$4,200.00", capacidad: "90", duracion: "5 horas (8:30pm-1:30am)", dias: "L-D" },
-        { nombre: "Bar", precio: "$5,900.00", capacidad: "90", duracion: "10am a 3pm", dias: "L-D" },
-        { nombre: "Palapa de Juegos", precio: "$2,700.00", capacidad: "50", duracion: "5 horas", dias: "L-D" },
-        { nombre: "Asadores", precio: "$2,500.00", capacidad: "20", duracion: "5 horas", dias: "L-Mié" },
-        { nombre: "Palapa 4", precio: "$3,200.00", capacidad: "60", duracion: "5 horas", dias: "L-D" },
-        { nombre: "Evento solo socios", precio: "Sin Costo", capacidad: "Sin invitados", duracion: "5 horas", dias: "L-D", nota: "No incluye montaje." },
-    ]
-} as const;
+    futbol: {
+      lugar: "Canchas de Fútbol",
+      categorias: [
+        {
+          nombre: "Infantil 2014",
+          horario: "Lun–Jue 17:00–18:00",
+          instructor: "Oscar Sandoval",
+          cancha: "Fútbol 7",
+        },
+        {
+          nombre: "Adultos (15+)",
+          horario: "Lun–Jue 19:00–20:00",
+          instructor: "Oscar Sandoval",
+          cancha: "Fútbol 7",
+        },
+      ],
+    },
+    zumba: {
+      lugar: "Salón Zumba",
+      grupos: [
+        {
+          instructor: "Martha Vázquez",
+          horarios: [{ dias: "Lun, Mié", hora: "6:15–7:15 pm" }],
+        },
+      ],
+    },
+    frontenis: {
+      lugar: "Cancha de Frontón",
+      grupos: [
+        {
+          instructor: "Antonio Domínguez",
+          horarios: [{ dias: "Mar, Jue", hora: "16:00–19:00" }],
+        },
+      ],
+    },
+  },
 
-export const MisionVisionValores = {
-    mision: "Ser el mejor club deportivo social y familiar, fomentando la integración y el desarrollo de nuestros socios.",
-    vision: "Consolidarnos como un club de excelencia, reconocido por su calidad en servicios e instalaciones.",
-    valores: "Respeto, honestidad, compromiso, y trabajo en equipo."
+  eventos: {
+    palapa4: {
+      nombre: "Palapa 4",
+      precio: "$3,200",
+      capacidad: "60",
+      duracion: "5h",
+      dias: "L–D",
+    },
+    laguito1: {
+      nombre: "Laguito 1",
+      precio: "$4,200",
+      capacidad: "20–100",
+      duracion: "5h",
+      dias: "L–D",
+    },
+    restaurante: {
+      nombre: "Restaurante",
+      precio: "$4,200",
+      capacidad: "90",
+      duracion: "5h (8:30–1:30)",
+      dias: "L–D",
+    },
+  },
+
+  ayb: {
+    lasPalmas: {
+      desayunos: [
+        ["Plato de Fruta", "$80"],
+        ["Hot Cakes", "$90"],
+      ],
+      bebidas: [
+        ["Café refil", "$20"],
+        ["Limonada", "$28–$37"],
+      ],
+    },
+    terrazaBar: {
+      tacos: [
+        ["Taco Rib Eye", "$79"],
+        ["Gobernador", "$72"],
+      ],
+    },
+  },
+
+  institucional: {
+      mision: "Ser el mejor club deportivo social y familiar, fomentando la integración y el desarrollo de nuestros socios.",
+      vision: "Consolidarnos como un club de excelencia, reconocido por su calidad en servicios e instalaciones.",
+      valores: "Respeto, honestidad, compromiso, y trabajo en equipo."
+  }
 };
