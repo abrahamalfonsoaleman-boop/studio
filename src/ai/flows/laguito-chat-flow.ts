@@ -98,17 +98,17 @@ function buildFallback(question: string, note?: string): LaguitoAnswer {
     const handoffContact = { name: "Sandra Arévalo", title: "Atención a Asociados", email: "atencionaasociados@clubdelago.com.mx", ext: "116" };
     return {
         intent: "desconocido",
-        summary: note || "No estoy seguro de cómo responder a eso, pero te puedo comunicar con la persona indicada para ayudarte.",
+        summary: "No tengo suficiente contexto para responderte.",
         cards: [{
             title: "Atención a Asociados",
             subtitle: handoffContact.name,
             bullets: [
-                `Correo: ${handoffContact.email}`,
-                `Tel. 81 8357 5500 ext. ${handoffContact.ext}`,
-                 note || "Ellos pueden ayudarte a canalizar tu pregunta al área correcta."
-            ]
+                `**Correo:** ${handoffContact.email}`,
+                `**Tel.:** 81 8357 5500 ext. ${handoffContact.ext}`
+            ],
+            ...(note ? { note: "Puedo canalizar tu solicitud. ¿Me cuentas un poco más o prefieres que te comunique con Atención a Asociados?" } : {})
         }],
-        meta: { source: "regla_fallback" }
+        meta: { source: "fallback_asociados" }
     }
 }
 
@@ -209,6 +209,7 @@ async function buildDeportesFiltered(question: string): Promise<LaguitoAnswer | 
                 columns: ["Instructor","Categoría","Días","Horario"],
                 rows: finalRows
             },
+            ...(rows.length === 0 ? { note: "No encontré coincidencia exacta con tu filtro, te muestro todas las opciones disponibles." } : {}),
         }
     ]
   };
@@ -602,7 +603,7 @@ const ALIASES: Record<string, keyof typeof CONTACTS_ROUTE> = {
 const AREA_CAPS: Record<string, {hasContent: boolean}> = {
   deportes:   { hasContent: true }, 
   eventos:    { hasContent: true }, 
-  alimentos:  { hasContent: true }, 
+  alimentos:  { hasContent: false }, 
   sistemas:   { hasContent: false },
   operaciones:{ hasContent: false },
   administracion:{ hasContent: false },
@@ -651,6 +652,30 @@ function routeArea(question: string): ContactRoute | null {
 export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     const { content: question } = input;
     
+    // A0) Si el usuario dice exactamente “deportes” o algo equivalente → resumen + contacto
+    if (/^\s*deportes\s*$/i.test(question) || /\b(clases?|deportiv)/i.test(question) && /deport/.test(question.toLowerCase())) {
+      const cardResumen = resumenDisciplinas();
+      const contacto = CONTACTS_ROUTE.deportes;
+
+      const payload: LaguitoAnswer = {
+        intent: "deportes.horarios",
+        summary: "Aquí tienes nuestras disciplinas y el contacto para inscripciones.",
+        cards: [
+          {
+            title: contacto.name,
+            subtitle: contacto.title,
+            bullets: [
+              `**Email:** ${contacto.email}`,
+              `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
+            ]
+          },
+          cardResumen
+        ],
+        meta: { source: "resumen_deportes" }
+      };
+      return { role: "model", content: JSON.stringify(payload) };
+    }
+    
     // Prioridad 1: Filtrado de deportes si se menciona una disciplina
     if (/\b(spinning|zumba|frontenis|futbol|fútbol|soccer)\b/i.test(question)) {
         const ans = await buildDeportesFiltered(question);
@@ -658,30 +683,6 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
             return { role: "model", content: JSON.stringify(ans) };
         }
     }
-    
-     // A) Si pregunta global “clases deportivas…”
-    if (/\b(clases?|deportiv)/i.test(question) && /deport/.test(question.toLowerCase())) {
-        const cardResumen = resumenDisciplinas();
-        const contacto = CONTACTS_ROUTE.deportes;
-        const payload: LaguitoAnswer = {
-            intent: "deportes.horarios",
-            summary: "Aquí tienes un resumen de nuestras clases deportivas y el contacto para inscripciones.",
-            cards: [
-            {
-                title: contacto.name,
-                subtitle: contacto.title,
-                bullets: [
-                `**Email:** ${contacto.email}`,
-                `**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`
-                ]
-            },
-            cardResumen
-            ],
-            meta: { source: "resumen_deportes" }
-        }
-        return { role: "model", content: JSON.stringify(payload) };
-    }
-
 
     // C) Router directo por área (una palabra o frase corta)
     const directContact = routeArea(question);
@@ -771,3 +772,6 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
         return { role: 'model', content: JSON.stringify(buildFallback(question, "Ocurrió un error al procesar tu solicitud.")) };
     }
 }
+
+
+    
