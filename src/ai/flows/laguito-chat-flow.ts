@@ -162,7 +162,7 @@ function buildRenta(question: string): LaguitoAnswer {
     };
 }
 
-const normalizeText = (text: string) => {
+const normalizeText = (text: string): string => {
   return text
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -171,22 +171,30 @@ const normalizeText = (text: string) => {
 
 function buildContacto(question: string): LaguitoAnswer {
     const normalizedQuestion = normalizeText(question);
-    const questionWords = new Set(normalizedQuestion.split(/\s+/).filter(w => w.length > 2));
+    const questionWords = new Set(normalizedQuestion.split(/\s+/).filter(w => w.length > 3 && !/gerente|jefe|de|y/i.test(w)));
 
     let bestMatch: { key: string; score: number } | null = null;
 
     for (const key in Directorio) {
         const normalizedKey = normalizeText(key);
-        const keyWords = new Set(normalizedKey.split(/\s+/).filter(Boolean));
+        const keyWords = new Set(normalizedKey.split(/\s+/));
+        
         let currentScore = 0;
 
+        // Exact phrase match bonus
+        if (normalizedKey.includes(normalizedQuestion)) {
+            currentScore += 10;
+        }
+
         for (const qWord of questionWords) {
-            if (keyWords.has(qWord)) {
-                currentScore++; // Increment score for each direct word match
-            }
-            // Check for partial matches as a fallback
-            if (Array.from(keyWords).some(kWord => kWord.includes(qWord))) {
-                currentScore += 0.5;
+            let matchFound = false;
+            for (const kWord of keyWords) {
+                if (kWord.includes(qWord)) {
+                    // Higher score for more exact matches
+                    currentScore += qWord.length / kWord.length * 2;
+                    matchFound = true;
+                    break; 
+                }
             }
         }
         
@@ -195,7 +203,7 @@ function buildContacto(question: string): LaguitoAnswer {
         }
     }
 
-    if (!bestMatch) {
+    if (!bestMatch || bestMatch.score < 1) {
         return buildFallback(question, "No encontré a esa persona en el directorio. ¿Necesitas ayuda para contactar a alguien más?");
     }
     
