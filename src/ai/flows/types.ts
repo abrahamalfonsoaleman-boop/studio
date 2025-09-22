@@ -64,3 +64,13 @@ export const LaguitoAnswerSchema = z.object({
     .optional(),
 });
 export type LaguitoAnswer = z.infer<typeof LaguitoAnswerSchema>;
+
+export const DeportesQuerySchema = z.object({
+  disciplina: z.enum(["futbol","spinning","zumba","frontenis"]).optional(),
+  categoria: z.string().optional(),
+  instructor: z.string().optional(),
+  cancha: z.enum(["Fútbol 5", "Fútbol 7"]).optional(),
+  dia: z.string().optional(),
+  hora: z.string().optional(),
+});
+export type DeportesQuery = z.infer<typeof DeportesQuerySchema>;

@@ -5,6 +5,8 @@
  * Este archivo contiene funciones para identificar piezas clave de información
  * (entidades) de una pregunta de texto plano.
  */
+import {z} from 'genkit';
+import { DeportesQuery } from './types';
 
 const N = (s:string)=>s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"").trim();
 
@@ -69,15 +71,6 @@ function _extractEntities(q: string){
 export async function extractEntities(q: string) {
     return _extractEntities(q);
 }
-
-export type DeportesQuery = {
-  disciplina?: "futbol"|"spinning"|"zumba"|"frontenis";
-  categoria?: string;     // ej. "2014", "2010-2011", "femenil", "adultos"
-  instructor?: string;    // ej. "paty", "emilio", "oscar", "diego", "daniel", "nelia"
-  cancha?: "Fútbol 5"|"Fútbol 7";
-  dia?: string;           // "lunes" | "martes" | ...
-  hora?: string;          // ej. "17:00", "6:15 pm"
-};
 
 const DISC = { spinning:"spinning", spin:"spinning", zumba:"zumba",
   frontenis:"frontenis", fronton:"frontenis", "frontón":"frontenis",
