@@ -353,6 +353,15 @@ const CONTACTOS: Contact[] = [
 // ---------- utilidades ----------
 const STOP = new Set(["el","la","los","las","de","del","y","a","en","para","con","un","una","al", "quien", "es", "la", "persona", "contacto", "con"]);
 
+const normalize = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const tokenize = (s: string) =>
   normalize(s)
     .split(" ")
