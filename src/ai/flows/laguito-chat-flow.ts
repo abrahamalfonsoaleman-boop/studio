@@ -171,25 +171,43 @@ const normalizeText = (text: string) => {
 
 function buildContacto(question: string): LaguitoAnswer {
     const normalizedQuestion = normalizeText(question);
-    
-    const matchedKeys = Object.keys(Directorio).filter(key => {
+    const questionWords = new Set(normalizedQuestion.split(/\s+/).filter(w => w.length > 2));
+
+    let bestMatch: { key: string; score: number } | null = null;
+
+    for (const key in Directorio) {
         const normalizedKey = normalizeText(key);
-        const keyWordsInQuestion = normalizedQuestion.split(/\s+/).filter(Boolean);
-        return keyWordsInQuestion.some(qWord => qWord.length > 2 && normalizedKey.includes(qWord));
-    });
+        const keyWords = new Set(normalizedKey.split(/\s+/).filter(Boolean));
+        let currentScore = 0;
 
-
-    if (matchedKeys.length === 0) {
-        return buildFallback(question, "No encontré a esa persona en el directorio. ¿Necesitas ayuda para contactar a alguien más?");
+        for (const qWord of questionWords) {
+            if (keyWords.has(qWord)) {
+                currentScore++; // Increment score for each direct word match
+            }
+            // Check for partial matches as a fallback
+            if (Array.from(keyWords).some(kWord => kWord.includes(qWord))) {
+                currentScore += 0.5;
+            }
+        }
+        
+        if (currentScore > 0 && (!bestMatch || currentScore > bestMatch.score)) {
+            bestMatch = { key, score: currentScore };
+        }
     }
 
-    const matchedKey = matchedKeys[0] as keyof typeof Directorio;
+    if (!bestMatch) {
+        return buildFallback(question, "No encontré a esa persona en el directorio. ¿Necesitas ayuda para contactar a alguien más?");
+    }
+    
+    const matchedKey = bestMatch.key as keyof typeof Directorio;
     const contacto = Directorio[matchedKey];
     
     const bullets = [
         `**Nombre:** ${contacto.name}`,
-        `**Email:** ${contacto.email}`,
     ];
+    if (contacto.email) {
+        bullets.push(`**Email:** ${contacto.email}`);
+    }
     if ('ext' in contacto && contacto.ext) {
         bullets.push(`**Teléfono:** 81 8357 5500 ext. ${contacto.ext}`);
     }
@@ -204,7 +222,7 @@ function buildContacto(question: string): LaguitoAnswer {
             title: `Contacto: ${matchedKey}`,
             bullets
         }],
-        meta: { source: "club-data.ts", matched: matchedKeys }
+        meta: { source: "club-data.ts", matched: [matchedKey] }
     };
 }
 
