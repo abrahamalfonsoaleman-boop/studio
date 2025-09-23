@@ -30,7 +30,8 @@ OBJETIVO
 - Responde SIEMPRE con un **único objeto JSON** conforme al CONTRATO DE SALIDA (abajo).
 - Usa **exclusivamente** los datos provistos por el caller como \`ClubData\` (o extractos). **No inventes** horarios, precios, áreas o contactos.
 - Si falta contexto, pide **exactamente un dato** y ofrece **hasta 4 quickReplies** pertinentes.
-- Si algo no existe (p. ej., tenis), devuelve el **contacto correcto** (Atención a Asociados) y explica brevemente.
+- Si algo no existe (p. ej., tenis), o si te hacen una pregunta fuera de tema (ej. "cuanto es 2+2", "cuentame un chiste"), devuelve el **contacto correcto** (Atención a Asociados) y explica brevemente.
+- Si el usuario te saluda ("hola", "buen día"), responde amablemente y pregunta cómo puedes ayudar sobre el Club.
 
 ========================
 DATOS (fuente)
@@ -208,6 +209,7 @@ function buildSafeFallback(summary: string): LaguitoAnswer {
         `**Correo:** ${handoffContact.email}`,
         `**Tel.:** 81 8357 5500${handoffContact.ext ? ` ext. ${handoffContact.ext}`: ''}`
       ],
+      note: "Puedo ayudarte con información sobre el club. Si tienes otra duda, ellos pueden ayudarte."
     }],
     meta: { source: "parser-fallback", confidence: 0 }
   };
@@ -223,7 +225,8 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
     const normalizedQuestion = question.toLowerCase().trim();
 
     // 1. Pre-ruteo determinista para Resumen de Deportes
-    if (/^\s*deportes\s*$/i.test(normalizedQuestion) || /\b(clases?|deportiv)/i.test(normalizedQuestion) && /deport/.test(normalizedQuestion)) {
+    const deportesKeywords = ['deporte', 'deportes', 'clase', 'clases', 'actividad', 'actividades'];
+    if (deportesKeywords.some(keyword => normalizedQuestion.includes(keyword))) {
       const contactoDeportes = ClubData.directorio.find(c => c.area === 'deportes');
       const payload: LaguitoAnswer = {
         intent: "deportes.resumen",
@@ -261,7 +264,7 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
         });
         
         if (!output) {
-            return { role: 'model', content: JSON.stringify(buildSafeFallback("No pude procesar tu solicitud en este momento.")) };
+            return { role: 'model', content: JSON.stringify(buildSafeFallback("No estoy seguro de cómo responder a eso, pero puedo ayudarte con información sobre el Club Del Lago.")) };
         }
         
         // 3. Validación de salida
@@ -270,6 +273,6 @@ export async function laguitoChat(input: ChatMessage): Promise<ChatMessage> {
 
     } catch(e) {
         console.error("Error en laguitoChat (LLM Call o Parsing):", e);
-        return { role: 'model', content: JSON.stringify(buildSafeFallback("Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo.")) };
+        return { role: 'model', content: JSON.stringify(buildSafeFallback("Tuve un problema al procesar tu solicitud. Por favor, intenta de nuevo o contacta a Atención a Asociados.")) };
     }
 }
