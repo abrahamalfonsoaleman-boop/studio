@@ -6,7 +6,6 @@ import { Events } from "@/components/events";
 import { Comunicados } from "@/components/comunicados";
 import { Gallery } from "@/components/gallery";
 import { Footer } from "@/components/footer";
-import { FoodAndBeverages } from "@/components/food-and-beverages";
 import { ScrollAnimator } from "@/components/scroll-animator";
 
 export default function Home() {
@@ -20,9 +19,6 @@ export default function Home() {
           </ScrollAnimator>
           <ScrollAnimator>
             <Sports />
-          </ScrollAnimator>
-          <ScrollAnimator>
-            <FoodAndBeverages />
           </ScrollAnimator>
           <ScrollAnimator>
             <Events />
