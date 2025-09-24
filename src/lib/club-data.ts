@@ -165,23 +165,117 @@ export const ClubData = {
   },
 
   ayb: {
-    lasPalmas: {
-      desayunos: [
-        ["Plato de Fruta", "$80"],
-        ["Hot Cakes", "$90"],
-      ],
-      bebidas: [
-        ["Café refil", "$20"],
-        ["Limonada", "$28–$37"],
-      ],
-    },
-    terrazaBar: {
-      tacos: [
-        ["Taco Rib Eye", "$79"],
-        ["Gobernador", "$72"],
-      ],
-    },
+    menus: [
+      {
+        name: "Restaurante Las Palmas - Desayunos",
+        description: "El sabor de la mañana, servido con una sonrisa.",
+        image: "/images/Palmas.jpg",
+        hint: "restaurant interior",
+        pdfUrl: "/menus/LAS PALMAS DESAYUNOS.pdf",
+        categories: [
+          {
+            title: "Frutas y Cereales",
+            items: [
+              { name: "Plato de Fruta de Temporada", price: "$80" },
+              { name: "Cocktail de Frutas", price: "$75" },
+              { name: "Avena", price: "$70", description: "Preparada con agua o leche" },
+            ],
+          },
+          {
+            title: "Tradicionales",
+            items: [
+                { name: "Huevos al Gusto", price: "$120", description: "2 huevos con jamón, tocino, chorizo o a la mexicana" },
+                { name: "Huevos Divorciados", price: "$130" },
+                { name: "Chilaquiles", price: "$135", description: "Verdes o Rojos, con pollo o huevo" },
+            ],
+          },
+          {
+            title: "Especialidades",
+            items: [
+              { name: "Enchiladas Suizas", price: "$145" },
+              { name: "Hot Cakes", price: "$90" },
+              { name: "Molletes", price: "$110" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Restaurante Las Palmas - Comidas",
+        description: "Una deliciosa pausa en tu día.",
+        image: "/images/Palmas.jpg",
+        hint: "restaurant dining",
+        pdfUrl: "/menus/LAS PALMAS COMIDAS.pdf",
+        categories: [
+          {
+            title: "Entradas",
+            items: [
+              { name: "Guacamole", price: "$110" },
+              { name: "Queso Fundido", price: "$130" },
+              { name: "Tacos de Fideo", price: "$105" },
+            ],
+          },
+          {
+            title: "Platos Fuertes",
+            items: [
+              { name: "Arrachera", price: "$250" },
+              { name: "Salmón a la Plancha", price: "$280" },
+              { name: "Pechuga de Pollo Rellena", price: "$220" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Restaurante Terraza Bar",
+        description: "Disfruta del aire libre con nuestras especialidades.",
+        image: "/images/bar.jpg",
+        hint: "terrace bar",
+        pdfUrl: "/menus/MENU BAR TERRAZA.pdf",
+        categories: [
+           {
+            title: "Tacos",
+            items: [
+              { name: "Taco de Rib Eye", price: "$79" },
+              { name: "Taco Gobernador", price: "$72" },
+              { name: "Taco de Chicharrón", price: "$65" },
+            ],
+          },
+          {
+            title: "Bebidas",
+            items: [
+              { name: "Cerveza Nacional", price: "$50" },
+              { name: "Margarita", price: "$120" },
+              { name: "Clamato Preparado", price: "$80" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Snack Brasas",
+        description: "Bocadillos perfectos para disfrutar junto a la alberca.",
+        image: "/images/brasas.jpg",
+        hint: "grill snack bar",
+        pdfUrl: "/menus/MENU SNACK BRASAS.pdf",
+        categories: [
+          {
+            title: "Favoritos",
+            items: [
+              { name: "Hamburguesa Clásica", price: "$150" },
+              { name: "Hot Dog", price: "$90" },
+              { name: "Papas a la Francesa", price: "$70" },
+            ],
+          },
+          {
+            title: "Para Compartir",
+            items: [
+              { name: "Nachos con Queso", price: "$120" },
+              { name: "Alitas de Pollo (10 pz)", price: "$180" },
+            ],
+          },
+        ],
+      },
+    ],
   },
+
 
   institucional: {
       mision: "Ser el mejor club deportivo social y familiar, fomentando la integración y el desarrollo de nuestros socios.",
