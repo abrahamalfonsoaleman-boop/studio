@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { ScrollAnimator } from "@/components/scroll-animator";
-import { CalendarClock, Vote, FileText } from "lucide-react";
+import { CalendarClock, Vote, FileText, Youtube } from "lucide-react";
 
 export default function EleccionesPage() {
   return (
@@ -24,7 +24,7 @@ export default function EleccionesPage() {
           </ScrollAnimator>
 
           <ScrollAnimator>
-            <Card className="w-full">
+            <Card className="w-full mb-12">
               <CardHeader>
                 <CardTitle>Detalles del Proceso Electoral</CardTitle>
               </CardHeader>
@@ -47,6 +47,29 @@ export default function EleccionesPage() {
                         <li><strong>Viernes 17 de octubre 6:00 p.m.:</strong> Cierre de registro.</li>
                     </ul>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </ScrollAnimator>
+
+          <ScrollAnimator>
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <Youtube className="h-8 w-8 text-primary" />
+                  <CardTitle>Mensaje del Comité Electoral</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="aspect-video overflow-hidden rounded-lg">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
                 </div>
               </CardContent>
             </Card>
