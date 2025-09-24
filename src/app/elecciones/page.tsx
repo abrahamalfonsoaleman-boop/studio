@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { ScrollAnimator } from "@/components/scroll-animator";
-import { CalendarClock, Vote, FileText, Youtube } from "lucide-react";
+import { CalendarClock, Vote, FileText, Youtube, Video } from "lucide-react";
 
 export default function EleccionesPage() {
   return (
@@ -56,20 +56,20 @@ export default function EleccionesPage() {
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-4">
-                  <Youtube className="h-8 w-8 text-primary" />
+                  <Video className="h-8 w-8 text-primary" />
                   <CardTitle>Mensaje del Comité Electoral</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="aspect-video overflow-hidden rounded-lg">
-                  <iframe
+                <div className="aspect-video overflow-hidden rounded-lg bg-black">
+                  <video
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+                    controls
+                    preload="metadata"
+                  >
+                    <source src="/videos/elecciones.mp4" type="video/mp4" />
+                    Tu navegador no soporta la reproducción de video.
+                  </video>
                 </div>
               </CardContent>
             </Card>
