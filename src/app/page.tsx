@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero";
 import { Mission } from "@/components/mission";
 import { Sports } from "@/components/sports";
 import { Events } from "@/components/events";
+import { FoodAndBeverages } from "@/components/food-and-beverages";
 import { Comunicados } from "@/components/comunicados";
 import { Gallery } from "@/components/gallery";
 import { Footer } from "@/components/footer";
@@ -22,6 +23,9 @@ export default function Home() {
           </ScrollAnimator>
           <ScrollAnimator>
             <Events />
+          </ScrollAnimator>
+           <ScrollAnimator>
+            <FoodAndBeverages />
           </ScrollAnimator>
           <ScrollAnimator>
             <Comunicados />
