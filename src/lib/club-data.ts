@@ -172,12 +172,12 @@ export const ClubData = {
         image: "/images/Palmas.jpg",
         hint: "restaurant interior",
         imageUrls: [
-            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0001.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0002.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0003.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0004.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0005.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0006.jpg"
+            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-1.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-2.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-3.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-4.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-5.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-6.jpg"
         ],
       },
       {
@@ -185,21 +185,21 @@ export const ClubData = {
         description: "Una deliciosa pausa en tu día.",
         image: "/images/Palmas.jpg",
         hint: "restaurant dining",
-        imageUrls: Array.from({ length: 4 }, (_, i) => `/images/MenuRestaurantePalmasComida/${i + 1}.jpg`),
+        imageUrls: Array.from({ length: 4 }, (_, i) => `/images/MenuRestaurantePalmasComida/menu-palmas-comida-${i + 1}.jpg`),
       },
       {
         name: "Restaurante Terraza Bar",
         description: "Disfruta del aire libre con nuestras especialidades.",
         image: "/images/bar.jpg",
         hint: "terrace bar",
-        imageUrls: Array.from({ length: 2 }, (_, i) => `/images/MenuBarTerraza/${i + 1}.jpg`),
+        imageUrls: Array.from({ length: 2 }, (_, i) => `/images/MenuBarTerraza/menu-terraza-${i + 1}.jpg`),
       },
       {
         name: "Snack Brasas",
         description: "Bocadillos perfectos para disfrutar junto a la alberca.",
         image: "/images/brasas.jpg",
         hint: "grill snack bar",
-        imageUrls: Array.from({ length: 2 }, (_, i) => `/images/MenuSnackBrasas/${i + 1}.jpg`),
+        imageUrls: Array.from({ length: 2 }, (_, i) => `/images/MenuSnackBrasas/menu-brasas-${i + 1}.jpg`),
       },
     ],
   },
