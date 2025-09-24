@@ -1,11 +1,5 @@
 
 "use client"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { ScrollAnimator } from "@/components/scroll-animator";
@@ -32,7 +26,7 @@ export default function AlimentosPage() {
                 Alimentos y Bebidas
               </h1>
               <p className="mt-4 max-w-3xl mx-auto text-muted-foreground md:text-lg">
-                Explora nuestra oferta culinaria. Desliza para ver nuestros menús y haz clic para ver los platillos.
+                Explora nuestra oferta culinaria. Desliza para conocer nuestros restaurantes y haz clic para ver el menú.
               </p>
             </div>
           </ScrollAnimator>
@@ -63,34 +57,12 @@ export default function AlimentosPage() {
                           <CardTitle className="font-headline text-xl">{menu.name}</CardTitle>
                           <CardDescription>{menu.description}</CardDescription>
                         </CardHeader>
-                        <CardContent className="flex-grow flex flex-col">
-                          <Accordion type="single" collapsible className="w-full">
-                            {menu.categories.map((category) => (
-                              <AccordionItem value={category.title} key={category.title}>
-                                <AccordionTrigger className="text-base font-semibold">
-                                  {category.title}
-                                </AccordionTrigger>
-                                <AccordionContent>
-                                  <ul className="space-y-3">
-                                    {category.items.map((item) => (
-                                      <li key={item.name} className="flex justify-between items-start gap-4">
-                                        <div className="flex-1">
-                                          <p className="font-semibold text-sm">{item.name}</p>
-                                          {item.description && <p className="text-xs text-muted-foreground">{item.description}</p>}
-                                        </div>
-                                        <p className="font-bold text-sm text-primary">{item.price}</p>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </AccordionContent>
-                              </AccordionItem>
-                            ))}
-                          </Accordion>
+                        <CardContent className="flex-grow flex flex-col justify-end">
                           {menu.pdfUrl && (
-                            <Button asChild className="w-full mt-auto pt-6">
+                            <Button asChild className="w-full mt-auto">
                               <Link href={menu.pdfUrl} target="_blank" rel="noopener noreferrer">
                                 <Download className="mr-2 h-4 w-4" />
-                                Ver Menú Completo en PDF
+                                Ver Menú en PDF
                               </Link>
                             </Button>
                           )}

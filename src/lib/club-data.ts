@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview Single source of truth for all Club Del Lago data.
  * This file contains structured data for sports, food & beverages, event rentals, and staff directory.
@@ -172,32 +173,6 @@ export const ClubData = {
         image: "/images/Palmas.jpg",
         hint: "restaurant interior",
         pdfUrl: "/menus/LAS PALMAS DESAYUNOS.pdf",
-        categories: [
-          {
-            title: "Frutas y Cereales",
-            items: [
-              { name: "Plato de Fruta de Temporada", price: "$80" },
-              { name: "Cocktail de Frutas", price: "$75" },
-              { name: "Avena", price: "$70", description: "Preparada con agua o leche" },
-            ],
-          },
-          {
-            title: "Tradicionales",
-            items: [
-                { name: "Huevos al Gusto", price: "$120", description: "2 huevos con jamón, tocino, chorizo o a la mexicana" },
-                { name: "Huevos Divorciados", price: "$130" },
-                { name: "Chilaquiles", price: "$135", description: "Verdes o Rojos, con pollo o huevo" },
-            ],
-          },
-          {
-            title: "Especialidades",
-            items: [
-              { name: "Enchiladas Suizas", price: "$145" },
-              { name: "Hot Cakes", price: "$90" },
-              { name: "Molletes", price: "$110" },
-            ],
-          },
-        ],
       },
       {
         name: "Restaurante Las Palmas - Comidas",
@@ -205,24 +180,6 @@ export const ClubData = {
         image: "/images/Palmas.jpg",
         hint: "restaurant dining",
         pdfUrl: "/menus/LAS PALMAS COMIDAS.pdf",
-        categories: [
-          {
-            title: "Entradas",
-            items: [
-              { name: "Guacamole", price: "$110" },
-              { name: "Queso Fundido", price: "$130" },
-              { name: "Tacos de Fideo", price: "$105" },
-            ],
-          },
-          {
-            title: "Platos Fuertes",
-            items: [
-              { name: "Arrachera", price: "$250" },
-              { name: "Salmón a la Plancha", price: "$280" },
-              { name: "Pechuga de Pollo Rellena", price: "$220" },
-            ],
-          },
-        ],
       },
       {
         name: "Restaurante Terraza Bar",
@@ -230,24 +187,6 @@ export const ClubData = {
         image: "/images/bar.jpg",
         hint: "terrace bar",
         pdfUrl: "/menus/MENU BAR TERRAZA.pdf",
-        categories: [
-           {
-            title: "Tacos",
-            items: [
-              { name: "Taco de Rib Eye", price: "$79" },
-              { name: "Taco Gobernador", price: "$72" },
-              { name: "Taco de Chicharrón", price: "$65" },
-            ],
-          },
-          {
-            title: "Bebidas",
-            items: [
-              { name: "Cerveza Nacional", price: "$50" },
-              { name: "Margarita", price: "$120" },
-              { name: "Clamato Preparado", price: "$80" },
-            ],
-          },
-        ],
       },
       {
         name: "Snack Brasas",
@@ -255,23 +194,6 @@ export const ClubData = {
         image: "/images/brasas.jpg",
         hint: "grill snack bar",
         pdfUrl: "/menus/MENU SNACK BRASAS.pdf",
-        categories: [
-          {
-            title: "Favoritos",
-            items: [
-              { name: "Hamburguesa Clásica", price: "$150" },
-              { name: "Hot Dog", price: "$90" },
-              { name: "Papas a la Francesa", price: "$70" },
-            ],
-          },
-          {
-            title: "Para Compartir",
-            items: [
-              { name: "Nachos con Queso", price: "$120" },
-              { name: "Alitas de Pollo (10 pz)", price: "$180" },
-            ],
-          },
-        ],
       },
     ],
   },
