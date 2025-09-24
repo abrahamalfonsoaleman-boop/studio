@@ -199,7 +199,7 @@ export const ClubData = {
         description: "Bocadillos perfectos para disfrutar junto a la alberca.",
         image: "/images/brasas.jpg",
         hint: "grill snack bar",
-        imageUrls: Array.from({ length: 2 }, (_, i) => `/images/MenuSnackBrasas/menu-brasas-${i + 1}.jpg`),
+        imageUrls: [],
       },
     ],
   },
