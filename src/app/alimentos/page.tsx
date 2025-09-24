@@ -9,7 +9,6 @@ import { UtensilsCrossed, Eye } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export default function AlimentosPage() {
   const { menus } = ClubData.ayb;
@@ -52,8 +51,8 @@ export default function AlimentosPage() {
                       <CardDescription>{menu.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow flex flex-col justify-end">
-                      {menu.imageUrls && menu.imageUrls.length > 0 && (
-                          <DialogTrigger asChild>
+                      {menu.pdfUrl && (
+                        <DialogTrigger asChild>
                           <Button className="w-full mt-auto" onClick={() => setSelectedMenu(menu)}>
                             <Eye className="mr-2 h-4 w-4" />
                             Ver Menú
@@ -66,30 +65,17 @@ export default function AlimentosPage() {
               </div>
             </ScrollAnimator>
           </div>
-           {selectedMenu && (
+          {selectedMenu && (
             <DialogContent className="w-full max-w-3xl h-[90vh] flex flex-col p-4">
               <DialogHeader>
                 <DialogTitle>{selectedMenu.name}</DialogTitle>
               </DialogHeader>
               <div className="flex-1 mt-4">
-                <Carousel className="w-full h-full">
-                  <CarouselContent className="h-full">
-                    {selectedMenu.imageUrls.map((url, index) => (
-                      <CarouselItem key={index} className="h-full">
-                        <div className="relative w-full h-full">
-                          <Image
-                            src={url}
-                            alt={`${selectedMenu.name} - Página ${index + 1}`}
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10" />
-                  <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10" />
-                </Carousel>
+                <iframe
+                  src={selectedMenu.pdfUrl}
+                  className="w-full h-full"
+                  title={`Menú de ${selectedMenu.name}`}
+                />
               </div>
             </DialogContent>
           )}

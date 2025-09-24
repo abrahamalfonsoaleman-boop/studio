@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview Single source of truth for all Club Del Lago data.
  * This file contains structured data for sports, food & beverages, event rentals, and staff directory.
@@ -171,50 +172,28 @@ export const ClubData = {
         description: "El sabor de la mañana, servido con una sonrisa.",
         image: "/images/Palmas.jpg",
         hint: "restaurant interior",
-        imageUrls: [
-            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-1.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-2.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-3.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-4.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-5.jpg",
-            "/images/MenuRestaurantePalmasDesayunos/menu-palmas-desayuno-6.jpg"
-        ],
+        pdfUrl: "/images/MenuAYBPDF/LAS%20PALMAS%20DESAYUNOS%20(A4)%20(1)%20(1).pdf"
       },
       {
         name: "Restaurante Las Palmas - Comidas",
         description: "Una deliciosa pausa en tu día.",
         image: "/images/Palmas.jpg",
         hint: "restaurant dining",
-        imageUrls: [
-            "/images/MenuRestaurantePalmasComida/menu-palmas-comida-1.jpg",
-            "/images/MenuRestaurantePalmasComida/menu-palmas-comida-2.jpg",
-            "/images/MenuRestaurantePalmasComida/menu-palmas-comida-3.jpg",
-            "/images/MenuRestaurantePalmasComida/menu-palmas-comida-4.jpg",
-        ]
+        pdfUrl: "/images/MenuAYBPDF/LAS%20PALMAS%20COMIDAS%20(A4)%20(1)%20(1).pdf"
       },
       {
         name: "Restaurante Terraza Bar",
         description: "Disfruta del aire libre con nuestras especialidades.",
         image: "/images/bar.jpg",
         hint: "terrace bar",
-        imageUrls: [
-            "/images/MenuBarTerraza/menu-terraza-1.jpg",
-            "/images/MenuBarTerraza/menu-terraza-2.jpg",
-        ],
+        pdfUrl: "/images/MenuAYBPDF/MENU%20BAR%20TERRAZA.pdf"
       },
       {
         name: "Snack Brasas",
         description: "Bocadillos perfectos para disfrutar junto a la alberca.",
         image: "/images/brasas.jpg",
         hint: "grill snack bar",
-        imageUrls: [
-          "/images/MenuSnackBrasas/menu-snack-brasas-1.jpg",
-          "/images/MenuSnackBrasas/menu-snack-brasas-2.jpg",
-          "/images/MenuSnackBrasas/menu-snack-brasas-3.jpg",
-          "/images/MenuSnackBrasas/menu-snack-brasas-4.jpg",
-          "/images/MenuSnackBrasas/menu-snack-brasas-5.jpg",
-          "/images/MenuSnackBrasas/menu-snack-brasas-6.jpg",
-        ],
+        pdfUrl: "/images/MenuAYBPDF/MENU%CC%81%20SNACK%20.pdf"
       },
     ],
   },
