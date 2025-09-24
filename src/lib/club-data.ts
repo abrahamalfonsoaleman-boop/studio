@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview Single source of truth for all Club Del Lago data.
  * This file contains structured data for sports, food & beverages, event rentals, and staff directory.
@@ -171,28 +172,28 @@ export const ClubData = {
         description: "El sabor de la mañana, servido con una sonrisa.",
         image: "/images/Palmas.jpg",
         hint: "restaurant interior",
-        pdfUrl: "/images/MenuAYBPDF/LAS_PALMAS_DESAYUNOS.pdf",
+        imageUrls: Array.from({ length: 4 }, (_, i) => `/images/MenuRestaurantePalmasDesayunos/${i + 1}.jpg`),
       },
       {
         name: "Restaurante Las Palmas - Comidas",
         description: "Una deliciosa pausa en tu día.",
         image: "/images/Palmas.jpg",
         hint: "restaurant dining",
-        pdfUrl: "/images/MenuAYBPDF/MENU_COMIDA.pdf",
+        imageUrls: Array.from({ length: 4 }, (_, i) => `/images/MenuRestaurantePalmasComida/${i + 1}.jpg`),
       },
       {
         name: "Restaurante Terraza Bar",
         description: "Disfruta del aire libre con nuestras especialidades.",
         image: "/images/bar.jpg",
         hint: "terrace bar",
-        pdfUrl: "/images/MenuAYBPDF/MENÚ_BAR.pdf",
+        imageUrls: Array.from({ length: 2 }, (_, i) => `/images/MenuBarTerraza/${i + 1}.jpg`),
       },
       {
         name: "Snack Brasas",
         description: "Bocadillos perfectos para disfrutar junto a la alberca.",
         image: "/images/brasas.jpg",
         hint: "grill snack bar",
-        pdfUrl: "/images/MenuAYBPDF/MENU_SNACK.pdf",
+        imageUrls: Array.from({ length: 2 }, (_, i) => `/images/MenuSnackBrasas/${i + 1}.jpg`),
       },
     ],
   },

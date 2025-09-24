@@ -9,10 +9,11 @@ import { UtensilsCrossed, Eye } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export default function AlimentosPage() {
   const { menus } = ClubData.ayb;
-  const [selectedMenu, setSelectedMenu] = useState<{name: string, pdfUrl: string} | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<(typeof menus)[0] | null>(null);
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -51,9 +52,9 @@ export default function AlimentosPage() {
                       <CardDescription>{menu.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow flex flex-col justify-end">
-                      {menu.pdfUrl && (
+                      {menu.imageUrls && menu.imageUrls.length > 0 && (
                           <DialogTrigger asChild>
-                          <Button className="w-full mt-auto" onClick={() => setSelectedMenu({name: menu.name, pdfUrl: menu.pdfUrl})}>
+                          <Button className="w-full mt-auto" onClick={() => setSelectedMenu(menu)}>
                             <Eye className="mr-2 h-4 w-4" />
                             Ver Menú
                           </Button>
@@ -71,11 +72,24 @@ export default function AlimentosPage() {
                 <DialogTitle>{selectedMenu.name}</DialogTitle>
               </DialogHeader>
               <div className="flex-1 mt-4">
-                <iframe
-                  src={selectedMenu.pdfUrl}
-                  className="w-full h-full border-0"
-                  title={`Menú - ${selectedMenu.name}`}
-                />
+                <Carousel className="w-full h-full">
+                  <CarouselContent className="h-full">
+                    {selectedMenu.imageUrls.map((url, index) => (
+                      <CarouselItem key={index} className="h-full">
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={url}
+                            alt={`${selectedMenu.name} - Página ${index + 1}`}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10" />
+                  <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10" />
+                </Carousel>
               </div>
             </DialogContent>
           )}
