@@ -1,8 +1,8 @@
 
 import { Footer } from "@/components/footer";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Phone, MessageSquare } from "lucide-react";
+import { Mail, Phone, MessageSquare, User } from "lucide-react";
 import { ScrollAnimator } from "@/components/scroll-animator";
 import { ClubData } from "@/lib/club-data";
 
@@ -29,12 +29,9 @@ export default function DirectorioPage() {
                 <Card key={person.nombre} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <CardHeader className="flex flex-col items-center text-center p-4">
                     <Avatar className="h-24 w-24 mb-4">
-                      {/* Placeholder generation based on name */}
-                      <AvatarImage 
-                        src={`https://picsum.photos/seed/${person.nombre.split(' ').join('')}/100/100`} 
-                        alt={person.nombre}
-                        data-ai-hint={person.nombre.includes("a") ? "female portrait" : "male portrait"} />
-                      <AvatarFallback>{person.nombre.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      <AvatarFallback>
+                        <User className="h-12 w-12 text-muted-foreground" />
+                      </AvatarFallback>
                     </Avatar>
                     <div className="text-center">
                       <CardTitle className="text-lg font-headline">{person.nombre}</CardTitle>
