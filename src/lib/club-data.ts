@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Single source of truth for all Club Del Lago data.
  * This file contains structured data for sports, food & beverages, event rentals, and staff directory.
@@ -172,7 +171,14 @@ export const ClubData = {
         description: "El sabor de la mañana, servido con una sonrisa.",
         image: "/images/Palmas.jpg",
         hint: "restaurant interior",
-        imageUrls: Array.from({ length: 4 }, (_, i) => `/images/MenuRestaurantePalmasDesayunos/${i + 1}.jpg`),
+        imageUrls: [
+            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0001.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0002.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0003.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0004.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0005.jpg",
+            "/images/MenuRestaurantePalmasDesayunos/LAS PALMAS DESAYUNOS (A4) (1)_page-0006.jpg"
+        ],
       },
       {
         name: "Restaurante Las Palmas - Comidas",
