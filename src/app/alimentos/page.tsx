@@ -8,7 +8,6 @@ import { ClubData } from "@/lib/club-data";
 import { UtensilsCrossed, Eye } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function AlimentosPage() {
@@ -29,55 +28,41 @@ export default function AlimentosPage() {
                   Alimentos y Bebidas
                 </h1>
                 <p className="mt-4 max-w-3xl mx-auto text-muted-foreground md:text-lg">
-                  Explora nuestra oferta culinaria. Desliza para conocer nuestros restaurantes y haz clic para ver el menú.
+                  Explora nuestra oferta culinaria. Haz clic en cualquier opción para ver el menú completo.
                 </p>
               </div>
             </ScrollAnimator>
 
             <ScrollAnimator>
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full max-w-4xl mx-auto"
-              >
-                <CarouselContent>
-                  {menus.map((menu) => (
-                    <CarouselItem key={menu.name} className="md:basis-1/2 lg:basis-1/3">
-                      <div className="p-1 h-full">
-                        <Card className="flex flex-col overflow-hidden h-full">
-                          <div className="relative h-48 w-full">
-                            <Image
-                              src={menu.image}
-                              alt={menu.name}
-                              fill
-                              className="object-cover"
-                              data-ai-hint={menu.hint}
-                            />
-                          </div>
-                          <CardHeader>
-                            <CardTitle className="font-headline text-xl">{menu.name}</CardTitle>
-                            <CardDescription>{menu.description}</CardDescription>
-                          </CardHeader>
-                          <CardContent className="flex-grow flex flex-col justify-end">
-                            {menu.pdfUrl && (
-                               <DialogTrigger asChild>
-                                <Button className="w-full mt-auto" onClick={() => setSelectedMenu({name: menu.name, pdfUrl: menu.pdfUrl})}>
-                                  <Eye className="mr-2 h-4 w-4" />
-                                  Ver Menú
-                                </Button>
-                              </DialogTrigger>
-                            )}
-                          </CardContent>
-                        </Card>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="absolute left-[-1rem] sm:left-[-3rem] top-1/2 -translate-y-1/2 z-10" />
-                <CarouselNext className="absolute right-[-1rem] sm:right-[-3rem] top-1/2 -translate-y-1/2 z-10" />
-              </Carousel>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {menus.map((menu) => (
+                  <Card key={menu.name} className="flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div className="relative h-48 w-full">
+                      <Image
+                        src={menu.image}
+                        alt={menu.name}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={menu.hint}
+                      />
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="font-headline text-xl">{menu.name}</CardTitle>
+                      <CardDescription>{menu.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow flex flex-col justify-end">
+                      {menu.pdfUrl && (
+                          <DialogTrigger asChild>
+                          <Button className="w-full mt-auto" onClick={() => setSelectedMenu({name: menu.name, pdfUrl: menu.pdfUrl})}>
+                            <Eye className="mr-2 h-4 w-4" />
+                            Ver Menú
+                          </Button>
+                        </DialogTrigger>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </ScrollAnimator>
           </div>
            {selectedMenu && (
