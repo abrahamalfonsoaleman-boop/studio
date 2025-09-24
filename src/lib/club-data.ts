@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Single source of truth for all Club Del Lago data.
  * This file contains structured data for sports, food & beverages, event rentals, and staff directory.
@@ -172,28 +171,28 @@ export const ClubData = {
         description: "El sabor de la mañana, servido con una sonrisa.",
         image: "/images/Palmas.jpg",
         hint: "restaurant interior",
-        pdfUrl: "/images/MenuAYBPDF/LAS%20PALMAS%20DESAYUNOS%20(A4)%20(1)%20(1).pdf"
+        pdfUrl: "/images/MenuAYBPDF/LAS _PALMAS _DESAYUNOS.pdf"
       },
       {
         name: "Restaurante Las Palmas - Comidas",
         description: "Una deliciosa pausa en tu día.",
         image: "/images/Palmas.jpg",
         hint: "restaurant dining",
-        pdfUrl: "/images/MenuAYBPDF/LAS%20PALMAS%20COMIDAS%20(A4)%20(1)%20(1).pdf"
+        pdfUrl: "/images/MenuAYBPDF/MENU_COMIDA.pdf"
       },
       {
         name: "Restaurante Terraza Bar",
         description: "Disfruta del aire libre con nuestras especialidades.",
         image: "/images/bar.jpg",
         hint: "terrace bar",
-        pdfUrl: "/images/MenuAYBPDF/MENU%20BAR%20TERRAZA.pdf"
+        pdfUrl: "/images/MenuAYBPDF/MENÚ_BAR.pdf"
       },
       {
         name: "Snack Brasas",
         description: "Bocadillos perfectos para disfrutar junto a la alberca.",
         image: "/images/brasas.jpg",
         hint: "grill snack bar",
-        pdfUrl: "/images/MenuAYBPDF/MENU%CC%81%20SNACK%20.pdf"
+        pdfUrl: "/images/MenuAYBPDF/MENÚ_SNACK.pdf"
       },
     ],
   },
