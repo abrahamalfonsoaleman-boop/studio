@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Club Del Lago',
   description: 'Desde 1981 el Club Delago es una asociación civil dedicada a promover la sana convivencia familiar.',
   icons: {
-    icon: "/favicon.ico",
+    icon: "/images/Logo-vector.png",
   },
 };
 
